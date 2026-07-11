@@ -60,18 +60,19 @@ export async function fetchUsageEvents(
 export function rollupByModel(totals: UsageTotal[]): ModelRollup[] {
   const byModel = new Map<string, ModelRollup>();
   for (const t of totals) {
+    if (typeof t.model !== "string" || t.model.length === 0) continue;
     const existing = byModel.get(t.model);
-    const tokens = t.prompt_tokens + t.completion_tokens;
+    const tokens = (t.prompt_tokens || 0) + (t.completion_tokens || 0);
     if (existing) {
-      existing.requests += t.requests;
+      existing.requests += t.requests || 0;
       existing.tokens += tokens;
-      existing.cost += t.est_cost_usd;
+      existing.cost += t.est_cost_usd || 0;
     } else {
       byModel.set(t.model, {
         model: t.model,
-        requests: t.requests,
+        requests: t.requests || 0,
         tokens,
-        cost: t.est_cost_usd,
+        cost: t.est_cost_usd || 0,
       });
     }
   }

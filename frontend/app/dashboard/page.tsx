@@ -1,115 +1,97 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
-import gsap from "gsap";
-import { StatCardsRow } from "@/components/usage/stat-cards-row";
-import { BudgetProjectionCard } from "@/components/usage/budget-projection-card";
-import { DailySpendChart } from "@/components/usage/daily-spend-chart";
-import { ModelTable } from "@/components/usage/model-table";
-import { RecentActivity } from "@/components/usage/recent-activity";
-import { DashboardSkeleton } from "@/components/usage/dashboard-skeleton";
-import { DashboardErrorState } from "@/components/usage/dashboard-error-state";
+import { useMemo, useState } from "react";
+import { ForecastStrip } from "@/components/usage/forecast-strip";
+import { SkyCanvas } from "@/components/usage/sky-canvas";
+import { LedgerRail } from "@/components/usage/ledger-rail";
+import { WeatherStationSkeleton } from "@/components/usage/weather-station-skeleton";
+import { WeatherStationErrorState } from "@/components/usage/weather-station-error-state";
 import { useUsageData } from "@/components/usage/use-usage-data";
 import { useWeeklyBudget } from "@/components/usage/use-weekly-budget";
+import { useViewportFit } from "@/components/usage/use-viewport-fit";
+import { computeForecast } from "@/components/usage/weather";
 import {
   averageCostPerToken,
   lastNDays,
   rollupByModel,
-  totalSpend,
-  totalTokens,
 } from "@/components/usage/types";
 
 export default function DashboardPage() {
   const { summary, events, loading, error, refresh } = useUsageData();
-  const [budget] = useWeeklyBudget();
-  const sectionRef = useRef<HTMLElement>(null);
-  const hasAnimated = useRef(false);
+  const [budget, setBudget] = useWeeklyBudget();
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  const navHeight = useViewportFit();
+  const frameStyle = {
+    "--frame-height": `calc(100svh - ${navHeight}px)`,
+  } as React.CSSProperties;
 
   const totals = useMemo(() => summary?.totals ?? [], [summary]);
   const modelRows = useMemo(() => rollupByModel(totals), [totals]);
-  const dailySpend = useMemo(() => lastNDays(totals, 7), [totals]);
-  const spend7d = useMemo(() => totalSpend(totals), [totals]);
-  const tokens7d = useMemo(() => totalTokens(totals), [totals]);
+  const dailySpend = useMemo(() => lastNDays(totals, 1), [totals]);
   const costPerToken = useMemo(() => averageCostPerToken(totals), [totals]);
-  const burnRate = summary?.burnRate ?? 0;
+  const spendToday = dailySpend.length > 0 ? dailySpend[dailySpend.length - 1].spend : 0;
   const projectedTokensPerHour = summary?.projectedTokensPerHour ?? 0;
   const projectedDailyCost = projectedTokensPerHour * 24 * costPerToken;
   const projectedWeeklySpend = projectedDailyCost * 7;
   const ready = summary !== null;
 
-  useEffect(() => {
-    if (!ready || hasAnimated.current || !sectionRef.current) return;
-    hasAnimated.current = true;
+  const forecast = useMemo(
+    () => computeForecast(spendToday, projectedWeeklySpend, budget),
+    [spendToday, projectedWeeklySpend, budget]
+  );
 
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (reduceMotion) return;
-
-    const cards = sectionRef.current.querySelectorAll("[data-reveal]");
-    gsap.fromTo(
-      cards,
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: 0.3, ease: "none", stagger: 0.08 }
-    );
-  }, [ready]);
+  const eventList = events ?? [];
 
   if (error && !summary) {
     return (
-      <section className="w-full py-8">
-        <h1 className="text-5xl mb-2">Dashboard</h1>
-        <p className="text-muted-foreground leading-relaxed mb-6">
-          Live spend, burn rate, and budget projections across every model.
-        </p>
-        <DashboardErrorState onRetry={refresh} />
+      <section
+        className="grid min-h-0 grid-rows-1 max-sm:h-auto sm:h-(--frame-height)"
+        style={frameStyle}
+      >
+        <WeatherStationErrorState onRetry={refresh} />
       </section>
     );
   }
 
   if (loading && !summary) {
     return (
-      <section className="w-full py-8">
-        <h1 className="text-5xl mb-2">Dashboard</h1>
-        <p className="text-muted-foreground leading-relaxed mb-6">
-          Live spend, burn rate, and budget projections across every model.
-        </p>
-        <DashboardSkeleton />
+      <section
+        className="min-h-0 py-4 max-sm:h-auto sm:h-(--frame-height)"
+        style={frameStyle}
+      >
+        <WeatherStationSkeleton />
       </section>
     );
   }
 
   return (
-    <section ref={sectionRef} className="w-full py-8">
-      <h1 className="text-5xl mb-2">Dashboard</h1>
-      <p className="text-muted-foreground leading-relaxed mb-6">
-        Live spend, burn rate, and budget projections across every model.
-      </p>
-      <div className="flex flex-col gap-8">
-        <div data-reveal>
-          <StatCardsRow
-            spend7d={spend7d}
-            tokens7d={tokens7d}
-            burnRate={burnRate}
-            projectedDailyCost={projectedDailyCost}
-            ready={ready}
+    <section
+      className="grid min-h-0 grid-rows-[auto_1fr] gap-6 py-4 max-sm:h-auto sm:h-(--frame-height)"
+      style={frameStyle}
+    >
+      <ForecastStrip
+        forecast={forecast}
+        budget={budget}
+        onBudgetChange={setBudget}
+        ready={ready}
+      />
+      <div className="grid min-h-0 grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="doodle-border h-80 overflow-hidden rounded-2xl bg-muted sm:h-auto sm:min-h-0 lg:col-span-2">
+          <SkyCanvas
+            modelRows={modelRows}
+            events={eventList}
+            forecastLevel={forecast.level}
+            selectedModel={selectedModel}
+            onSelectModel={setSelectedModel}
           />
         </div>
-        <div data-reveal>
-          <BudgetProjectionCard
-            projectedWeeklySpend={projectedWeeklySpend}
-            ready={ready}
+        <div className="min-h-0">
+          <LedgerRail
+            modelRows={modelRows}
+            events={eventList}
+            selectedModel={selectedModel}
+            onSelectModel={setSelectedModel}
           />
-        </div>
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-          <div data-reveal>
-            <DailySpendChart days={dailySpend} dailyBudget={budget / 7} />
-          </div>
-          <div data-reveal>
-            <RecentActivity events={events ?? []} />
-          </div>
-        </div>
-        <div data-reveal>
-          <ModelTable rows={modelRows} />
         </div>
       </div>
     </section>
