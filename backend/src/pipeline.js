@@ -48,7 +48,7 @@ export async function completeChat(body) {
       return { status: result.status, data: { ...result.data, brolly: { model_used: null, attempts } } }
     }
     if (i === candidates.length - 1 && sessionId) {
-      const fb = pickFallback(cand.model, sessionId)
+      const fb = await pickFallback(cand.model, sessionId)
       if (fb && !attempts.some((a) => a.model === fb.model)) {
         candidates.push({ model: fb.model, reason: 'failover', profile: fb.profile })
       }
