@@ -18,11 +18,11 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="w-full py-24">
-      <div className="flex w-full flex-col items-center gap-4 text-center">
-        <h2 className="font-display text-4xl">How it works</h2>
+    <section className="w-full py-16">
+      <div className="flex w-full flex-col items-center gap-2 text-center">
+        <h2 className="font-display text-3xl">How it works</h2>
       </div>
-      <div className="relative mt-16 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+      <div className="relative mt-10 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
         <div
           className="pointer-events-none absolute top-6 left-0 hidden h-0 w-full border-t-2 border-dashed border-border md:block"
           aria-hidden="true"

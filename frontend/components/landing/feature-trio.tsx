@@ -17,24 +17,24 @@ const features = [
   {
     icon: GaugeIcon,
     title: "See your burn",
-    description:
-      "Live spend and burn rate for every model, with plain projections like '30% of your weekly limit' before you blow past it.",
+    description: "Live spend, plain projections, before you blow past the limit.",
+    stat: "burn rate, live",
     href: "/dashboard",
     label: "Open the dashboard",
   },
   {
     icon: StairsIcon,
     title: "Pay less by default",
-    description:
-      "Cost-cascade routing tries the cheapest model that still passes your benchmark, not the one topping someone else's leaderboard.",
+    description: "The cheapest model that still passes your benchmark.",
+    stat: "cheapest passing model wins",
     href: "/cascade",
     label: "See the cascade",
   },
   {
     icon: ArrowsClockwiseIcon,
     title: "Survive the outage",
-    description:
-      "Mid-session hot-swap carries a distilled behavior card to the fallback model, so a dead provider never means a dead session.",
+    description: "Hot-swap carries context to the fallback model mid-run.",
+    stat: "sessions survive funerals",
     href: "/failover",
     label: "See the failover demo",
   },
@@ -42,23 +42,26 @@ const features = [
 
 export function FeatureTrio() {
   return (
-    <section className="w-full py-24">
+    <section className="w-full py-16">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
             <Card
               key={feature.title}
-              className="doodle-border doodle-shadow flex h-full flex-col justify-between gap-6"
+              className="doodle-border doodle-shadow flex h-full flex-col justify-between gap-4"
             >
-              <CardHeader className="gap-3">
+              <CardHeader className="gap-2">
                 <Icon size={40} weight="duotone" className="text-primary" />
-                <CardTitle className="font-display text-2xl">
+                <CardTitle className="font-display text-xl">
                   {feature.title}
                 </CardTitle>
-                <CardDescription className="text-base">
+                <CardDescription className="text-sm">
                   {feature.description}
                 </CardDescription>
+                <p className="font-mono text-xs font-semibold text-foreground/60 uppercase">
+                  {feature.stat}
+                </p>
               </CardHeader>
               <CardContent>
                 <Link
