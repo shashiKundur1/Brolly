@@ -143,4 +143,54 @@
   .doodle-shadow {
     box-shadow: 4px 4px 0 0 var(--border);
   }
+  .doodle-shadow-lg {
+    box-shadow: 6px 6px 0 0 var(--foreground);
+  }
+  .doodle-card-shadow {
+    box-shadow: 2px 2px 0 0 var(--border);
+  }
+  .doodle-press {
+    @apply border-2 border-foreground;
+    box-shadow: 3px 3px 0 0 var(--foreground);
+  }
+  .doodle-press-sm {
+    @apply border-2 border-foreground;
+    box-shadow: 2px 2px 0 0 var(--foreground);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .doodle-press {
+      transition:
+        transform 150ms linear,
+        box-shadow 150ms linear;
+    }
+    .doodle-press:hover:not(:disabled):not([data-disabled]) {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 0 var(--foreground);
+    }
+    .doodle-press:active:not(:disabled):not([data-disabled]) {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+    .doodle-press-sm {
+      transition:
+        transform 150ms linear,
+        box-shadow 150ms linear;
+    }
+    .doodle-press-sm:hover:not(:disabled):not([data-disabled]) {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 0 var(--foreground);
+    }
+    .doodle-press-sm:active:not(:disabled):not([data-disabled]) {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+  }
+  .doodle-press:disabled,
+  .doodle-press[data-disabled] {
+    box-shadow: 2px 2px 0 0 var(--border);
+  }
+  .doodle-press-sm:disabled,
+  .doodle-press-sm[data-disabled] {
+    box-shadow: 2px 2px 0 0 var(--border);
+  }
 }

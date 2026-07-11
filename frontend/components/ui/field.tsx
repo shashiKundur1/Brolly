@@ -30,7 +30,7 @@ function FieldLegend({
       data-slot="field-legend"
       data-variant={variant}
       className={cn(
-        "mb-1.5 font-medium data-[variant=label]:text-sm data-[variant=legend]:text-base",
+        "mb-1.5 font-semibold data-[variant=label]:text-base data-[variant=legend]:text-lg",
         className
       )}
       {...props}
@@ -216,7 +216,7 @@ function FieldError({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn("text-sm font-normal text-destructive", className)}
+      className={cn("text-sm font-semibold text-destructive", className)}
       {...props}
     >
       {content}
