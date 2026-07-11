@@ -25,13 +25,13 @@ Soft-pastel doodle palette (from the pixel-forest reference). All colors flow th
 
 | Token | Hex | CSS var | Use |
 |---|---|---|---|
-| Sage mist | `#e8efe6` | `--background` | Page background |
-| Paper | `#f7f9f4` | `--card` | Cards, surfaces |
+| Paper white | `#ffffff` | `--background`, `--card` | Page and surfaces — doodle lives on white; borders and offset shadows do the separation |
+| Sage tint | `#e8efe6` | (illustration only) | Large SVG fills: hills, sky bands, hero curtains |
 | Deep pine | `#2f3e36` | `--foreground` | Ink: text, logo, strokes |
 | Coral | `#e8756a` | `--primary` | CTAs, the one loud thing per view |
 | Mint | `#bcd9cf` | `--secondary` | Secondary chips, fills |
 | Butter | `#f2d98c` | `--accent` | Highlights, warnings-lite |
-| Mist | `#d7e3da` | `--muted` | Muted fills, table stripes |
+| Mist | `#eef2ee` | `--muted` | Muted fills, table stripes |
 | Fern | `#9db5a6` | `--border` | Borders, dashed doodle strokes |
 
 Semantic extras: success = mint, danger = coral (reused deliberately — the palette stays small). Charts use pine ink bars on paper with fern dashed gridlines; coral only for the "over budget" state.
