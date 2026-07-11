@@ -56,16 +56,16 @@ export function ChatPanel({
   }
 
   return (
-    <Card className="doodle-border doodle-shadow flex h-full flex-col">
+    <Card className="doodle-border doodle-shadow flex h-full min-h-0 flex-col">
       <CardHeader>
-        <div className="flex items-center justify-between gap-4">
-          <CardTitle className="flex items-center gap-2 text-2xl">
-            <ChatCircleIcon size={22} weight="duotone" />
-            Chat
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <CardTitle className="flex shrink-0 items-center gap-2 text-xl">
+            <ChatCircleIcon size={20} weight="duotone" />
+            chat
           </CardTitle>
-          <Field orientation="horizontal" className="w-fit items-center gap-2">
-            <FieldLabel htmlFor="starting-model" className="text-sm">
-              Starting model
+          <Field orientation="horizontal" className="min-w-0 flex-1 items-center justify-end gap-2">
+            <FieldLabel htmlFor="starting-model" className="shrink-0 text-sm">
+              model
             </FieldLabel>
             <Select
               value={currentModel}
@@ -73,8 +73,11 @@ export function ChatPanel({
                 if (typeof value === "string") onModelChange(value)
               }}
             >
-              <SelectTrigger id="starting-model" className="font-mono">
-                <SelectValue placeholder="Choose a model" />
+              <SelectTrigger
+                id="starting-model"
+                className="min-w-0 max-w-full font-mono text-sm"
+              >
+                <SelectValue placeholder="Choose a model" className="truncate" />
               </SelectTrigger>
               <SelectContent>
                 {models.map((model) => (
@@ -87,32 +90,33 @@ export function ChatPanel({
           </Field>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col gap-4">
-        <div ref={listRef} className="flex flex-1 flex-col gap-4 overflow-y-auto">
+      <CardContent className="flex min-h-0 flex-1 flex-col gap-3">
+        <div
+          ref={listRef}
+          className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto"
+          style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}
+        >
           {messages.length === 0 ? (
-            <EmptyState
-              icon={ChatCircleIcon}
-              line="Say hello and start the policy"
-            />
+            <EmptyState icon={ChatCircleIcon} line="Say hello to start" />
           ) : (
             messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex flex-col gap-1.5 ${
+                className={`flex flex-col gap-1 ${
                   message.role === "user" ? "items-end" : "items-start"
                 }`}
               >
                 <div
-                  className={`max-w-xl rounded-xl px-4 py-2.5 ${
+                  className={`max-w-4/5 rounded-xl px-3 py-2 text-sm ${
                     message.role === "user"
-                      ? "bg-primary/15 text-foreground"
-                      : "bg-card ring-1 ring-foreground/10"
+                      ? "border-2 border-foreground bg-secondary text-foreground"
+                      : "border-2 border-border bg-card text-foreground"
                   }`}
                 >
                   <p className="whitespace-pre-wrap">{message.content}</p>
                 </div>
                 {message.role === "assistant" && message.model && (
-                  <Badge variant="secondary" className="font-mono">
+                  <Badge variant="secondary" className="font-mono text-xs">
                     {message.model}
                   </Badge>
                 )}
@@ -120,7 +124,7 @@ export function ChatPanel({
             ))
           )}
         </div>
-        <form onSubmit={handleSubmit} className="flex items-center gap-3">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2">
           <Input
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
@@ -138,7 +142,7 @@ export function ChatPanel({
             ) : (
               <PaperPlaneTiltIcon size={16} />
             )}
-            Send
+            send
           </Button>
         </form>
       </CardContent>

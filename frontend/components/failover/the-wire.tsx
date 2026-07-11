@@ -6,8 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   LightningIcon,
-  CloudLightningIcon,
-  CheckCircleIcon,
+  XIcon,
+  CheckIcon,
 } from "@phosphor-icons/react/dist/ssr"
 import { EmptyState } from "@/components/failover/empty-state"
 import type { Attempt } from "@/components/failover/types"
@@ -15,6 +15,31 @@ import type { Attempt } from "@/components/failover/types"
 type TheWireProps = {
   attempts: Attempt[]
   runId: number
+}
+
+const wirePath =
+  "M6 0C4 12 9 20 5 32C1 44 8 54 4 66C0 78 7 88 6 100"
+
+function WireStrand() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 12 100"
+      preserveAspectRatio="none"
+      className="pointer-events-none absolute inset-y-0 -z-10 w-3 text-border"
+      style={{ left: "1.2rem" }}
+    >
+      <path
+        d={wirePath}
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeDasharray="1 7"
+        strokeLinecap="round"
+        fill="none"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  )
 }
 
 export function TheWire({ attempts, runId }: TheWireProps) {
@@ -34,7 +59,7 @@ export function TheWire({ attempts, runId }: TheWireProps) {
     )
 
     if (prefersReducedMotion) {
-      gsap.set(failedCards, { rotate: 8 })
+      gsap.set(failedCards, { rotate: 6 })
       gsap.set(survivorCard, { x: 0, opacity: 1 })
       return
     }
@@ -42,7 +67,7 @@ export function TheWire({ attempts, runId }: TheWireProps) {
     const timeline = gsap.timeline()
     if (failedCards.length > 0) {
       timeline.to(failedCards, {
-        rotate: 8,
+        rotate: 6,
         duration: 0.5,
         ease: "none",
         stagger: 0.1,
@@ -51,7 +76,7 @@ export function TheWire({ attempts, runId }: TheWireProps) {
     if (survivorCard) {
       timeline.fromTo(
         survivorCard,
-        { x: 48, opacity: 0 },
+        { x: 32, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.5, ease: "none" },
         failedCards.length > 0 ? "-=0.1" : 0
       )
@@ -68,52 +93,44 @@ export function TheWire({ attempts, runId }: TheWireProps) {
   return (
     <Card className="doodle-border doodle-shadow">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-2xl">
-          <LightningIcon size={22} weight="duotone" />
+        <CardTitle className="flex items-center gap-2 text-xl">
+          <LightningIcon size={20} weight="duotone" />
           the wire
         </CardTitle>
       </CardHeader>
       <CardContent>
         {attempts.length === 0 ? (
-          <EmptyState
-            icon={LightningIcon}
-            line="Kill a model to watch the hot-swap"
-          />
+          <EmptyState icon={LightningIcon} line="Kill a model to see the swap" />
         ) : (
-          <div ref={containerRef} className="flex flex-col gap-3">
+          <div ref={containerRef} className="relative flex flex-col gap-3">
+            <WireStrand />
             {failed.map((attempt, index) => (
               <div
                 key={`${attempt.model}-${index}`}
                 data-wire-card="failed"
-                className="doodle-border flex origin-left items-center gap-3 rounded-xl border-dashed bg-accent px-4 py-3"
+                className="doodle-border relative flex w-fit max-w-full origin-left items-center gap-2 rounded-xl border-dashed bg-accent py-2 pr-3 pl-2.5"
               >
-                <CloudLightningIcon
-                  size={22}
-                  weight="fill"
-                  className="shrink-0 text-primary"
-                />
-                <div className="flex flex-1 items-center justify-between gap-3">
-                  <span className="font-mono text-sm">{attempt.model}</span>
-                  <Badge variant="destructive">
-                    {attempt.reason || attempt.status}
-                  </Badge>
-                </div>
+                <XIcon size={16} weight="bold" className="shrink-0 text-primary" />
+                <span className="truncate font-mono text-sm tabular-nums">
+                  {attempt.model}
+                </span>
+                <Badge variant="destructive" className="shrink-0">
+                  {attempt.reason || attempt.status}
+                </Badge>
               </div>
             ))}
             {survivor && (
               <div
                 data-wire-card="survivor"
-                className="doodle-border flex items-center gap-3 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
+                className="flex w-fit max-w-full items-center gap-2 rounded-xl border-2 border-foreground bg-secondary py-2 pr-3 pl-2.5 doodle-card-shadow"
               >
-                <CheckCircleIcon
-                  size={22}
-                  weight="fill"
-                  className="shrink-0 text-secondary-foreground"
-                />
-                <div className="flex flex-1 items-center justify-between gap-3">
-                  <span className="font-mono text-sm">{survivor.model}</span>
-                  <Badge variant="secondary">covered</Badge>
-                </div>
+                <CheckIcon size={16} weight="bold" className="shrink-0 text-foreground" />
+                <span className="truncate font-mono text-sm tabular-nums">
+                  {survivor.model}
+                </span>
+                <Badge variant="secondary" className="shrink-0 border-foreground">
+                  covered
+                </Badge>
               </div>
             )}
           </div>

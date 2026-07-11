@@ -164,12 +164,11 @@ export default function FailoverPage() {
   }
 
   return (
-    <section className="flex w-full flex-col gap-8 py-16">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-5xl">Failover</h1>
-        <p className="text-muted-foreground">
-          Chat with a model, kill it mid-conversation, watch Brolly hot-swap without
-          losing the thread.
+    <section className="flex min-h-0 w-full flex-1 flex-col gap-4 py-6 lg:h-full">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-4xl">Failover</h1>
+        <p className="text-sm text-muted-foreground">
+          Kill the model mid-chat. Watch Brolly hot-swap.
         </p>
       </div>
       {actionError && (
@@ -196,7 +195,7 @@ export default function FailoverPage() {
         killing={killing}
         reviving={reviving}
       />
-      <div className="grid w-full gap-8 lg:grid-cols-2">
+      <div className="grid w-full min-h-0 flex-1 grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
         <ChatPanel
           models={models}
           currentModel={currentModel}
@@ -205,7 +204,7 @@ export default function FailoverPage() {
           onSend={handleSend}
           sending={sending}
         />
-        <div className="flex flex-col gap-8">
+        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto pr-1">
           <TheWire attempts={attempts} runId={runId} />
           {session && (
             <BehaviorCard profile={session.profile} modelsUsed={session.models_used} />
