@@ -10,7 +10,12 @@ const RETRYABLE = new Set([402, 408, 429, 500, 502, 503, 504])
 async function callModel(body, model) {
   if (isKilled(model)) return { ok: false, status: 503, data: { error: { message: `model ${model} is down`, code: 'model_killed' } } }
   if (config.MOCK) return { ok: true, status: 200, data: mockChat({ ...body, model }) }
-  return meshChat({ ...body, model })
+  const result = await meshChat({ ...body, model })
+  if (config.DEGRADE_ON_SPEND_LIMIT && result.status === 402) {
+    const data = mockChat({ ...body, model })
+    return { ok: true, status: 200, data: { ...data, brolly_degraded: 'mesh_spend_limit' } }
+  }
+  return result
 }
 
 export async function completeChat(body) {

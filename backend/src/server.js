@@ -6,7 +6,7 @@ import { mockStream, seedHistory } from './mock.js'
 import { completeChat } from './pipeline.js'
 import { cascadeRouter } from './cascade.js'
 import { failoverRouter } from './failover.js'
-import { CATALOG } from './models.js'
+import { CATALOG, modelInfo } from './models.js'
 
 if (config.MOCK) seedHistory()
 
@@ -139,7 +139,21 @@ app.get('/v1/models', async (req, res) => {
   }
   try {
     const result = await meshModels()
-    return res.status(result.status).json(result.data)
+    const raw = Array.isArray(result.data) ? result.data : result.data?.data || []
+    const catalogIds = new Set(CATALOG.map((m) => m.id))
+    const preferred = raw.filter((m) => catalogIds.has(m.id))
+    const source = preferred.length ? preferred : raw
+    const data = source.map((m) => ({
+      id: m.id,
+      object: 'model',
+      family: m.brand || m.provider || String(m.id).split('/')[0],
+      tier: modelInfo(m.id)?.tier ?? 2,
+      pricing: {
+        prompt_usd_per_1m: Number(m.pricing?.prompt_usd_per_1m) || modelInfo(m.id)?.prompt || 0,
+        completion_usd_per_1m: Number(m.pricing?.completion_usd_per_1m) || modelInfo(m.id)?.completion || 0
+      }
+    }))
+    return res.status(result.status).json({ object: 'list', data })
   } catch (err) {
     return res.status(502).json({ error: 'upstream request failed' })
   }
