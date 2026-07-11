@@ -149,6 +149,22 @@
   .doodle-card-shadow {
     box-shadow: 2px 2px 0 0 var(--border);
   }
+  .doodle-card {
+    border: 2px solid var(--foreground);
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    box-shadow: 3px 4px 0 -1px var(--foreground);
+    background: var(--card);
+  }
+  .doodle-card-soft {
+    border: 2px solid var(--border);
+    border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+    background: var(--card);
+  }
+  .doodle-card-accent {
+    border: 2px solid var(--foreground);
+    border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
+    box-shadow: 3px 4px 0 -1px var(--foreground);
+  }
   .doodle-press {
     @apply border-2 border-foreground;
     box-shadow: 3px 3px 0 0 var(--foreground);
