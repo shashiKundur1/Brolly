@@ -3,7 +3,7 @@ import { appendEvent, USAGE_FILE } from './usage.js'
 import { CATALOG } from './models.js'
 
 const CANNED_ANSWER =
-  "This is a mock response from Brolly's local mock mode. Set MESH_API_KEY to talk to the real Mesh API."
+  "Demo reply from Brolly. Your Mesh key is connected, but the Mesh account has no balance (HTTP 402), so live model output is paused. Top up at meshapi.ai and this becomes a real completion, no code change."
 
 function estimateTokens(text) {
   return Math.max(1, Math.ceil(text.length / 4))
