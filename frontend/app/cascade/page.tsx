@@ -94,7 +94,7 @@ export default function CascadePage() {
   const ladder = config?.ladder ?? [];
 
   return (
-    <section className="flex w-full flex-col gap-10 py-16">
+    <section className="flex w-full flex-col gap-4 py-6 lg:h-[calc(100vh-4rem)] lg:min-h-0">
       <CascadeHeader
         enabled={config?.enabled ?? false}
         maxSteps={config?.maxSteps ?? 3}
@@ -103,24 +103,30 @@ export default function CascadePage() {
         disabled={configLoading || configError}
       />
       {configError && (
-        <p className="text-sm text-primary">
-          Couldn&apos;t reach the cascade API. Showing what we have.
-        </p>
+        <p className="text-sm text-primary">can&apos;t reach the cascade api</p>
       )}
-      <Ladder
-        ladder={ladder}
-        maxSteps={config?.maxSteps ?? 3}
-        loading={configLoading}
-        onSelectRung={handleSelectRung}
-      />
-      <BenchmarkPanel
-        cases={cases}
-        results={results}
-        running={running}
-        onRun={handleRunBenchmark}
-        onSelectResult={setSelectedResult}
-      />
-      <TryItBox ladder={ladder} />
+      <div className="grid flex-1 grid-cols-1 gap-4 lg:min-h-0 lg:grid-cols-2">
+        <Ladder
+          ladder={ladder}
+          maxSteps={config?.maxSteps ?? 3}
+          loading={configLoading}
+          onSelectRung={handleSelectRung}
+        />
+        <div className="flex flex-col gap-4 lg:h-full lg:min-h-0">
+          <div className="lg:min-h-0 lg:flex-1">
+            <BenchmarkPanel
+              cases={cases}
+              results={results}
+              running={running}
+              onRun={handleRunBenchmark}
+              onSelectResult={setSelectedResult}
+            />
+          </div>
+          <div className="lg:min-h-0 lg:flex-1">
+            <TryItBox ladder={ladder} />
+          </div>
+        </div>
+      </div>
       <BenchmarkDetailDialog
         result={selectedResult}
         onOpenChange={(open) => {

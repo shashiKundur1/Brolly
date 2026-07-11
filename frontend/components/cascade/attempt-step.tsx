@@ -1,7 +1,5 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { CheckIcon, CloudRainIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import type { ChatAttempt } from "@/components/cascade/types";
@@ -13,37 +11,31 @@ type AttemptStepProps = {
 
 export function AttemptStep({ attempt, reveal }: AttemptStepProps) {
   return (
-    <Card
+    <div
       data-reveal
       className={cn(
-        "flex-row items-center gap-4 py-3 transition-transform",
-        attempt.ok ? "doodle-shadow" : "doodle-border -rotate-3",
+        "flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 motion-safe:transition-transform",
+        attempt.ok ? "doodle-shadow bg-card" : "doodle-border -rotate-2 bg-card",
         !reveal && "opacity-0"
       )}
     >
-      <CardContent className="flex w-full items-center justify-between gap-4 px-4">
-        <div className="flex items-center gap-3">
-          {attempt.ok ? (
-            <CheckIcon
-              size={20}
-              weight="bold"
-              className="text-secondary-foreground"
-            />
-          ) : (
-            <CloudRainIcon size={20} weight="duotone" className="text-primary" />
-          )}
-          <span className="font-mono text-sm">{attempt.model}</span>
-        </div>
+      <span className="flex items-center gap-2">
         {attempt.ok ? (
-          <Badge className="bg-secondary text-secondary-foreground">
-            picked
-          </Badge>
+          <CheckIcon size={16} weight="bold" className="text-secondary-foreground" />
         ) : (
-          <Badge variant="outline" className="text-muted-foreground">
-            {attempt.reason || "failed"}
-          </Badge>
+          <CloudRainIcon size={16} weight="duotone" className="text-primary" />
         )}
-      </CardContent>
-    </Card>
+        <span className="font-mono text-xs tabular-nums">{attempt.model}</span>
+      </span>
+      {attempt.ok ? (
+        <span className="rounded-full border-2 border-foreground bg-secondary px-2 py-0.5 text-xs font-bold text-secondary-foreground">
+          picked
+        </span>
+      ) : (
+        <span className="rounded-full border-2 border-dashed border-border px-2 py-0.5 text-xs text-muted-foreground">
+          {attempt.reason || "failed"}
+        </span>
+      )}
+    </div>
   );
 }

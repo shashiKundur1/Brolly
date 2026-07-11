@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PaperPlaneRightIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
@@ -60,7 +59,7 @@ export function TryItBox({ ladder }: TryItBoxProps) {
       const result = await sendChat(prompt.trim());
       setResponse(result);
     } catch {
-      setError("Couldn't reach the cascade. Try again in a moment.");
+      setError("couldn't reach the cascade");
       setResponse(null);
     } finally {
       setSending(false);
@@ -72,56 +71,46 @@ export function TryItBox({ ladder }: TryItBoxProps) {
   const savings = response ? computeSavings(response, ladder) : null;
 
   return (
-    <Card className="doodle-border">
-      <CardHeader>
-        <CardTitle>Try it</CardTitle>
-        <CardDescription>
-          Send a real prompt and watch the cascade climb the ladder.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-5">
-        <div className="flex items-center gap-3">
-          <Input
-            value={prompt}
-            onChange={(event) => setPrompt(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") handleSend();
-            }}
-            placeholder="Ask the cascade something"
-            disabled={sending}
-          />
-          <Button
-            className="bg-primary text-primary-foreground"
-            onClick={handleSend}
-            disabled={sending || !prompt.trim()}
-          >
-            {sending ? (
-              <CircleNotchIcon data-icon="inline-start" className="animate-spin" />
-            ) : (
-              <PaperPlaneRightIcon data-icon="inline-start" />
-            )}
-            Send
-          </Button>
-        </div>
-        {error && <p className="text-sm text-primary">{error}</p>}
+    <div className="doodle-border flex flex-col rounded-2xl bg-card p-4 lg:h-full lg:min-h-0">
+      <h2 className="font-display text-xl leading-none">try it</h2>
+      <div className="mt-2 flex items-center gap-2">
+        <Input
+          value={prompt}
+          onChange={(event) => setPrompt(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") handleSend();
+          }}
+          placeholder="ask the cascade"
+          disabled={sending}
+          className="h-9 text-sm"
+        />
+        <Button size="sm" onClick={handleSend} disabled={sending || !prompt.trim()}>
+          {sending ? (
+            <CircleNotchIcon data-icon="inline-start" className="animate-spin" />
+          ) : (
+            <PaperPlaneRightIcon data-icon="inline-start" />
+          )}
+          send
+        </Button>
+      </div>
+      {error && <p className="mt-2 text-xs text-primary">{error}</p>}
+      <div className="mt-2 lg:min-h-0 lg:flex-1 lg:overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}>
         {attempts.length > 0 && (
-          <div ref={containerRef} className="flex flex-col gap-3">
+          <div ref={containerRef} className="flex flex-col gap-1.5">
             {attempts.map((attempt, index) => (
               <AttemptStep key={index} attempt={attempt} reveal />
             ))}
           </div>
         )}
         {answer && (
-          <div className="flex flex-col gap-2 rounded-lg bg-muted p-4">
-            <p className="text-sm">{answer}</p>
-          </div>
+          <p className="mt-2 rounded-lg bg-muted p-2.5 text-xs">{answer}</p>
         )}
         {savings !== null && (
-          <p className="text-sm text-muted-foreground">
-            saved vs priciest rung: {formatUsd(savings)}
+          <p className="mt-2 font-mono text-xs tabular-nums text-muted-foreground">
+            saved {formatUsd(savings)} vs priciest
           </p>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

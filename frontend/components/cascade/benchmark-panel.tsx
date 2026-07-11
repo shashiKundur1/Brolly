@@ -1,9 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { CircleNotchIcon, FlaskIcon } from "@phosphor-icons/react/dist/ssr";
 import type {
   BenchmarkCase,
@@ -26,62 +23,52 @@ export function BenchmarkPanel({
   onSelectResult,
 }: BenchmarkPanelProps) {
   return (
-    <Card className="doodle-border">
-      <CardHeader className="flex flex-row items-center justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <CardTitle className="flex items-center gap-2">
-            <FlaskIcon size={20} weight="duotone" />
-            Your benchmark
-          </CardTitle>
-          <CardDescription>
-            Five cases, your call on what a pass means.
-          </CardDescription>
-        </div>
-        <Button
-          className="bg-primary text-primary-foreground"
-          onClick={onRun}
-          disabled={running}
-        >
+    <div className="doodle-border flex flex-col rounded-2xl bg-card p-4 lg:h-full lg:min-h-0">
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="flex items-center gap-1.5 font-display text-xl leading-none">
+          <FlaskIcon size={18} weight="duotone" />
+          your benchmark
+        </h2>
+        <Button size="sm" onClick={onRun} disabled={running}>
           {running && (
-            <CircleNotchIcon
-              data-icon="inline-start"
-              className="animate-spin"
-            />
+            <CircleNotchIcon data-icon="inline-start" className="animate-spin" />
           )}
-          Run benchmark
+          run
         </Button>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-5">
-        <div className="flex flex-col gap-3">
+      </div>
+      <div className="mt-2 lg:min-h-0 lg:flex-1 lg:overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}>
+        <ul className="flex flex-col gap-1.5">
           {cases.map((testCase, index) => (
-            <div key={index} className="flex flex-col gap-1">
-              {index > 0 && <Separator />}
-              <p className="text-sm">{testCase.prompt}</p>
-              <p className="text-sm text-muted-foreground">
-                expect: {testCase.expect}
-              </p>
-            </div>
+            <li key={index} className="flex items-baseline justify-between gap-2 text-xs">
+              <span className="truncate">{testCase.prompt}</span>
+              <span className="shrink-0 font-mono tabular-nums text-muted-foreground">
+                {testCase.expect}
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
         {results && results.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2.5">
-            {results.map((result) => (
-              <Badge
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {results.map((result, index) => (
+              <button
+                type="button"
                 key={result.model}
                 onClick={() => onSelectResult(result)}
                 className={
-                  result.passed
-                    ? "cursor-pointer bg-secondary text-secondary-foreground"
-                    : "cursor-pointer bg-primary text-primary-foreground"
+                  "rounded-full border-2 border-foreground px-2.5 py-1 font-mono text-xs font-bold tabular-nums " +
+                  (index % 2 === 0 ? "-rotate-2" : "rotate-2") +
+                  " " +
+                  (result.passed
+                    ? "bg-secondary text-secondary-foreground"
+                    : "bg-primary text-primary-foreground")
                 }
               >
-                <span className="font-mono">{result.model}</span>
-                {result.score}/{result.total}
-              </Badge>
+                {result.model.split("/")[1] ?? result.model} {result.score}/{result.total}
+              </button>
             ))}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

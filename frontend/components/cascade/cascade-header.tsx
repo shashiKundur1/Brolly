@@ -28,31 +28,29 @@ export function CascadeHeader({
   disabled,
 }: CascadeHeaderProps) {
   return (
-    <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <div className="flex flex-col gap-2">
-        <h1 className="font-display text-5xl">the cascade</h1>
-        <p className="text-muted-foreground">
-          your benchmark, not their leaderboard
-        </p>
+    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-0.5">
+        <h1 className="font-display text-2xl leading-none">the cascade</h1>
+        <p className="text-sm text-muted-foreground">your benchmark, not their leaderboard</p>
       </div>
-      <div className="flex items-center gap-8">
-        <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2">
           <Switch
             id="cascade-enabled"
             checked={enabled}
             onCheckedChange={onEnabledChange}
             disabled={disabled}
           />
-          <Label htmlFor="cascade-enabled">Cascade enabled</Label>
+          <Label htmlFor="cascade-enabled" className="text-sm">enabled</Label>
         </div>
-        <div className="flex items-center gap-2.5">
-          <Label htmlFor="max-steps">Max steps</Label>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="max-steps" className="text-sm">max steps</Label>
           <Select
             value={String(maxSteps)}
             onValueChange={(value) => onMaxStepsChange(Number(value))}
             disabled={disabled}
           >
-            <SelectTrigger id="max-steps" className="w-20">
+            <SelectTrigger id="max-steps" className="w-16">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
