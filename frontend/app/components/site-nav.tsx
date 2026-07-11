@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { UmbrellaIcon } from "@phosphor-icons/react/dist/ssr";
+import { BrollyLogo } from "@/components/brand/logo";
 
 export function SiteNav() {
   return (
     <header className="w-full px-6 md:px-10 py-4 flex items-center justify-between">
       <Link href="/" className="font-display text-2xl flex items-center gap-2">
-        <UmbrellaIcon size={28} weight="fill" />
+        <BrollyLogo className="size-6" />
         Brolly
       </Link>
       <nav className="flex items-center gap-6">

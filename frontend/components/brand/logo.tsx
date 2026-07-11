@@ -2,18 +2,20 @@ export function BrollyLogo({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 48 48" fill="none" className={className} aria-label="Brolly">
       <path
-        d="M24 6C13 6 6 15 5 22c3-2 6-2 9 0 3-3 7-3 10 0 3-3 7-3 10 0 3-2 6-2 9 0C42 15 35 6 24 6Z"
+        d="M24.3 5.2c-.5-.1-1 .3-1 .9l-.1 1.6c-6.9.6-12.9 5-15.8 11.4-.3.7.3 1.4 1 1.1 2.1-1 4.3-1 6.3.2.4.3 1 .3 1.4-.1 1.8-1.7 4.3-1.7 6.1.1.4.4 1 .4 1.4 0 1.8-1.8 4.3-1.8 6.1-.1.4.4.9.4 1.4.1 1.9-1.3 4.2-1.3 6.3-.3.7.3 1.4-.4 1.1-1.1C36.6 12.9 31 8.3 24.3 7.7v-1.6c0-.5-.4-.9-.9-.9Z"
         fill="currentColor"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
       />
       <path
-        d="M24 22v16a4 4 0 0 1-8 0"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        fill="none"
+        d="M23.5 21.6c-.5.1-.8.5-.8 1l.3 16.6c0 1.5-1.1 2.7-2.5 2.8-1.3.1-2.5-.8-2.8-2.1-.1-.5-.6-.9-1.1-.7-.5.1-.8.6-.7 1.1.5 2.2 2.5 3.7 4.7 3.6 2.3-.1 4.1-2.1 4.1-4.5l-.3-16.6c0-.4-.2-.7-.5-.9-.1-.1-.3-.2-.4-.3Z"
+        fill="currentColor"
+      />
+      <path
+        d="M14.8 18.7c-.4.1-.6.5-.5.9l.5 1.9c.1.4.5.6.9.5.4-.1.6-.5.5-.9l-.5-1.9c-.1-.4-.5-.6-.9-.5Z"
+        fill="currentColor"
+      />
+      <path
+        d="M31.9 19.4c-.4-.1-.8.1-.9.5l-.6 1.9c-.1.4.1.8.5.9.4.1.8-.1.9-.5l.6-1.9c.1-.4-.1-.8-.5-.9Z"
+        fill="currentColor"
       />
     </svg>
   )
