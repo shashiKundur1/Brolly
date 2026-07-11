@@ -1,0 +1,1522 @@
+{
+  "info": {
+    "_postman_id": "054ad1e8-dda0-47df-a0b9-84eb257c94a8",
+    "name": "Brolly API",
+    "description": "Full endpoint coverage for the Brolly backend proxy (localhost:4000, mock mode). Covers health, models, chat completions (incl. streaming + validation), usage, cascade config/benchmark, failover kill/revive/sessions, and two end-to-end scenario chains (cascade routing, failover with session takeover).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-11T17:37:18.000Z",
+    "updatedAt": "2026-07-11T17:40:21.000Z",
+    "lastUpdatedBy": "44269338",
+    "uid": "44269338-054ad1e8-dda0-47df-a0b9-84eb257c94a8"
+  },
+  "item": [
+    {
+      "name": "health",
+      "item": [
+        {
+          "name": "GET /api/health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has ok:true and mock:true', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.ok).to.eql(true);",
+                  "    pm.expect(json.mock).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "9a1e061f-9238-402b-9fbd-1a94bc961048",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:07.000Z",
+          "uid": "44269338-9a1e061f-9238-402b-9fbd-1a94bc961048"
+        }
+      ],
+      "id": "8e05cdfb-2eb6-44bc-a124-0b4520ca244c",
+      "createdAt": "2026-07-11T17:37:18.000Z",
+      "updatedAt": "2026-07-11T17:37:18.000Z",
+      "uid": "44269338-8e05cdfb-2eb6-44bc-a124-0b4520ca244c"
+    },
+    {
+      "name": "models",
+      "item": [
+        {
+          "name": "GET /v1/models",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('Response shape is object list', function () {",
+                  "    pm.expect(json.object).to.eql('list');",
+                  "    pm.expect(json.data).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Has exactly 9 models', function () {",
+                  "    pm.expect(json.data.length).to.eql(9);",
+                  "});",
+                  "",
+                  "pm.test('Each model has id, family, tier, pricing fields', function () {",
+                  "    json.data.forEach(function (m) {",
+                  "        pm.expect(m).to.have.property('id');",
+                  "        pm.expect(m).to.have.property('object', 'model');",
+                  "        pm.expect(m).to.have.property('family');",
+                  "        pm.expect(m).to.have.property('tier');",
+                  "        pm.expect(m.pricing).to.have.property('prompt_usd_per_1m');",
+                  "        pm.expect(m.pricing).to.have.property('completion_usd_per_1m');",
+                  "    });",
+                  "});",
+                  "",
+                  "pm.test('Contains expected model ids', function () {",
+                  "    const ids = json.data.map(function (m) { return m.id; });",
+                  "    ['openai/gpt-4o', 'openai/gpt-4o-mini', 'anthropic/claude-sonnet-4.5', 'anthropic/claude-haiku-4.5', 'google/gemini-2.5-flash', 'google/gemini-2.5-pro', 'meta/llama-3.3-70b', 'mistral/mistral-large', 'deepseek/deepseek-chat'].forEach(function (id) {",
+                  "        pm.expect(ids).to.include(id);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "9a3f142c-28d9-4f81-98b7-1a48e810028c",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/models",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "models"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:25.000Z",
+          "uid": "44269338-9a3f142c-28d9-4f81-98b7-1a48e810028c"
+        }
+      ],
+      "id": "7835f929-7f62-4415-aed8-128e94f2e47b",
+      "createdAt": "2026-07-11T17:37:18.000Z",
+      "updatedAt": "2026-07-11T17:37:18.000Z",
+      "uid": "44269338-7835f929-7f62-4415-aed8-128e94f2e47b"
+    },
+    {
+      "name": "chat",
+      "item": [
+        {
+          "name": "POST /v1/chat/completions - basic success",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('OpenAI-shaped response', function () {",
+                  "    pm.expect(json).to.have.property('id');",
+                  "    pm.expect(json.object).to.eql('chat.completion');",
+                  "    pm.expect(json).to.have.property('created');",
+                  "    pm.expect(json).to.have.property('model');",
+                  "    pm.expect(json.choices).to.be.an('array').with.lengthOf.at.least(1);",
+                  "    pm.expect(json.choices[0].message).to.have.property('role', 'assistant');",
+                  "    pm.expect(json.choices[0].message).to.have.property('content');",
+                  "    pm.expect(json.choices[0]).to.have.property('finish_reason');",
+                  "    pm.expect(json.usage).to.have.property('prompt_tokens');",
+                  "    pm.expect(json.usage).to.have.property('completion_tokens');",
+                  "});",
+                  "",
+                  "pm.test('brolly.model_used and attempts present', function () {",
+                  "    pm.expect(json.brolly).to.have.property('model_used', 'openai/gpt-4o-mini');",
+                  "    pm.expect(json.brolly.attempts).to.be.an('array').with.lengthOf.at.least(1);",
+                  "    pm.expect(json.brolly.attempts[0]).to.have.property('reason', 'requested');",
+                  "    pm.expect(json.brolly.attempts[0]).to.have.property('status', 200);",
+                  "    pm.expect(json.brolly.attempts[0]).to.have.property('ok', true);",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "38354dba-1728-40e4-8af0-14709cbec08c",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"openai/gpt-4o-mini\",\n  \"messages\": [{\"role\": \"user\", \"content\": \"hello\"}]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "chat",
+                "completions"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:31.000Z",
+          "uid": "44269338-38354dba-1728-40e4-8af0-14709cbec08c"
+        },
+        {
+          "name": "POST /v1/chat/completions - missing messages returns 400",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Response has error field', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "c2ff856a-2052-4ba0-a815-2da23635eb2f",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"openai/gpt-4o-mini\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "chat",
+                "completions"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:34.000Z",
+          "uid": "44269338-c2ff856a-2052-4ba0-a815-2da23635eb2f"
+        },
+        {
+          "name": "POST /v1/chat/completions - empty messages array returns 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Response has error field', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "ebdd31ff-9c09-4ae6-8280-94cd6ef4360e",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"openai/gpt-4o-mini\",\n  \"messages\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "chat",
+                "completions"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:36.000Z",
+          "uid": "44269338-ebdd31ff-9c09-4ae6-8280-94cd6ef4360e"
+        },
+        {
+          "name": "POST /v1/chat/completions - streaming SSE ends with [DONE]",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Content-Type is text/event-stream', function () {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/event-stream');",
+                  "});",
+                  "",
+                  "const body = pm.response.text();",
+                  "",
+                  "pm.test('SSE body contains data: chunks', function () {",
+                  "    pm.expect(body).to.include('data: {');",
+                  "    pm.expect(body).to.include('chat.completion.chunk');",
+                  "});",
+                  "",
+                  "pm.test('SSE stream ends with data: [DONE]', function () {",
+                  "    pm.expect(body.trim().endsWith('data: [DONE]')).to.be.true;",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "1e1f354a-1e2b-41bf-87b2-c427a71b308a",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"openai/gpt-4o-mini\",\n  \"messages\": [{\"role\": \"user\", \"content\": \"hello\"}],\n  \"stream\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "chat",
+                "completions"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:38.000Z",
+          "uid": "44269338-1e1f354a-1e2b-41bf-87b2-c427a71b308a"
+        }
+      ],
+      "id": "81b384db-3b80-4430-bf7e-b9b61f5f8963",
+      "createdAt": "2026-07-11T17:37:18.000Z",
+      "updatedAt": "2026-07-11T17:37:18.000Z",
+      "uid": "44269338-81b384db-3b80-4430-bf7e-b9b61f5f8963"
+    },
+    {
+      "name": "usage",
+      "item": [
+        {
+          "name": "GET /api/usage/summary",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('Response has totals, burnRate, projectedTokensPerHour', function () {",
+                  "    pm.expect(json.totals).to.be.an('array');",
+                  "    pm.expect(json).to.have.property('burnRate');",
+                  "    pm.expect(json).to.have.property('projectedTokensPerHour');",
+                  "});",
+                  "",
+                  "pm.test('Totals entries have expected shape', function () {",
+                  "    if (json.totals.length > 0) {",
+                  "        const t = json.totals[0];",
+                  "        pm.expect(t).to.have.property('model');",
+                  "        pm.expect(t).to.have.property('day');",
+                  "        pm.expect(t).to.have.property('requests');",
+                  "        pm.expect(t).to.have.property('prompt_tokens');",
+                  "        pm.expect(t).to.have.property('completion_tokens');",
+                  "        pm.expect(t).to.have.property('est_cost_usd');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "2a0f3911-d709-411d-9532-c621dc554f39",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usage/summary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usage",
+                "summary"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:48.000Z",
+          "uid": "44269338-2a0f3911-d709-411d-9532-c621dc554f39"
+        },
+        {
+          "name": "GET /api/usage/events?limit=5",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('Response is an array respecting limit', function () {",
+                  "    pm.expect(json).to.be.an('array');",
+                  "    pm.expect(json.length).to.be.at.most(5);",
+                  "});",
+                  "",
+                  "pm.test('Events are newest first (ts descending)', function () {",
+                  "    for (let i = 0; i < json.length - 1; i++) {",
+                  "        const a = new Date(json[i].ts).getTime();",
+                  "        const b = new Date(json[i + 1].ts).getTime();",
+                  "        pm.expect(a).to.be.at.least(b);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Event entries have expected fields', function () {",
+                  "    if (json.length > 0) {",
+                  "        const e = json[0];",
+                  "        pm.expect(e).to.have.property('ts');",
+                  "        pm.expect(e).to.have.property('model');",
+                  "        pm.expect(e).to.have.property('prompt_tokens');",
+                  "        pm.expect(e).to.have.property('completion_tokens');",
+                  "        pm.expect(e).to.have.property('ok');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "f6985e4b-d972-403b-acd8-0588c26927eb",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usage/events?limit=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usage",
+                "events"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:51.000Z",
+          "uid": "44269338-f6985e4b-d972-403b-acd8-0588c26927eb"
+        }
+      ],
+      "id": "c87d2d7c-7025-49ac-8d48-0970cb805931",
+      "createdAt": "2026-07-11T17:37:18.000Z",
+      "updatedAt": "2026-07-11T17:37:18.000Z",
+      "uid": "44269338-c87d2d7c-7025-49ac-8d48-0970cb805931"
+    },
+    {
+      "name": "cascade",
+      "item": [
+        {
+          "name": "GET /api/cascade/config",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('Response has enabled, maxSteps, ladder', function () {",
+                  "    pm.expect(json).to.have.property('enabled');",
+                  "    pm.expect(json).to.have.property('maxSteps');",
+                  "    pm.expect(json.ladder).to.be.an('array').with.lengthOf(9);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "cb98c55d-90d1-4681-b82f-b9d89bcaef9d",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cascade/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cascade",
+                "config"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:53.000Z",
+          "uid": "44269338-cb98c55d-90d1-4681-b82f-b9d89bcaef9d"
+        },
+        {
+          "name": "POST /api/cascade/config - update maxSteps",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('maxSteps updated to 3', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.maxSteps).to.eql(3);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "bf3637ab-6ac0-48a7-8a4f-56bee7221678",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"maxSteps\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cascade/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cascade",
+                "config"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:55.000Z",
+          "uid": "44269338-bf3637ab-6ac0-48a7-8a4f-56bee7221678"
+        },
+        {
+          "name": "GET /api/cascade/benchmark",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('Response has cases array', function () {",
+                  "    pm.expect(json.cases).to.be.an('array').with.lengthOf(5);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "3d83acdb-9d18-4419-a59a-00a433efa6e8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cascade/benchmark",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cascade",
+                "benchmark"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:42:58.000Z",
+          "uid": "44269338-3d83acdb-9d18-4419-a59a-00a433efa6e8"
+        },
+        {
+          "name": "POST /api/cascade/benchmark/run",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('Response has 9 results', function () {",
+                  "    pm.expect(json.results).to.be.an('array').with.lengthOf(9);",
+                  "});",
+                  "",
+                  "pm.test('Each result has model, score, total, passed, cases', function () {",
+                  "    json.results.forEach(function (r) {",
+                  "        pm.expect(r).to.have.property('model');",
+                  "        pm.expect(r).to.have.property('score');",
+                  "        pm.expect(r).to.have.property('total', 5);",
+                  "        pm.expect(r).to.have.property('passed');",
+                  "        pm.expect(r.cases).to.be.an('array').with.lengthOf(5);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "d8675a18-d037-43e8-9333-d6a77960d977",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cascade/benchmark/run",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cascade",
+                "benchmark",
+                "run"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:01.000Z",
+          "uid": "44269338-d8675a18-d037-43e8-9333-d6a77960d977"
+        }
+      ],
+      "id": "306e8688-cb9c-4b8a-a6e6-4072ffdf4b5c",
+      "createdAt": "2026-07-11T17:37:18.000Z",
+      "updatedAt": "2026-07-11T17:37:18.000Z",
+      "uid": "44269338-306e8688-cb9c-4b8a-a6e6-4072ffdf4b5c"
+    },
+    {
+      "name": "failover",
+      "item": [
+        {
+          "name": "POST /api/failover/kill - missing model returns 400",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Response has error field', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('error');",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "7353a608-9f5e-4c09-8c03-7adee51bd03d",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/kill",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "kill"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:07.000Z",
+          "uid": "44269338-7353a608-9f5e-4c09-8c03-7adee51bd03d"
+        },
+        {
+          "name": "POST /api/failover/kill - kill a model",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('killed array includes deepseek/deepseek-chat', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.killed).to.include('deepseek/deepseek-chat');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "c9343ebe-738e-46ab-9a5b-8d383d567e25",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"deepseek/deepseek-chat\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/kill",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "kill"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:10.000Z",
+          "uid": "44269338-c9343ebe-738e-46ab-9a5b-8d383d567e25"
+        },
+        {
+          "name": "GET /api/failover/killed",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('killed array includes deepseek/deepseek-chat', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.killed).to.include('deepseek/deepseek-chat');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "2f9e9439-5370-4fb5-a7b7-07f6ed1e9bc8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/killed",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "killed"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:14.000Z",
+          "uid": "44269338-2f9e9439-5370-4fb5-a7b7-07f6ed1e9bc8"
+        },
+        {
+          "name": "POST /api/failover/revive - revive specific model",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('killed array no longer includes deepseek/deepseek-chat', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.killed).to.not.include('deepseek/deepseek-chat');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "f46269bf-636a-4512-9ac6-87a7d7e49a81",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"deepseek/deepseek-chat\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/revive",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "revive"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:20.000Z",
+          "uid": "44269338-f46269bf-636a-4512-9ac6-87a7d7e49a81"
+        },
+        {
+          "name": "GET /api/failover/sessions",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "f88f98cc-d5a1-4d59-9ad7-f95e53b9f461",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "sessions"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:24.000Z",
+          "uid": "44269338-f88f98cc-d5a1-4d59-9ad7-f95e53b9f461"
+        },
+        {
+          "name": "GET /api/failover/sessions/:id - 404 for unknown session",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Response has error field', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('error');",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "301b3f07-19ea-44b7-9101-bf7a26cd6d28",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/sessions/does-not-exist-xyz",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "sessions",
+                "does-not-exist-xyz"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:26.000Z",
+          "uid": "44269338-301b3f07-19ea-44b7-9101-bf7a26cd6d28"
+        },
+        {
+          "name": "POST /api/failover/revive - clear all (cleanup)",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('killed array is empty', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.killed).to.eql([]);",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "d3a8494a-3d6d-40ef-a49a-af2b98323392",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/revive",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "revive"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:28.000Z",
+          "uid": "44269338-d3a8494a-3d6d-40ef-a49a-af2b98323392"
+        }
+      ],
+      "id": "fcc57316-7cc3-4263-a55a-7d7d6e16e66a",
+      "createdAt": "2026-07-11T17:37:18.000Z",
+      "updatedAt": "2026-07-11T17:37:18.000Z",
+      "uid": "44269338-fcc57316-7cc3-4263-a55a-7d7d6e16e66a"
+    },
+    {
+      "name": "scenarios",
+      "item": [
+        {
+          "name": "Scenario A.1 - Enable cascade",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('cascade is enabled', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.enabled).to.eql(true);",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "83ba4dba-50b4-4db4-a8eb-a30b472c5d7b",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cascade/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cascade",
+                "config"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:35.000Z",
+          "uid": "44269338-83ba4dba-50b4-4db4-a8eb-a30b472c5d7b"
+        },
+        {
+          "name": "Scenario A.2 - Chat without model uses cascade",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('brolly.attempts[0].reason is cascade', function () {",
+                  "    pm.expect(json.brolly.attempts).to.be.an('array').with.lengthOf.at.least(1);",
+                  "    pm.expect(json.brolly.attempts[0].reason).to.eql('cascade');",
+                  "});",
+                  "",
+                  "pm.test('brolly.model_used is set', function () {",
+                  "    pm.expect(json.brolly.model_used).to.be.a('string');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "c9e069ae-84bb-4ce5-87d3-2322f0e8669e",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messages\": [{\"role\": \"user\", \"content\": \"What is 2+2?\"}]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "chat",
+                "completions"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:37.000Z",
+          "uid": "44269338-c9e069ae-84bb-4ce5-87d3-2322f0e8669e"
+        },
+        {
+          "name": "Scenario A.3 - Disable cascade",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('cascade is disabled', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.enabled).to.eql(false);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "3f9ab045-9740-4723-8b99-1e2a259861dd",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cascade/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cascade",
+                "config"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:40.000Z",
+          "uid": "44269338-3f9ab045-9740-4723-8b99-1e2a259861dd"
+        },
+        {
+          "name": "Scenario B.1 - Kill anthropic/claude-sonnet-4.5",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set('sessionId', 'pm-scenario-b-' + Date.now());"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('killed array includes the failover model', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.killed).to.include(pm.collectionVariables.get('failoverModel'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "0b440a5b-c828-4e60-84e0-f293a25aa659",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{failoverModel}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/kill",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "kill"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:44.000Z",
+          "uid": "44269338-0b440a5b-c828-4e60-84e0-f293a25aa659"
+        },
+        {
+          "name": "Scenario B.2 - Chat with killed model + session_id triggers failover",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('attempts[0] is the killed model with status 503', function () {",
+                  "    pm.expect(json.brolly.attempts[0].model).to.eql(pm.collectionVariables.get('failoverModel'));",
+                  "    pm.expect(json.brolly.attempts[0].status).to.eql(503);",
+                  "    pm.expect(json.brolly.attempts[0].ok).to.eql(false);",
+                  "});",
+                  "",
+                  "pm.test('last attempt reason is failover and ok', function () {",
+                  "    const last = json.brolly.attempts[json.brolly.attempts.length - 1];",
+                  "    pm.expect(last.reason).to.eql('failover');",
+                  "    pm.expect(last.ok).to.eql(true);",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "2835ed56-50f5-4ecd-b762-a586ab8e65a8",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{failoverModel}}\",\n  \"messages\": [{\"role\": \"user\", \"content\": \"hello\"}],\n  \"session_id\": \"{{sessionId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "chat",
+                "completions"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:48.000Z",
+          "uid": "44269338-2835ed56-50f5-4ecd-b762-a586ab8e65a8"
+        },
+        {
+          "name": "Scenario B.3 - GET session shows non-null profile",
+          "event": [
+            {
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.test('session id matches', function () {",
+                  "    pm.expect(json.id).to.eql(pm.collectionVariables.get('sessionId'));",
+                  "});",
+                  "",
+                  "pm.test('profile is non-null', function () {",
+                  "    pm.expect(json.profile).to.not.be.null;",
+                  "    pm.expect(json.profile).to.be.a('string');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "0a398cff-3776-4a90-b328-6da212ed9a38",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/sessions/{{sessionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "sessions",
+                "{{sessionId}}"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:52.000Z",
+          "uid": "44269338-0a398cff-3776-4a90-b328-6da212ed9a38"
+        },
+        {
+          "name": "Scenario B.4 - Revive killed model",
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('killed array is empty', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.killed).to.eql([]);",
+                  "});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "id": "c6f547dc-bff5-4e03-b004-44b30bbaa5c4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/failover/revive",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "failover",
+                "revive"
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2026-07-11T17:40:21.000Z",
+          "updatedAt": "2026-07-11T17:43:54.000Z",
+          "uid": "44269338-c6f547dc-bff5-4e03-b004-44b30bbaa5c4"
+        }
+      ],
+      "id": "70b1224a-0005-4f9f-8f5b-dbcc78507dbd",
+      "createdAt": "2026-07-11T17:37:18.000Z",
+      "updatedAt": "2026-07-11T17:37:18.000Z",
+      "uid": "44269338-70b1224a-0005-4f9f-8f5b-dbcc78507dbd"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000"
+    },
+    {
+      "key": "sessionId",
+      "value": ""
+    },
+    {
+      "key": "failoverModel",
+      "value": "anthropic/claude-sonnet-4.5"
+    }
+  ]
+}
