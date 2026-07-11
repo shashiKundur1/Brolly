@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+<path d="M22 30C25 35 28 40 31 43C36 35 42 26 49 19" stroke="currentColor" stroke-width="4" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M96 168C99 173 102 178 105 181C110 173 116 163 123 156" stroke="currentColor" stroke-width="4" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M55 71L52 60L44 68L34 60L37 72L27 79L39 81L38 93L46 84L57 90L53 79Z" stroke="currentColor" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M139 102L136 92L128 99L119 92L121 103L112 109L123 112L122 123L129 115L140 120L136 110Z" stroke="currentColor" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M172 141L170 133L164 139L157 133L159 142L152 147L161 149L160 158L166 151L174 155L171 147Z" stroke="currentColor" stroke-width="2.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M85 20L83 13L78 18L72 13L74 21L68 25L76 27L75 34L80 28L87 32L84 25Z" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M162 79C165 83 168 86 171 88" stroke="currentColor" stroke-width="3.4" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+<path d="M96 46C99 49 102 51 105 53" stroke="currentColor" stroke-width="3.4" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+<path d="M180 100C182 104 184 107 187 109" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+<path d="M25 122C28 125 30 128 33 130" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+<path d="M60 158C63 161 66 163 69 165" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+<path d="M114 128C116 132 118 135 121 137" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+<path d="M35 90C38 92 41 94 44 95" stroke="currentColor" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+<circle cx="112" cy="76" r="5" fill="currentColor"/>
+<circle cx="45" cy="48" r="4" fill="currentColor"/>
+<circle cx="150" cy="128" r="4.5" fill="currentColor"/>
+<circle cx="190" cy="55" r="3.5" fill="currentColor"/>
+<circle cx="21" cy="165" r="4" fill="currentColor"/>
+<circle cx="129" cy="178" r="3.5" fill="currentColor"/>
+<circle cx="72" cy="115" r="3" fill="currentColor"/>
+<circle cx="176" cy="20" r="3.5" fill="currentColor"/>
+</svg>

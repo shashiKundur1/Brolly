@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+<path d="M80 27C97 26 111 40 112 57C113 74 100 89 83 91C66 93 51 81 49 64C47 47 60 32 77 28C78 27 79 27 80 27Z" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M80 8C81 14 79 20 81 26" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M80 132C81 138 79 144 81 150" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 79C14 78 20 80 26 79" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M134 80C140 79 146 81 152 80" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M30 30C34 34 36 39 41 42" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M119 119C123 123 125 128 130 131" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M130 29C126 33 121 35 118 40" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M42 118C38 122 33 124 30 129" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M22 55C27 57 32 57 37 60" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M123 100C128 102 133 102 138 105" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M138 55C133 58 128 58 123 61" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M37 100C32 103 27 103 22 106" stroke="currentColor" stroke-width="3.2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="68" cy="61" r="2.6" fill="currentColor" stroke="none"/>
+<circle cx="94" cy="60" r="2.6" fill="currentColor" stroke="none"/>
+<path d="M67 71C71 78 90 78 94 70" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
