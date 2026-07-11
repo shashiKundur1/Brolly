@@ -1,8 +1,12 @@
 import express from 'express'
 import config from './config.js'
-import { meshChat, meshChatStream, meshModels } from './mesh.js'
+import { meshChatStream, meshModels } from './mesh.js'
 import { appendEvent, readEvents, summarize } from './usage.js'
-import { mockChat, mockStream, seedHistory } from './mock.js'
+import { mockStream, seedHistory } from './mock.js'
+import { completeChat } from './pipeline.js'
+import { cascadeRouter } from './cascade.js'
+import { failoverRouter } from './failover.js'
+import { CATALOG } from './models.js'
 
 if (config.MOCK) seedHistory()
 
@@ -16,6 +20,9 @@ app.use((req, res, next) => {
   if (req.method === 'OPTIONS') return res.sendStatus(204)
   next()
 })
+
+app.use(cascadeRouter)
+app.use(failoverRouter)
 
 function isValidChatBody(body) {
   return (
@@ -92,47 +99,21 @@ app.post('/v1/chat/completions', async (req, res) => {
     return
   }
 
-  try {
-    const result = config.MOCK ? { ok: true, status: 200, data: mockChat(body) } : await meshChat(body)
-    appendEvent({
-      ts: new Date().toISOString(),
-      model,
-      prompt_tokens: result.data?.usage?.prompt_tokens || 0,
-      completion_tokens: result.data?.usage?.completion_tokens || 0,
-      latency_ms: Date.now() - start,
-      stream: false,
-      ok: result.ok
-    })
-    return res.status(result.status).json(result.data)
-  } catch (err) {
-    appendEvent({
-      ts: new Date().toISOString(),
-      model,
-      prompt_tokens: 0,
-      completion_tokens: 0,
-      latency_ms: Date.now() - start,
-      stream: false,
-      ok: false
-    })
-    return res.status(502).json({ error: 'upstream request failed' })
-  }
+  const out = await completeChat(body)
+  return res.status(out.status).json(out.data)
 })
 
 app.get('/v1/models', async (req, res) => {
   if (config.MOCK) {
     return res.json({
       object: 'list',
-      data: [
-        'gpt-4o',
-        'gpt-4o-mini',
-        'claude-sonnet',
-        'claude-haiku',
-        'gemini-flash',
-        'gemini-pro',
-        'llama-70b',
-        'mistral-large',
-        'deepseek-chat'
-      ].map((id) => ({ id, object: 'model' }))
+      data: CATALOG.map((m) => ({
+        id: m.id,
+        object: 'model',
+        family: m.family,
+        tier: m.tier,
+        pricing: { prompt_usd_per_1m: m.prompt, completion_usd_per_1m: m.completion }
+      }))
     })
   }
   try {

@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs'
 import { appendEvent, USAGE_FILE } from './usage.js'
+import { CATALOG } from './models.js'
 
 const CANNED_ANSWER =
   "This is a mock response from Brolly's local mock mode. Set MESH_API_KEY to talk to the real Mesh API."
@@ -64,17 +65,7 @@ export async function* mockStream(body) {
   yield 'data: [DONE]\n\n'
 }
 
-const MODELS = [
-  'gpt-4o',
-  'gpt-4o-mini',
-  'claude-sonnet',
-  'claude-haiku',
-  'gemini-flash',
-  'gemini-pro',
-  'llama-70b',
-  'mistral-large',
-  'deepseek-chat'
-]
+const MODELS = CATALOG.map((m) => m.id)
 
 export function seedHistory() {
   if (existsSync(USAGE_FILE)) return

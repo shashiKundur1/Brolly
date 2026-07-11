@@ -2,29 +2,13 @@ import { mkdirSync, appendFileSync, readFileSync, existsSync, writeFileSync } fr
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { priceFor } from './models.js'
+
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = join(__dirname, '..', 'data')
 const USAGE_FILE = join(DATA_DIR, 'usage.jsonl')
 
 mkdirSync(DATA_DIR, { recursive: true })
-
-// ponytail: static price map, swap for Mesh pricing endpoint when verified
-const PRICE_PER_1M = {
-  'gpt-4o': { prompt: 2.5, completion: 10 },
-  'gpt-4o-mini': { prompt: 0.15, completion: 0.6 },
-  'claude-sonnet': { prompt: 3, completion: 15 },
-  'claude-haiku': { prompt: 0.8, completion: 4 },
-  'gemini-flash': { prompt: 0.075, completion: 0.3 },
-  'gemini-pro': { prompt: 1.25, completion: 5 },
-  'llama-70b': { prompt: 0.59, completion: 0.79 },
-  'mistral-large': { prompt: 2, completion: 6 },
-  'deepseek-chat': { prompt: 0.14, completion: 0.28 },
-  default: { prompt: 1, completion: 3 }
-}
-
-function priceFor(model) {
-  return PRICE_PER_1M[model] || PRICE_PER_1M.default
-}
 
 export function appendEvent(event) {
   appendFileSync(USAGE_FILE, JSON.stringify(event) + '\n')
