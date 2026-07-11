@@ -15,7 +15,7 @@ Gochi Hand (display: h1/h2, dialog titles, empty states, ≥20px only). Nunito (
 The border style is the affordance: **dashed = passive container, solid ink = pressable**.
 
 - **Press mechanic** (`.doodle-press`): interactive controls sit on a solid ink offset shadow (3px 3px 0). Hover lifts (-1px translate, 4px shadow). Active presses flat (2px translate, no shadow). 150ms, none under reduced motion.
-- **Buttons**: big (h-11 default, h-13 lg), border-2 ink, rounded-xl, font-semibold. Coral default, mint secondary, paper outline. Links underline `decoration-wavy`.
+- **Buttons**: big (h-11 default, h-12 lg), border-2 ink, rounded-xl, font-semibold. Coral default, mint secondary, paper outline. Links underline `decoration-wavy`.
 - **Inputs/Selects**: h-11, border-2 solid ink on paper, coral focus ring. Select dropdown: paper popover, border-2 ink, offset shadow, mint item hover, coral check.
 - **Cards**: paper, border-2 fern, rounded-2xl, 2px fern offset shadow. Important cards add `.doodle-border` (dashed) + `.doodle-shadow`.
 - **Badges**: sticker chips — border-2 ink, rounded-full, coral/mint/butter fills.

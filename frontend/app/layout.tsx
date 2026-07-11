@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Gochi_Hand, Nunito } from "next/font/google";
+import { Gochi_Hand, JetBrains_Mono, Nunito } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteNav } from "@/app/components/site-nav";
 import "./globals.css";
@@ -12,6 +12,11 @@ const gochiHand = Gochi_Hand({
 
 const nunito = Nunito({
   variable: "--font-body",
+  subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -28,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${gochiHand.variable} ${nunito.variable} h-full antialiased`}
+      className={`${gochiHand.variable} ${nunito.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body">
         <TooltipProvider>
