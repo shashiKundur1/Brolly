@@ -2,12 +2,13 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { Cloud1, Cloud2, Cloud3, Hills, RainStreaks, Umbrella } from "@/components/brand/scenes";
 
 export function DoodleScene() {
-  const sceneRef = useRef<SVGSVGElement>(null);
-  const cloudRef0 = useRef<SVGGElement>(null);
-  const cloudRef1 = useRef<SVGGElement>(null);
-  const cloudRef2 = useRef<SVGGElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const cloudRef0 = useRef<HTMLDivElement>(null);
+  const cloudRef1 = useRef<HTMLDivElement>(null);
+  const cloudRef2 = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -16,14 +17,14 @@ export function DoodleScene() {
     if (prefersReducedMotion) return;
 
     const clouds = [cloudRef0.current, cloudRef1.current, cloudRef2.current].filter(
-      (node): node is SVGGElement => node !== null
+      (node): node is HTMLDivElement => node !== null
     );
 
     const ctx = gsap.context(() => {
       clouds.forEach((cloud, index) => {
         gsap.to(cloud, {
-          x: "+=24",
-          duration: 6 + index * 1.5,
+          x: "+=18",
+          duration: 7 + index * 1.5,
           ease: "none",
           yoyo: true,
           repeat: -1,
@@ -35,44 +36,22 @@ export function DoodleScene() {
   }, []);
 
   return (
-    <div className="-mx-6 md:-mx-10">
-      <svg
-        ref={sceneRef}
-        viewBox="0 0 1200 320"
-        className="h-auto w-full"
-        role="img"
-        aria-label="Doodle landscape of rolling hills, clouds, and an umbrella"
-      >
-        <rect x="0" y="0" width="1200" height="320" fill="var(--secondary)" opacity="0.25" />
-        <path
-          d="M0 220 C 150 160, 300 260, 480 200 C 660 140, 820 240, 1000 190 C 1100 165, 1160 200, 1200 190 L 1200 320 L 0 320 Z"
-          fill="var(--secondary)"
-        />
-        <path
-          d="M0 260 C 200 220, 380 300, 600 250 C 800 205, 960 290, 1200 245 L 1200 320 L 0 320 Z"
-          fill="var(--muted)"
-        />
-        <g ref={cloudRef0} stroke="var(--foreground)" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.7">
-          <path d="M120 70 a18 18 0 1 1 0.1 0 M100 78 a14 14 0 1 1 0.1 0 M140 78 a14 14 0 1 1 0.1 0 M90 82 h70" />
-        </g>
-        <g ref={cloudRef1} stroke="var(--foreground)" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.6">
-          <path d="M420 50 a15 15 0 1 1 0.1 0 M404 58 a11 11 0 1 1 0.1 0 M436 58 a11 11 0 1 1 0.1 0 M396 62 h56" />
-        </g>
-        <g ref={cloudRef2} stroke="var(--foreground)" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.65">
-          <path d="M900 60 a17 17 0 1 1 0.1 0 M882 68 a13 13 0 1 1 0.1 0 M918 68 a13 13 0 1 1 0.1 0 M872 72 h66" />
-        </g>
-        <g transform="translate(560 130)">
-          <path
-            d="M60 0 C 25 0 0 30 -5 55 C 12 45 30 45 45 55 C 60 45 78 45 95 55 C 112 45 130 45 147 55 C 142 30 117 0 60 0 Z"
-            fill="var(--primary)"
-            stroke="var(--foreground)"
-            strokeWidth="2.5"
-            strokeLinejoin="round"
-          />
-          <line x1="60" y1="55" x2="60" y2="130" stroke="var(--foreground)" strokeWidth="3" strokeLinecap="round" />
-          <path d="M60 130 q -14 10 -22 0" stroke="var(--foreground)" strokeWidth="3" strokeLinecap="round" fill="none" />
-        </g>
-      </svg>
+    <div ref={sceneRef} className="-mx-6 md:-mx-10">
+      <div className="relative h-56 w-full overflow-hidden bg-secondary/20 md:h-72">
+        <div ref={cloudRef0} className="absolute top-6 left-[8%] w-28 text-foreground/70 md:w-36">
+          <Cloud1 className="h-auto w-full" />
+          <RainStreaks className="mt-[-6px] h-10 w-full text-secondary-foreground/40 md:h-12" />
+        </div>
+        <div ref={cloudRef1} className="absolute top-2 left-[42%] w-20 text-foreground/60 md:w-28">
+          <Cloud2 className="h-auto w-full" />
+        </div>
+        <div ref={cloudRef2} className="absolute top-10 right-[10%] w-24 text-foreground/65 md:w-32">
+          <Cloud3 className="h-auto w-full" />
+          <RainStreaks className="mt-[-4px] h-9 w-full text-secondary-foreground/40 md:h-11" />
+        </div>
+        <Hills className="absolute inset-x-0 bottom-0 h-32 w-full md:h-40" />
+        <Umbrella className="absolute bottom-16 left-1/2 h-20 w-20 -translate-x-1/2 text-foreground md:bottom-20 md:h-24 md:w-24" />
+      </div>
     </div>
   );
 }

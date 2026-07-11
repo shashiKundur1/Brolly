@@ -6,35 +6,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ArrowsClockwiseIcon,
-  CaretRightIcon,
-  GaugeIcon,
-  StairsIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { CoinsDoodle, GaugeDoodle, StormDoodle } from "@/components/brand/icons";
 
 const features = [
   {
-    icon: GaugeIcon,
+    icon: GaugeDoodle,
     title: "See your burn",
     description: "Live spend, plain projections, before you blow past the limit.",
-    stat: "burn rate, live",
     href: "/dashboard",
     label: "Open the dashboard",
   },
   {
-    icon: StairsIcon,
+    icon: CoinsDoodle,
     title: "Pay less by default",
     description: "The cheapest model that still passes your benchmark.",
-    stat: "cheapest passing model wins",
     href: "/cascade",
     label: "See the cascade",
   },
   {
-    icon: ArrowsClockwiseIcon,
+    icon: StormDoodle,
     title: "Survive the outage",
     description: "Hot-swap carries context to the fallback model mid-run.",
-    stat: "sessions survive funerals",
     href: "/failover",
     label: "See the failover demo",
   },
@@ -42,26 +35,20 @@ const features = [
 
 export function FeatureTrio() {
   return (
-    <section className="w-full py-16">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+    <section className="w-full py-10">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
-            <Card
-              key={feature.title}
-              className="doodle-border doodle-shadow flex h-full flex-col justify-between gap-4"
-            >
+            <Card key={feature.title} size="sm" className="flex h-full flex-col justify-between">
               <CardHeader className="gap-2">
-                <Icon size={40} weight="duotone" className="text-primary" />
-                <CardTitle className="font-display text-xl">
+                <Icon className="size-8 text-primary" />
+                <CardTitle className="font-display text-xl font-normal">
                   {feature.title}
                 </CardTitle>
                 <CardDescription className="text-sm">
                   {feature.description}
                 </CardDescription>
-                <p className="font-mono text-xs font-semibold text-foreground/60 uppercase">
-                  {feature.stat}
-                </p>
               </CardHeader>
               <CardContent>
                 <Link

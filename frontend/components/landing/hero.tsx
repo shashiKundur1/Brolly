@@ -67,7 +67,7 @@ export function LandingHero() {
         className="pointer-events-none absolute inset-0 z-10 bg-background"
         aria-hidden="true"
       />
-      <section className="flex w-full flex-col items-center justify-center gap-6 px-6 py-16 text-center md:px-10">
+      <section className="flex w-full flex-col items-center justify-center gap-5 px-6 py-12 text-center md:px-10">
         <div ref={badgeRef} className="flex flex-col items-center gap-3">
           <div className="flex items-center gap-3">
             <BrollyLogo className="size-8 text-foreground" />
