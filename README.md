@@ -18,9 +18,19 @@ Every AI call visibly routes through the Mesh API (`backend/src/mesh.js`).
 
 ## Run
 
+Dev (local Node):
+
 ```sh
 cd backend && npm i && npm run dev    # proxy on :4000
 cd frontend && npm i && npm run dev   # dashboard on :3000
 ```
 
 Set `MESH_API_KEY` in `backend/.env`. Without a key, `MOCK=1` serves deterministic demo traffic so the dashboard always has data.
+
+Docker (backend + frontend + MongoDB):
+
+```sh
+docker compose up --build
+```
+
+Serves the dashboard on `:3001`, the proxy on `:4001`, and MongoDB on `:27017`. The backend mirrors usage events into MongoDB (`brolly.usage_events`) while continuing to read from local JSONL.

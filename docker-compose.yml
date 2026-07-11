@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - brolly-mongo:/data/db
+
+  backend:
+    build: ./backend
+    ports:
+      - "4001:4000"
+    environment:
+      MOCK: "1"
+      MONGO_URL: mongodb://mongo:27017/brolly
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:4001
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+
+volumes:
+  brolly-mongo:

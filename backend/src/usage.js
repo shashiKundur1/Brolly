@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { priceFor } from './models.js'
+import config from './config.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = join(__dirname, '..', 'data')
@@ -10,8 +11,32 @@ const USAGE_FILE = join(DATA_DIR, 'usage.jsonl')
 
 mkdirSync(DATA_DIR, { recursive: true })
 
+let mongoCollectionPromise = null
+
+// ponytail: JSONL stays the source of truth for readEvents/summarize; Mongo is a write-only mirror until JSONL outgrows a demo, at which point readEvents should read from Mongo instead.
+async function getMongoCollection() {
+  if (!config.MONGO_URL) return null
+  if (!mongoCollectionPromise) {
+    mongoCollectionPromise = (async () => {
+      const { MongoClient } = await import('mongodb')
+      const client = new MongoClient(config.MONGO_URL)
+      await client.connect()
+      const collection = client.db('brolly').collection('usage_events')
+      await collection.createIndex({ ts: -1 })
+      await collection.createIndex({ model: 1 })
+      return collection
+    })()
+  }
+  return mongoCollectionPromise
+}
+
 export function appendEvent(event) {
   appendFileSync(USAGE_FILE, JSON.stringify(event) + '\n')
+  if (config.MONGO_URL) {
+    getMongoCollection()
+      .then((collection) => collection?.insertOne({ ...event }))
+      .catch(() => {})
+  }
 }
 
 export function readEvents() {
