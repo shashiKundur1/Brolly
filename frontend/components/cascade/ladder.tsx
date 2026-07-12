@@ -12,6 +12,16 @@ type LadderProps = {
   onSelectRung: (rung: LadderModel) => void;
 };
 
+function railPath(height: number): string {
+  return `M8 6 C11 ${height * 0.22} 5 ${height * 0.42} 8 ${height * 0.6} C10.5 ${height * 0.78} 5.5 ${height - 10} 8 ${height - 6}`;
+}
+
+function chevronOffsets(count: number, height: number): number[] {
+  if (count <= 0) return [];
+  const step = height / (count + 1);
+  return Array.from({ length: count }, (_, i) => step * (i + 1));
+}
+
 export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: LadderProps) {
   const containerRef = useStaggerReveal<HTMLDivElement>(!loading, [ladder]);
 
@@ -32,12 +42,11 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
     }
   }
 
-  const rungsTopFirst = [...sorted].reverse();
   const rungHeight = 44;
-  const rungGap = 8;
+  const rungGap = 14;
   const railHeight =
-    rungsTopFirst.length > 0
-      ? rungsTopFirst.length * rungHeight + (rungsTopFirst.length - 1) * rungGap
+    sorted.length > 0
+      ? sorted.length * rungHeight + (sorted.length - 1) * rungGap + 24
       : rungHeight;
 
   return (
@@ -55,38 +64,52 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
             />
           ))}
         </div>
-      ) : rungsTopFirst.length === 0 ? (
+      ) : sorted.length === 0 ? (
         <p className="mt-3 text-sm text-muted-foreground">No models configured.</p>
       ) : (
         <div className="relative mt-4 pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}>
-          <div
-            ref={containerRef}
-            className="relative flex flex-col"
-            style={{ minHeight: railHeight }}
-          >
+          <div ref={containerRef} className="relative flex flex-col px-7">
             <svg
               aria-hidden="true"
-              viewBox={`0 0 24 ${railHeight}`}
+              viewBox={`0 0 16 ${railHeight}`}
               preserveAspectRatio="none"
-              className="pointer-events-none absolute inset-y-0 left-3 h-full w-6 text-border"
+              className="pointer-events-none absolute top-0 left-1 w-4 text-foreground"
+              style={{ height: railHeight }}
             >
-              <path
-                d={`M4 4 C7 ${railHeight * 0.2} 1 ${railHeight * 0.4} 4 ${railHeight * 0.6} C6 ${railHeight * 0.8} 2 ${railHeight - 8} 4 ${railHeight - 4}`}
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-              />
-              <path
-                d={`M20 4 C17 ${railHeight * 0.2} 23 ${railHeight * 0.4} 20 ${railHeight * 0.6} C18 ${railHeight * 0.8} 22 ${railHeight - 8} 20 ${railHeight - 4}`}
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-              />
+              <path d={railPath(railHeight)} stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
             </svg>
-            <div className="flex flex-col gap-2.5">
-              {rungsTopFirst.map((rung) => (
+            <svg
+              aria-hidden="true"
+              viewBox={`0 0 16 ${railHeight}`}
+              preserveAspectRatio="none"
+              className="pointer-events-none absolute top-0 right-1 w-4 text-foreground"
+              style={{ height: railHeight }}
+            >
+              <path d={railPath(railHeight)} stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            </svg>
+            {chevronOffsets(4, railHeight).map((y) => (
+              <svg
+                key={y}
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="pointer-events-none absolute left-1/2 size-4 -translate-x-1/2 text-primary/60"
+                style={{ top: y - 8 }}
+              >
+                <polyline
+                  points="5 15 12 8 19 15"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ))}
+            <div
+              className="relative flex flex-col-reverse gap-3.5"
+              style={{ minHeight: railHeight - 24 }}
+            >
+              {sorted.map((rung) => (
                 <RungCard
                   key={rung.model}
                   rung={rung}
@@ -94,6 +117,19 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
                   onClick={() => onSelectRung(rung)}
                 />
               ))}
+            </div>
+            <div className="relative flex items-center justify-center gap-1.5 pt-2 text-[10px] font-bold tracking-wide text-muted-foreground uppercase">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="size-3.5 -rotate-90">
+                <polyline
+                  points="1.1 8.01 17.11 7.96 11.01 1.1 18.04 7.97 10.91 15.05"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              request starts here
             </div>
           </div>
         </div>
