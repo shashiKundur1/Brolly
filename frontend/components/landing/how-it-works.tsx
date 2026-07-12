@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { ArtCrop } from "@/components/landing/art-crop";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -13,26 +13,29 @@ if (typeof window !== "undefined") {
 const steps = [
   {
     icon: "/brand/color/how-plug-color.svg",
-    panelTone: "bg-secondary/60",
-    title: "Point your tools here",
+    box: "162 266 700 506",
+    panelTone: "cell-mint",
+    title: "point your tools here",
     description:
-      "Swap your base URL to Brolly's endpoint. Every SDK that already speaks the OpenAI chat-completions format speaks Brolly with zero code changes beyond that one string.",
+      "Swap one base URL. Every SDK that speaks the OpenAI format now speaks Brolly — zero other code changes.",
     href: null as string | null,
   },
   {
     icon: "/brand/color/how-ladder-color.svg",
-    panelTone: "bg-accent/60",
-    title: "Pay less by default",
+    box: "178 42 658 938",
+    panelTone: "cell-butter",
+    title: "pay less by default",
     description:
-      "Each call climbs a cascade of models, cheapest first, and stops the moment one passes your benchmark. You stop overpaying for calls a smaller model could handle.",
+      "Calls climb the cascade, cheapest model first, and stop at the first one that clears your benchmark.",
     href: "/cascade",
   },
   {
     icon: "/brand/color/how-shield-color.svg",
-    panelTone: "bg-primary/25",
-    title: "Survive the outage",
+    box: "108 146 780 724",
+    panelTone: "cell-paper",
+    title: "survive the outage",
     description:
-      "A model dies mid-session, Brolly hot-swaps to a healthy one and carries the context across. Your user never notices the provider had a bad day.",
+      "A model dies mid-session, Brolly hot-swaps to a healthy one and carries the context across.",
     href: "/failover",
   },
 ];
@@ -80,39 +83,47 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section className="w-full bg-secondary/30 px-6 py-16 md:px-10 md:py-24">
+    <section className="-mx-6 bg-secondary/30 px-6 py-16 md:-mx-10 md:px-10 md:py-24">
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-3 text-center">
-        <h2 className="font-display text-5xl font-semibold md:text-6xl">how it works</h2>
+        <h2 className="text-4xl font-semibold sm:text-5xl md:text-6xl">
+          how it works
+        </h2>
         <p className="max-w-prose text-lg text-muted-foreground text-balance">
           Three moves. Point, cascade, survive.
         </p>
       </div>
-      <div ref={gridRef} className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 gap-8 md:grid-cols-3">
+      <div
+        ref={gridRef}
+        className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 gap-8 md:grid-cols-3"
+      >
         {steps.map((step) => {
           const content = (
             <>
-              <div className={`mx-(--card-spacing) mt-(--card-spacing) overflow-hidden rounded-2xl ${step.panelTone} px-4 pt-6 pb-4`}>
-                <img
+              <figure
+                className={`flex items-center justify-center overflow-hidden rounded-t-2xl ${step.panelTone} px-6 pt-8 pb-6`}
+              >
+                <ArtCrop
                   src={step.icon}
-                  alt=""
-                  width={1024}
-                  height={1024}
-                  className="mx-auto block h-56 w-56 md:h-64 md:w-64"
+                  box={step.box}
+                  className="block h-56 w-full md:h-64"
                 />
-              </div>
-              <CardHeader className="pt-5">
-                <CardTitle className="font-display text-3xl font-semibold">
+              </figure>
+              <div className="flex flex-1 flex-col gap-2 px-6 pt-5 pb-7">
+                <h3 className="font-display text-3xl font-semibold">
                   {step.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pb-2">
-                <p className="text-base text-muted-foreground">{step.description}</p>
-              </CardContent>
+                </h3>
+                <p className="text-base text-muted-foreground">
+                  {step.description}
+                </p>
+              </div>
             </>
           );
 
           return (
-            <Card key={step.title} className="bg-card py-0" style={{ backfaceVisibility: "hidden" }}>
+            <article
+              key={step.title}
+              className="doodle-rough overflow-hidden bg-card backface-hidden"
+            >
               {step.href ? (
                 <Link href={step.href} className="flex h-full flex-col">
                   {content}
@@ -120,7 +131,7 @@ export function HowItWorks() {
               ) : (
                 <div className="flex h-full flex-col">{content}</div>
               )}
-            </Card>
+            </article>
           );
         })}
       </div>

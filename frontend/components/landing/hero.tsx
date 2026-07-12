@@ -3,41 +3,44 @@ import { Button } from "@/components/ui/button";
 
 export function LandingHero() {
   return (
-    <section className="relative -mx-6 -mt-px h-svh min-h-[640px] w-full overflow-hidden bg-secondary md:-mx-10">
+    <section className="relative -mx-6 h-svh min-h-160 overflow-hidden bg-secondary/30 md:-mx-10">
       <svg
         aria-hidden="true"
-        viewBox="68 312 888 410"
+        viewBox="0 0 1344 768"
         preserveAspectRatio="xMidYMax slice"
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 hidden h-full w-full md:block"
       >
-        <image
-          href="/brand/color/hero-world.svg"
-          x="0"
-          y="0"
-          width="1024"
-          height="1024"
-        />
+        <image href="/brand/color/hero-wide.svg" width="1344" height="768" />
       </svg>
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-black/15" />
-      <div className="relative z-10 flex h-full w-full flex-col items-center justify-start px-6 pt-[10%] text-center sm:pt-[8%] md:pt-[7%]">
-        <h1
-          className="font-display text-6xl leading-[0.95] text-balance text-foreground sm:text-7xl md:text-8xl lg:text-[7.5rem]"
-          style={{
-            textShadow:
-              "0 3px 0 #fff, 0 -3px 0 #fff, 3px 0 0 #fff, -3px 0 0 #fff, 3px 3px 0 #fff, -3px 3px 0 #fff, 3px -3px 0 #fff, -3px -3px 0 #fff, 0 6px 18px rgba(47,62,54,0.25)",
-          }}
-        >
-          model
-          <br />
-          insurance
-        </h1>
-        <p className="mt-5 max-w-2xl rounded-full bg-card/90 px-6 py-2.5 font-display text-xl text-balance text-foreground shadow-[3px_4px_0_0_var(--foreground)] sm:text-2xl md:text-3xl">
-          an umbrella for your LLM bills&hellip;kinda.
-        </p>
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 864 1184"
+        preserveAspectRatio="xMidYMax slice"
+        className="absolute inset-x-0 top-0 bottom-24 w-full md:hidden"
+      >
+        <image href="/brand/color/hero-tall.svg" width="864" height="1184" />
+      </svg>
+      <img
+        src="/brand/color/sticker-stars.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute top-40 right-8 hidden size-24 rotate-12 lg:block"
+        width={96}
+        height={96}
+      />
+      <div className="relative z-10 flex h-full flex-col items-center px-6 pt-8 text-center sm:pt-10 md:pt-12">
+        <div className="doodle-card cell-paper -rotate-1 px-7 py-5 sm:px-10 sm:py-6 md:px-14 md:py-7">
+          <h1 className="text-5xl leading-none font-semibold text-balance text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
+            model insurance
+          </h1>
+          <p className="mt-3 font-body text-lg font-bold text-balance text-foreground sm:text-xl md:text-2xl">
+            an umbrella for your LLM apps — usage, cost, and outages, covered.
+          </p>
+        </div>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 md:mt-8">
           <Button
             size="lg"
-            className="rounded-full px-8 text-base"
+            className="rounded-full bg-foreground px-8 text-base text-card hover:bg-foreground/90"
             render={<Link href="/dashboard">Open the dashboard</Link>}
           />
           <Button
