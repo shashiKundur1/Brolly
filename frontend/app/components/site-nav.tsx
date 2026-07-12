@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { BrollyLogo } from "@/components/brand/logo";
+import { BrollyWordmark } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -19,10 +19,8 @@ function NavUnderline({ active }: { active: boolean }) {
       viewBox="0 0 100 12"
       preserveAspectRatio="none"
       className={cn(
-        "pointer-events-none absolute -bottom-1.5 left-0 h-2.5 w-full overflow-visible motion-safe:transition-opacity motion-safe:duration-150 motion-safe:ease-linear",
-        active
-          ? "opacity-100"
-          : "opacity-0 text-primary/70 group-hover:opacity-100"
+        "pointer-events-none absolute -bottom-1.5 left-0 h-2.5 w-full overflow-visible text-primary motion-safe:transition-opacity motion-safe:duration-150 motion-safe:ease-linear",
+        active ? "opacity-100" : "opacity-0 group-hover:opacity-100"
       )}
     >
       <path
@@ -31,10 +29,23 @@ function NavUnderline({ active }: { active: boolean }) {
         stroke="currentColor"
         strokeWidth={active ? 3 : 2.5}
         strokeLinecap="round"
-        className={active ? "text-primary" : "text-primary"}
         style={{ filter: "url(#doodle-rough-filter)" }}
       />
     </svg>
+  );
+}
+
+function NavDot({ active }: { active: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        "absolute -top-2.5 left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-primary motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-linear",
+        active
+          ? "scale-100"
+          : "scale-0 group-hover:scale-100"
+      )}
+    />
   );
 }
 
@@ -43,14 +54,11 @@ export function SiteNav() {
 
   return (
     <header className="relative w-full bg-card">
-      <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-3 md:h-16 md:flex-nowrap md:px-10 md:py-0">
-        <Link href="/" className="group flex items-center gap-2">
-          <BrollyLogo className="size-8 text-primary motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-linear motion-safe:group-hover:-rotate-6" />
-          <span className="inline-block -rotate-2 font-display text-3xl leading-none text-foreground">
-            Brolly
-          </span>
+      <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-3 md:h-20 md:flex-nowrap md:px-10 md:py-0">
+        <Link href="/" className="group flex items-center">
+          <BrollyWordmark />
         </Link>
-        <nav className="order-last flex w-full items-center justify-center gap-5 text-sm md:order-none md:w-auto md:gap-8 md:text-base">
+        <nav className="order-last flex w-full items-center justify-center gap-6 text-sm md:order-none md:w-auto md:gap-9 md:text-base">
           {links.map((link) => {
             const active = pathname === link.href;
             return (
@@ -63,13 +71,16 @@ export function SiteNav() {
                   active ? "text-primary" : "text-foreground hover:text-primary"
                 )}
               >
+                <NavDot active={active} />
                 {link.label}
                 <NavUnderline active={active} />
               </Link>
             );
           })}
         </nav>
-        <Button>Point your tools here</Button>
+        <Button size="lg" className="rounded-2xl font-bold">
+          Point your tools here
+        </Button>
       </div>
       <svg
         aria-hidden="true"
