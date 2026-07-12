@@ -1,57 +1,28 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { Cloud1, Cloud2, Cloud3, Hills, RainStreaks, Umbrella } from "@/components/brand/scenes";
+import { InlineDoodleSvg } from "@/components/landing/inline-doodle-svg";
 
 export function DoodleScene() {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const cloudRef0 = useRef<HTMLDivElement>(null);
-  const cloudRef1 = useRef<HTMLDivElement>(null);
-  const cloudRef2 = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) return;
-
-    const clouds = [cloudRef0.current, cloudRef1.current, cloudRef2.current].filter(
-      (node): node is HTMLDivElement => node !== null
-    );
-
-    const ctx = gsap.context(() => {
-      clouds.forEach((cloud, index) => {
-        gsap.to(cloud, {
-          x: "+=18",
-          duration: 7 + index * 1.5,
-          ease: "none",
-          yoyo: true,
-          repeat: -1,
-        });
-      });
-    }, sceneRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div ref={sceneRef} className="-mx-6 md:-mx-10">
-      <div className="relative h-56 w-full overflow-hidden bg-secondary/20 md:h-72">
-        <div ref={cloudRef0} className="absolute top-6 left-[8%] w-28 text-foreground/70 md:w-36">
-          <Cloud1 className="h-auto w-full" />
-          <RainStreaks className="mt-[-6px] h-10 w-full text-secondary-foreground/40 md:h-12" />
+    <section className="-mx-6 bg-accent/40 px-6 py-14 md:-mx-10 md:px-10 md:py-20">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-14">
+        <div className="mx-auto w-full max-w-md md:mx-0">
+          <InlineDoodleSvg
+            src="/brand/bento/hero-umbrella-hills.svg"
+            className="block h-auto w-full text-foreground [&_svg]:h-auto [&_svg]:w-full"
+          />
         </div>
-        <div ref={cloudRef1} className="absolute top-2 left-[42%] w-20 text-foreground/60 md:w-28">
-          <Cloud2 className="h-auto w-full" />
+        <div className="flex flex-col items-start gap-4 text-left">
+          <h2 className="font-display text-4xl leading-tight text-balance md:text-5xl">
+            the future of paying for AI
+          </h2>
+          <p className="max-w-prose text-base text-muted-foreground text-balance md:text-lg">
+            Need reliable model access without the surprise invoice or the
+            3am outage? Welcome home. Brolly sits in front of the Mesh API
+            gateway, watching every call, routing to the cheapest model that
+            still passes your benchmark, and hot-swapping the moment one
+            provider drops.
+          </p>
         </div>
-        <div ref={cloudRef2} className="absolute top-10 right-[10%] w-24 text-foreground/65 md:w-32">
-          <Cloud3 className="h-auto w-full" />
-          <RainStreaks className="mt-[-4px] h-9 w-full text-secondary-foreground/40 md:h-11" />
-        </div>
-        <Hills className="absolute inset-x-0 bottom-0 h-32 w-full md:h-40" />
-        <Umbrella className="absolute bottom-16 left-1/2 h-20 w-20 -translate-x-1/2 text-foreground md:bottom-20 md:h-24 md:w-24" />
       </div>
-    </div>
+    </section>
   );
 }
