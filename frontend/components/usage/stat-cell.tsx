@@ -12,12 +12,12 @@ export function StatCell({ value, label, icon, accent, className }: StatCellProp
   return (
     <div
       className={cn(
-        "doodle-border flex min-h-32 flex-col items-center justify-center gap-1 rounded-2xl px-4 py-5 text-center",
+        "doodle-card flex min-h-36 flex-col items-center justify-center gap-2 rounded-2xl px-4 py-6 text-center",
         className
       )}
     >
       {icon && (
-        <img src={icon} alt="" className="mb-1 size-12" width={48} height={48} />
+        <img src={icon} alt="" className="size-10" width={40} height={40} />
       )}
       <p
         className={cn(
@@ -27,7 +27,7 @@ export function StatCell({ value, label, icon, accent, className }: StatCellProp
       >
         {value}
       </p>
-      <p className="text-sm text-muted-foreground">{label}</p>
+      <p className="font-body text-sm text-muted-foreground">{label}</p>
     </div>
   );
 }

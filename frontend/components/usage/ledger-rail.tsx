@@ -52,7 +52,7 @@ export function LedgerList({ modelRows, selectedModel, onSelectModel }: LedgerLi
 
   return (
     <ul
-      className="flex max-h-56 flex-col gap-1 overflow-y-auto"
+      className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto"
       style={scrollAreaStyle}
     >
       {modelRows.map((row) => (
@@ -67,7 +67,7 @@ export function LedgerList({ modelRows, selectedModel, onSelectModel }: LedgerLi
             type="button"
             onClick={() => onSelectModel(selectedModel === row.model ? null : row.model)}
             className={cn(
-              "flex w-full items-center gap-1.5 rounded-lg px-2 py-1.5 text-left transition-colors",
+              "flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left transition-colors",
               selectedModel === row.model ? "bg-primary/10" : "hover:bg-muted/60"
             )}
           >
@@ -75,12 +75,12 @@ export function LedgerList({ modelRows, selectedModel, onSelectModel }: LedgerLi
               {truncateModel(row.model)}
             </span>
             {row.model === cheapestModel && (
-              <Badge className="h-5 bg-secondary px-2 text-xs text-secondary-foreground">
+              <Badge className="h-5 shrink-0 bg-secondary px-2 text-xs text-secondary-foreground">
                 cheapest
               </Badge>
             )}
             {row.model === priciestModel && modelRows.length > 1 && (
-              <Badge className="h-5 bg-primary px-2 text-xs text-primary-foreground">
+              <Badge className="h-5 shrink-0 bg-primary px-2 text-xs text-primary-foreground">
                 priciest
               </Badge>
             )}
@@ -102,11 +102,14 @@ export function JustHappenedList({ events }: JustHappenedListProps) {
   const collapsedEvents = collapseConsecutiveEvents(events);
 
   return (
-    <ul className="flex max-h-56 flex-col gap-1 overflow-y-auto" style={scrollAreaStyle}>
+    <ul
+      className="flex min-h-0 flex-1 flex-col justify-center gap-1.5 overflow-y-auto"
+      style={scrollAreaStyle}
+    >
       {collapsedEvents.map((event, index) => (
         <li
           key={`${event.ts}-${index}`}
-          className="flex items-center gap-1.5 border-b border-border/50 px-2 py-1.5 last:border-0"
+          className="flex items-center gap-2 border-b border-dashed border-border/60 px-2 py-2 last:border-0"
         >
           {!event.ok && (
             <CloudLightningIcon
@@ -119,21 +122,21 @@ export function JustHappenedList({ events }: JustHappenedListProps) {
             {truncateModel(event.model)}
           </span>
           {event.count > 1 && (
-            <Badge className="h-5 bg-muted px-2 text-xs text-foreground">
+            <Badge className="h-5 shrink-0 bg-muted px-2 text-xs text-foreground">
               ×{event.count}
             </Badge>
           )}
           {(event.cascade_step ?? 0) > 0 && (
-            <Badge className="h-5 bg-secondary px-2 text-xs text-secondary-foreground">
+            <Badge className="h-5 shrink-0 bg-secondary px-2 text-xs text-secondary-foreground">
               cascade
             </Badge>
           )}
           {event.reason === "failover" && (
-            <Badge className="h-5 bg-accent px-2 text-xs text-accent-foreground">
+            <Badge className="h-5 shrink-0 bg-accent px-2 text-xs text-accent-foreground">
               failover
             </Badge>
           )}
-          <span className="shrink-0 text-xs text-muted-foreground">
+          <span className="shrink-0 font-mono text-xs tabular-nums text-muted-foreground">
             {formatRelativeTime(event.ts)}
           </span>
         </li>
