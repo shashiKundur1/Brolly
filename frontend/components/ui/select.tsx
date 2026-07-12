@@ -144,7 +144,7 @@ function SelectSeparator({
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={cn("pointer-events-none -mx-1 my-1 h-px border-t border-dashed border-border bg-transparent", className)}
+      className={cn("pointer-events-none -mx-1 my-1 h-px border-t border-solid border-border bg-transparent", className)}
       {...props}
     />
   )
