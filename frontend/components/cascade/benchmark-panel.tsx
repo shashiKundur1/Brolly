@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { CircleNotchIcon, FlaskIcon } from "@phosphor-icons/react/dist/ssr";
+import { CheckDoodle, CrossDoodle } from "@/components/brand/icons";
 import type {
   BenchmarkCase,
   BenchmarkModelResult,
@@ -23,7 +24,7 @@ export function BenchmarkPanel({
   onSelectResult,
 }: BenchmarkPanelProps) {
   return (
-    <div className="doodle-card flex flex-col gap-4 rounded-2xl px-6 py-6">
+    <div className="doodle-card flex flex-col gap-4 rounded-2xl !bg-secondary/40 px-6 py-6">
       <div className="flex items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 font-display text-2xl leading-none">
           <FlaskIcon size={20} weight="duotone" className="text-primary" />
@@ -40,7 +41,7 @@ export function BenchmarkPanel({
         {cases.map((testCase, index) => (
           <li
             key={index}
-            className="flex items-baseline justify-between gap-2 rounded-lg bg-muted px-3 py-2 text-xs"
+            className="flex items-baseline justify-between gap-2 rounded-lg bg-card px-3 py-2 text-xs"
           >
             <span className="truncate">{testCase.prompt}</span>
             <span className="shrink-0 font-mono tabular-nums text-muted-foreground">
@@ -56,15 +57,19 @@ export function BenchmarkPanel({
               type="button"
               key={result.model}
               onClick={() => onSelectResult(result)}
+              style={{ transform: index % 2 === 0 ? "rotate(-2deg)" : "rotate(2deg)" }}
               className={
-                "rounded-full border-2 border-foreground px-2.5 py-1 font-mono text-xs font-bold tabular-nums " +
-                (index % 2 === 0 ? "-rotate-2" : "rotate-2") +
-                " " +
+                "flex items-center gap-1 rounded-full border-2 border-foreground px-2.5 py-1 font-mono text-xs font-bold tabular-nums " +
                 (result.passed
                   ? "bg-secondary text-secondary-foreground"
                   : "bg-primary text-primary-foreground")
               }
             >
+              {result.passed ? (
+                <CheckDoodle className="size-3" />
+              ) : (
+                <CrossDoodle className="size-3" />
+              )}
               {result.model.split("/")[1] ?? result.model} {result.score}/{result.total}
             </button>
           ))}

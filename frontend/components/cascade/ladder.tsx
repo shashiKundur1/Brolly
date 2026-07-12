@@ -2,6 +2,7 @@
 
 import { RungCard } from "@/components/cascade/rung-card";
 import { useStaggerReveal } from "@/components/cascade/use-stagger-reveal";
+import { ArrowRightDoodle } from "@/components/brand/icons";
 import type { LadderModel } from "@/components/cascade/types";
 
 type LadderProps = {
@@ -22,6 +23,8 @@ function chevronOffsets(count: number, height: number): number[] {
   return Array.from({ length: count }, (_, i) => step * (i + 1));
 }
 
+const TILTS = [-2.2, 1.8, -1.4, 2.4, -1.8, 1.5, -2.4, 2, -1.5];
+
 export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: LadderProps) {
   const containerRef = useStaggerReveal<HTMLDivElement>(!loading, [ladder]);
 
@@ -29,14 +32,14 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
     (a, b) => a.prompt_usd_per_1m - b.prompt_usd_per_1m
   );
 
-  let stepsUsed = 0;
-  const activeModels = new Set<string>();
+  const activeOrder = new Map<string, number>();
   if (enabled) {
+    let stepsUsed = 0;
     for (const rung of sorted) {
       if (stepsUsed >= maxSteps) break;
       stepsUsed += 1;
       if (rung.benchmark === null || rung.benchmark.passed) {
-        activeModels.add(rung.model);
+        activeOrder.set(rung.model, stepsUsed);
         if (rung.benchmark?.passed) break;
       }
     }
@@ -50,10 +53,14 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
       : rungHeight;
 
   return (
-    <div className="doodle-card flex h-full flex-col rounded-2xl px-6 py-6">
+    <div className="doodle-card relative flex flex-col overflow-hidden rounded-2xl px-6 py-6">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="font-display text-2xl leading-none">the ladder</h2>
-        <p className="text-xs text-muted-foreground">cheapest wins, coral climbed</p>
+        <p className="flex items-center gap-1 text-xs font-semibold text-muted-foreground">
+          cheapest wins
+          <ArrowRightDoodle className="size-3 -rotate-90 text-primary" />
+          coral climbed
+        </p>
       </div>
       {loading ? (
         <div className="mt-4 flex flex-col gap-2.5">
@@ -109,11 +116,13 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
               className="relative flex flex-col-reverse gap-3.5"
               style={{ minHeight: railHeight - 24 }}
             >
-              {sorted.map((rung) => (
+              {sorted.map((rung, index) => (
                 <RungCard
                   key={rung.model}
                   rung={rung}
-                  active={activeModels.has(rung.model)}
+                  active={activeOrder.has(rung.model)}
+                  order={activeOrder.get(rung.model) ?? null}
+                  tilt={TILTS[index % TILTS.length]}
                   onClick={() => onSelectRung(rung)}
                 />
               ))}

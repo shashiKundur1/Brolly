@@ -71,7 +71,7 @@ export function TryItBox({ ladder }: TryItBoxProps) {
   const savings = response ? computeSavings(response, ladder) : null;
 
   return (
-    <div className="doodle-card flex flex-col gap-4 rounded-2xl px-6 py-6">
+    <div className="doodle-card flex flex-col gap-4 rounded-2xl !bg-accent/40 px-6 py-6">
       <h2 className="font-display text-2xl leading-none">try it</h2>
       <div className="flex items-center gap-2">
         <Input
@@ -82,7 +82,7 @@ export function TryItBox({ ladder }: TryItBoxProps) {
           }}
           placeholder="ask the cascade"
           disabled={sending}
-          className="h-10 text-sm"
+          className="h-10 bg-card text-sm"
         />
         <Button size="sm" onClick={handleSend} disabled={sending || !prompt.trim()}>
           {sending ? (
@@ -101,7 +101,7 @@ export function TryItBox({ ladder }: TryItBoxProps) {
           ))}
         </div>
       )}
-      {answer && <p className="rounded-lg bg-muted p-3 text-xs">{answer}</p>}
+      {answer && <p className="rounded-lg bg-card p-3 text-xs">{answer}</p>}
       {savings !== null && (
         <p className="font-mono text-xs tabular-nums text-muted-foreground">
           saved {formatUsd(savings)} vs priciest

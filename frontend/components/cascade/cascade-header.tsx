@@ -28,21 +28,29 @@ export function CascadeHeader({
   disabled,
 }: CascadeHeaderProps) {
   return (
-    <div className="doodle-card flex flex-col gap-4 rounded-2xl px-6 py-6 md:flex-row md:items-center md:justify-between">
-      <div className="flex items-center gap-4">
+    <div className="doodle-card relative flex flex-col gap-4 overflow-hidden rounded-2xl !bg-accent/35 px-6 py-6 md:flex-row md:items-center md:justify-between">
+      <img
+        src="/brand/color/sticker-stars.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-3 -right-3 size-16 md:size-20"
+        width={80}
+        height={80}
+      />
+      <div className="flex items-center gap-5">
         <img
           src="/brand/color/how-ladder-color.svg"
           alt=""
-          className="size-14 shrink-0"
-          width={56}
-          height={56}
+          className="size-24 shrink-0 md:size-28"
+          width={112}
+          height={112}
         />
         <div className="flex flex-col gap-0.5">
-          <h1 className="font-display text-3xl leading-none">the cascade</h1>
+          <h1 className="font-display text-3xl leading-none md:text-4xl">the cascade</h1>
           <p className="text-sm text-muted-foreground">your benchmark, not their leaderboard</p>
         </div>
       </div>
-      <div className="flex items-center gap-5">
+      <div className="relative flex items-center gap-5">
         <div className="flex items-center gap-2">
           <Switch
             id="cascade-enabled"
@@ -59,7 +67,7 @@ export function CascadeHeader({
             onValueChange={(value) => onMaxStepsChange(Number(value))}
             disabled={disabled}
           >
-            <SelectTrigger id="max-steps" className="w-16">
+            <SelectTrigger id="max-steps" className="w-16 bg-card">
               <SelectValue />
             </SelectTrigger>
             <SelectContent side="bottom" align="end" alignItemWithTrigger={false}>

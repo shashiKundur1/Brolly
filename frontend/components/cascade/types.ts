@@ -8,7 +8,7 @@ export type LadderModel = {
   model: string;
   prompt_usd_per_1m: number;
   completion_usd_per_1m: number;
-  tier: string;
+  tier: number;
   benchmark: BenchmarkSummary;
 };
 

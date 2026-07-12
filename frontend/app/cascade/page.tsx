@@ -109,7 +109,7 @@ export default function CascadePage() {
   }
 
   return (
-    <section className="doodle-border grid gap-4 rounded-3xl bg-card p-4 md:gap-6 md:p-6">
+    <section className="doodle-border grid gap-4 rounded-3xl bg-secondary/15 p-4 md:gap-6 md:p-6">
       <CascadeHeader
         enabled={config?.enabled ?? false}
         maxSteps={config?.maxSteps ?? 3}
@@ -117,7 +117,7 @@ export default function CascadePage() {
         onMaxStepsChange={handleMaxStepsChange}
         disabled={configLoading || configError}
       />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6 md:items-start">
         <div className="md:col-span-6">
           <Ladder
             ladder={ladder}
