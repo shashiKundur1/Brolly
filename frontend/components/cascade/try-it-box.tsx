@@ -71,7 +71,7 @@ export function TryItBox({ ladder }: TryItBoxProps) {
   const savings = response ? computeSavings(response, ladder) : null;
 
   return (
-    <div className="doodle-card flex flex-col gap-4 rounded-2xl !bg-accent/40 px-6 py-6">
+    <div className="doodle-card flex flex-col gap-4 rounded-2xl cell-butter px-6 py-6">
       <h2 className="font-display text-2xl leading-none">try it</h2>
       <div className="flex items-center gap-2">
         <Input

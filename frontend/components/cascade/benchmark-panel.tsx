@@ -24,7 +24,7 @@ export function BenchmarkPanel({
   onSelectResult,
 }: BenchmarkPanelProps) {
   return (
-    <div className="doodle-card flex flex-col gap-4 rounded-2xl !bg-secondary/40 px-6 py-6">
+    <div className="doodle-card flex flex-col gap-4 rounded-2xl cell-mint px-6 py-6">
       <div className="flex items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 font-display text-2xl leading-none">
           <FlaskIcon size={20} weight="duotone" className="text-primary" />

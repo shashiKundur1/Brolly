@@ -28,7 +28,7 @@ export function CascadeHeader({
   disabled,
 }: CascadeHeaderProps) {
   return (
-    <div className="doodle-card relative flex flex-col gap-4 overflow-hidden rounded-2xl !bg-accent/35 px-6 py-6 md:flex-row md:items-center md:justify-between">
+    <div className="doodle-card relative flex flex-col gap-4 overflow-hidden rounded-2xl cell-butter px-6 py-6 md:flex-row md:items-center md:justify-between">
       <img
         src="/brand/color/sticker-stars.svg"
         alt=""
