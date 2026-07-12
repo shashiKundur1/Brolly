@@ -13,7 +13,7 @@ if (typeof window !== "undefined") {
 const steps = [
   {
     icon: "/brand/color/how-plug-color.svg",
-    panelTone: "bg-primary/25",
+    panelTone: "bg-secondary/60",
     title: "Point your tools here",
     description:
       "Swap your base URL to Brolly's endpoint. Every SDK that already speaks the OpenAI chat-completions format speaks Brolly with zero code changes beyond that one string.",
@@ -21,7 +21,7 @@ const steps = [
   },
   {
     icon: "/brand/color/how-ladder-color.svg",
-    panelTone: "bg-secondary/60",
+    panelTone: "bg-accent/60",
     title: "Pay less by default",
     description:
       "Each call climbs a cascade of models, cheapest first, and stops the moment one passes your benchmark. You stop overpaying for calls a smaller model could handle.",
@@ -29,7 +29,7 @@ const steps = [
   },
   {
     icon: "/brand/color/how-shield-color.svg",
-    panelTone: "bg-accent/60",
+    panelTone: "bg-primary/25",
     title: "Survive the outage",
     description:
       "A model dies mid-session, Brolly hot-swaps to a healthy one and carries the context across. Your user never notices the provider had a bad day.",
@@ -80,28 +80,28 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section className="w-full py-16 md:py-24">
-      <div className="flex w-full flex-col items-center gap-3 text-center">
-        <h2 className="font-display text-5xl md:text-6xl">how it works</h2>
+    <section className="w-full bg-secondary/30 px-6 py-16 md:px-10 md:py-24">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-3 text-center">
+        <h2 className="font-display text-5xl font-semibold md:text-6xl">how it works</h2>
         <p className="max-w-prose text-lg text-muted-foreground text-balance">
           Three moves. Point, cascade, survive.
         </p>
       </div>
-      <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div ref={gridRef} className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 gap-8 md:grid-cols-3">
         {steps.map((step) => {
           const content = (
             <>
-              <div className={`mx-(--card-spacing) mt-(--card-spacing) overflow-hidden rounded-2xl ${step.panelTone} px-6 pt-8 pb-6`}>
+              <div className={`mx-(--card-spacing) mt-(--card-spacing) overflow-hidden rounded-2xl ${step.panelTone} px-4 pt-6 pb-4`}>
                 <img
                   src={step.icon}
                   alt=""
                   width={1024}
                   height={1024}
-                  className="mx-auto block h-32 w-32"
+                  className="mx-auto block h-56 w-56 md:h-64 md:w-64"
                 />
               </div>
               <CardHeader className="pt-5">
-                <CardTitle className="font-display text-3xl font-normal">
+                <CardTitle className="font-display text-3xl font-semibold">
                   {step.title}
                 </CardTitle>
               </CardHeader>
@@ -112,7 +112,7 @@ export function HowItWorks() {
           );
 
           return (
-            <Card key={step.title} className="py-0">
+            <Card key={step.title} className="bg-card py-0" style={{ backfaceVisibility: "hidden" }}>
               {step.href ? (
                 <Link href={step.href} className="flex h-full flex-col">
                   {content}
