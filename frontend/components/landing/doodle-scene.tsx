@@ -14,7 +14,10 @@ export function DoodleScene() {
           />
         </div>
         <div className="flex flex-col items-start gap-5 text-left">
-          <p className="font-display text-2xl text-primary">see your burn</p>
+          <p className="flex items-center gap-2 font-display text-2xl text-foreground">
+            <span className="size-2.5 rounded-full bg-primary" aria-hidden="true" />
+            see your burn
+          </p>
           <h2 className="font-display text-5xl leading-tight text-balance md:text-6xl">
             every call, every cost, one screen
           </h2>

@@ -13,7 +13,7 @@ if (typeof window !== "undefined") {
 const steps = [
   {
     icon: "/brand/color/how-plug-color.svg",
-    panelTone: "bg-primary/20",
+    panelTone: "bg-primary/25",
     title: "Point your tools here",
     description:
       "Swap your base URL to Brolly's endpoint. Every SDK that already speaks the OpenAI chat-completions format speaks Brolly with zero code changes beyond that one string.",
@@ -21,7 +21,7 @@ const steps = [
   },
   {
     icon: "/brand/color/how-ladder-color.svg",
-    panelTone: "bg-secondary/50",
+    panelTone: "bg-secondary/60",
     title: "Pay less by default",
     description:
       "Each call climbs a cascade of models, cheapest first, and stops the moment one passes your benchmark. You stop overpaying for calls a smaller model could handle.",
@@ -29,7 +29,7 @@ const steps = [
   },
   {
     icon: "/brand/color/how-shield-color.svg",
-    panelTone: "bg-accent/50",
+    panelTone: "bg-accent/60",
     title: "Survive the outage",
     description:
       "A model dies mid-session, Brolly hot-swaps to a healthy one and carries the context across. Your user never notices the provider had a bad day.",
@@ -91,7 +91,7 @@ export function HowItWorks() {
         {steps.map((step) => {
           const content = (
             <>
-              <div className={`overflow-hidden rounded-t-2xl ${step.panelTone} px-6 pt-8`}>
+              <div className={`mx-(--card-spacing) mt-(--card-spacing) overflow-hidden rounded-2xl ${step.panelTone} px-6 pt-8 pb-6`}>
                 <img
                   src={step.icon}
                   alt=""
@@ -105,14 +105,14 @@ export function HowItWorks() {
                   {step.title}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pb-6">
+              <CardContent className="pb-2">
                 <p className="text-base text-muted-foreground">{step.description}</p>
               </CardContent>
             </>
           );
 
           return (
-            <Card key={step.title} className="overflow-hidden py-0">
+            <Card key={step.title} className="py-0">
               {step.href ? (
                 <Link href={step.href} className="flex h-full flex-col">
                   {content}

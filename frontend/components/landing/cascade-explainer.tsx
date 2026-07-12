@@ -7,7 +7,10 @@ export function CascadeExplainer() {
     <section className="-mx-6 bg-accent/30 px-6 py-16 md:-mx-10 md:px-10 md:py-24">
       <ScrollReveal className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 md:grid-cols-[1.05fr_0.95fr] md:gap-16">
         <div className="flex flex-col items-start gap-5 text-left md:order-1">
-          <p className="font-display text-2xl text-primary">pay less by default</p>
+          <p className="flex items-center gap-2 font-display text-2xl text-foreground">
+            <span className="size-2.5 rounded-full bg-primary" aria-hidden="true" />
+            pay less by default
+          </p>
           <h2 className="font-display text-5xl leading-tight text-balance md:text-6xl">
             the cost cascade
           </h2>

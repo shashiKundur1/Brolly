@@ -34,7 +34,10 @@ export function Receipts() {
           />
         </div>
         <div className="flex flex-col items-start gap-4 text-left">
-          <p className="font-display text-2xl text-primary">the receipts</p>
+          <p className="flex items-center gap-2 font-display text-2xl text-foreground">
+            <span className="size-2.5 rounded-full bg-primary" aria-hidden="true" />
+            the receipts
+          </p>
           <h2 className="font-display text-5xl leading-tight text-balance md:text-6xl">
             why this exists
           </h2>
@@ -47,8 +50,8 @@ export function Receipts() {
       </div>
       <ScrollReveal className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
         {notes.map((note) => (
-          <Card key={note.quote} plain size="sm">
-            <CardContent className="flex flex-col gap-2">
+          <Card key={note.quote} size="sm" className="h-full">
+            <CardContent className="flex h-full flex-col justify-between gap-3">
               <p className="font-display text-xl text-balance">&quot;{note.quote}&quot;</p>
               <p className="text-sm font-medium text-foreground/70">{note.source}</p>
             </CardContent>

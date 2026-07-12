@@ -22,14 +22,14 @@ export function PointYourTools() {
             through Brolly to 1000+ Mesh models — usage tracked, cheapest
             model that passes your benchmark chosen, failover when one dies.
           </p>
-          <div className="w-full max-w-md">
-            <pre className="doodle-border doodle-shadow overflow-x-auto rounded-2xl bg-card px-5 py-4 font-mono text-xs leading-relaxed sm:text-sm">
+          <div className="doodle-rough w-full max-w-md px-5 py-4">
+            <pre className="overflow-x-auto font-mono text-xs leading-relaxed sm:text-sm">
               <code className="whitespace-pre-wrap break-all">
                 <span className="text-muted-foreground">
                   https://api.openai.com/v1
                 </span>
                 {" → "}
-                <span className="text-primary">
+                <span className="font-semibold text-foreground">
                   http://your-brolly/v1
                 </span>
               </code>
