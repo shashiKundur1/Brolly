@@ -8,6 +8,7 @@ import { ChatPanel } from "@/components/failover/chat-panel"
 import { KillSwitch } from "@/components/failover/kill-switch"
 import { TheWire } from "@/components/failover/the-wire"
 import { BehaviorCard } from "@/components/failover/behavior-card"
+import { EmptyState } from "@/components/failover/empty-state"
 import {
   fetchKilledModels,
   fetchModels,
@@ -142,36 +143,35 @@ export default function FailoverPage() {
 
   if (loading) {
     return (
-      <section className="flex w-full flex-col items-center justify-center gap-4 py-24 text-center lg:h-[calc(100vh-4rem)] lg:py-0">
-        <SkullDoodle className="size-10 animate-pulse text-primary motion-reduce:animate-none" />
-        <p className="font-display text-2xl">Checking in with the policy desk…</p>
+      <section className="flex w-full flex-col lg:h-[calc(100vh-4rem)]">
+        <div className="doodle-card m-4 flex flex-1 flex-col !bg-secondary/25 p-6 lg:m-6">
+          <EmptyState icon={SkullDoodle} line="Checking in with the policy desk…" />
+        </div>
       </section>
     )
   }
 
   if (loadError) {
     return (
-      <section className="flex w-full flex-col items-center justify-center gap-4 py-24 text-center lg:h-[calc(100vh-4rem)] lg:py-0">
-        <SkullDoodle className="size-10 text-primary" />
-        <p className="font-display text-2xl">
-          Brolly can&apos;t reach the backend right now
-        </p>
-        <Button
-          onClick={retryLoad}
-          className="gap-2 bg-primary text-primary-foreground"
-        >
-          <ArrowClockwiseIcon size={16} />
-          retry
-        </Button>
+      <section className="flex w-full flex-col lg:h-[calc(100vh-4rem)]">
+        <div className="doodle-card m-4 flex flex-1 flex-col !bg-primary/15 p-6 lg:m-6">
+          <EmptyState
+            icon={SkullDoodle}
+            line="Brolly can't reach the backend right now"
+            action={{ label: "retry", onClick: retryLoad }}
+          />
+        </div>
       </section>
     )
   }
 
   return (
     <section className="flex w-full flex-col gap-3 py-4 lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
-      <div className="flex shrink-0 flex-wrap items-center justify-between gap-3">
-        <div className="flex items-baseline gap-3">
-          <h1 className="font-display text-4xl">Failover</h1>
+      <div className="doodle-card flex shrink-0 flex-col gap-3 !bg-primary px-5 py-4">
+        <div className="flex flex-wrap items-baseline gap-3 rounded-2xl border-2 border-foreground bg-card px-4 py-2.5">
+          <h1 className="font-display text-4xl leading-none text-foreground">
+            Failover
+          </h1>
           <p className="text-sm text-muted-foreground">
             Kill the model mid-chat. Watch Brolly hot-swap.
           </p>

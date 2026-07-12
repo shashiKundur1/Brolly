@@ -24,23 +24,27 @@ export function KillSwitch({
   const currentIsKilled = killedModels.includes(currentModel)
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      {killedModels.length > 0 && (
-        <div className="doodle-rough-soft flex items-center gap-2 bg-accent px-3 py-1.5">
-          <SkullDoodle className="size-4 shrink-0 text-primary" />
-          <p className="font-mono text-xs tabular-nums">
+    <div className="flex flex-wrap items-center gap-3 rounded-2xl border-2 border-foreground bg-card px-4 py-3">
+      {killedModels.length > 0 ? (
+        <div className="flex items-center gap-2 rounded-full border-2 border-foreground bg-foreground px-3 py-1.5">
+          <SkullDoodle className="size-4 shrink-0 text-primary motion-safe:animate-pulse motion-reduce:animate-none" />
+          <p className="font-mono text-xs font-bold tracking-wide tabular-nums text-card uppercase">
             {killedModels.join(", ")} down
           </p>
         </div>
+      ) : (
+        <p className="font-body text-sm font-semibold text-foreground">
+          pick a model, then pull the plug
+        </p>
       )}
       {currentModel && (
-        <span className="font-mono text-sm tabular-nums text-muted-foreground">
+        <span className="rounded-full border-2 border-foreground bg-secondary/60 px-2.5 py-1 font-mono text-sm tabular-nums">
           {currentModel}
         </span>
       )}
       {killedModels.length > 0 && (
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
           onClick={onRevive}
           disabled={reviving}
@@ -57,7 +61,8 @@ export function KillSwitch({
       <Button
         onClick={onKill}
         disabled={killing || !currentModel || currentIsKilled}
-        className="gap-2 bg-primary text-primary-foreground"
+        variant="destructive"
+        className="ml-auto gap-2 border-2! border-foreground bg-foreground text-card hover:bg-foreground"
       >
         {killing ? (
           <CircleNotchIcon size={18} className="animate-spin" />
