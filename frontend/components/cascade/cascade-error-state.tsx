@@ -7,7 +7,7 @@ type CascadeErrorStateProps = {
 
 export function CascadeErrorState({ onRetry }: CascadeErrorStateProps) {
   return (
-    <div className="flex min-h-[24rem] flex-1 flex-col items-center justify-center gap-6 text-center">
+    <div className="flex min-h-96 flex-1 flex-col items-center justify-center gap-6 text-center">
       <svg
         width="140"
         height="140"
