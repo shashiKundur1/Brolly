@@ -65,12 +65,12 @@ export function LandingHero() {
         className="pointer-events-none absolute inset-0 z-10 bg-background"
         aria-hidden="true"
       />
-      <section className="relative overflow-hidden bg-primary px-6 pt-14 pb-24 md:px-10 md:pb-32">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-6">
-          <div className="flex flex-col items-start gap-5 text-left">
+      <section className="relative overflow-hidden bg-primary px-6 pt-16 pb-28 md:px-10 md:pt-24 md:pb-40">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-10">
+          <div className="flex flex-col items-start gap-6 text-left">
             <h1
               ref={headlineRef}
-              className="font-display text-6xl leading-[0.95] text-balance text-foreground sm:text-7xl md:text-8xl"
+              className="font-display text-7xl leading-[0.92] text-balance text-foreground sm:text-8xl md:text-9xl"
             >
               model
               <br />
@@ -78,29 +78,38 @@ export function LandingHero() {
             </h1>
             <p
               ref={taglineRef}
-              className="font-display text-2xl text-balance text-foreground md:text-3xl"
+              className="font-display text-3xl text-balance text-foreground md:text-4xl"
             >
               an umbrella for your LLM bills&hellip;kinda.
             </p>
             <p
               ref={sublineRef}
-              className="max-w-prose rounded-2xl bg-card px-4 py-3 text-base text-foreground text-balance md:text-lg"
+              className="max-w-prose rounded-2xl bg-card px-5 py-4 text-lg text-foreground text-balance md:text-xl"
             >
-              Pay the cheapest model that passes your benchmark. Never lose a
-              session when a provider goes down.
+              Brolly sits in front of your model calls: it watches every
+              request, routes each one to the cheapest model that still
+              passes your benchmark, and hot-swaps providers mid-session the
+              moment one goes down. Point your SDK at it and forget it exists
+              — until it saves you.
             </p>
             <div ref={actionsRef} className="flex flex-wrap items-center gap-4 pt-2">
               <Button
                 size="lg"
                 variant="secondary"
-                className="rounded-full px-7"
+                className="rounded-full px-8 text-base"
                 render={<Link href="/dashboard">Open the dashboard</Link>}
+              />
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-full px-8 text-base"
+                render={<Link href="/cascade">See the cascade</Link>}
               />
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-xs rounded-3xl bg-card p-4 sm:max-w-sm md:max-w-none md:scale-125 md:justify-self-end">
+          <div className="relative mx-auto w-full max-w-sm rounded-3xl bg-card p-5 sm:max-w-md md:max-w-none md:justify-self-end">
             <img
-              src="/brand/color/hero-scene-color.svg"
+              src="/brand/color/scene-hero-color.svg"
               alt=""
               width={1024}
               height={1024}

@@ -1,12 +1,14 @@
+import Link from "next/link";
 import { ScrollReveal } from "@/components/landing/scroll-reveal";
+import { Button } from "@/components/ui/button";
 
-export function DoodleScene() {
+export function FailoverExplainer() {
   return (
     <section className="w-full py-16 md:py-24">
       <ScrollReveal className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 md:grid-cols-[0.95fr_1.05fr] md:gap-16">
         <div className="mx-auto w-full max-w-md rounded-3xl bg-secondary/30 p-6 md:mx-0">
           <img
-            src="/brand/color/scene-split-color.svg"
+            src="/brand/color/rain-color.svg"
             alt=""
             width={1024}
             height={1024}
@@ -14,21 +16,26 @@ export function DoodleScene() {
           />
         </div>
         <div className="flex flex-col items-start gap-5 text-left">
-          <p className="font-display text-2xl text-primary">see your burn</p>
+          <p className="font-display text-2xl text-primary">survive the outage</p>
           <h2 className="font-display text-5xl leading-tight text-balance md:text-6xl">
-            every call, every cost, one screen
+            mid-session failover
           </h2>
           <p className="max-w-prose text-lg text-muted-foreground text-balance md:text-xl">
-            The dashboard streams every request the moment it happens: which
-            model answered, how many tokens it burned, and what it cost you
-            in real dollars. No end-of-month invoice surprise, no digging
-            through provider consoles. You watch the number climb live, and
-            you know exactly why it climbed.
+            A provider goes down mid-conversation, mid-agent-run, mid-anything.
+            Brolly notices before your user does, hot-swaps to a healthy
+            model, and carries the context across so the conversation keeps
+            going like nothing happened.
           </p>
           <p className="max-w-prose text-lg text-muted-foreground text-balance md:text-xl">
-            Filter by model, by day, by app. Spot the one workflow that is
-            quietly eating your budget before it eats your whole month.
+            No dropped session, no "please try again later," no 3am page.
+            One provider having a bad day stops being your incident.
           </p>
+          <Button
+            size="lg"
+            variant="outline"
+            className="rounded-full px-8 text-base"
+            render={<Link href="/failover">See failover in action</Link>}
+          />
         </div>
       </ScrollReveal>
     </section>
