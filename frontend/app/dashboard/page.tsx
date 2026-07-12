@@ -72,22 +72,22 @@ export default function DashboardPage() {
   }
 
   return (
-    <section className="doodle-border relative grid gap-4 overflow-hidden rounded-3xl bg-card p-4 md:gap-6 md:p-6">
+    <section className="doodle-border relative grid gap-4 overflow-hidden rounded-3xl bg-secondary/20 p-4 md:gap-6 md:p-6">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl px-6 py-5 md:col-span-7 md:px-8">
+        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl bg-accent/40 px-6 py-6 md:col-span-7 md:px-8">
           <img
             src="/brand/color/balloon-umbrellas.svg"
             alt=""
-            className="pointer-events-none absolute right-4 top-1/2 hidden size-24 -translate-y-1/2 opacity-80 md:block lg:size-32"
-            width={128}
-            height={128}
+            className="pointer-events-none absolute right-4 top-1/2 hidden size-32 -translate-y-1/2 md:block lg:size-40"
+            width={160}
+            height={160}
           />
           <img
             src="/brand/color/sticker-stars.svg"
             alt=""
-            className="pointer-events-none absolute -right-3 -top-3 size-12 opacity-70 md:size-14"
-            width={56}
-            height={56}
+            className="pointer-events-none absolute -right-2 -top-2 size-16 md:size-20"
+            width={80}
+            height={80}
           />
           <div className="md:max-w-[70%]">
             <ForecastStrip
@@ -107,13 +107,13 @@ export default function DashboardPage() {
                 : `of budget, ${forecast.trail}`
             }
             accent={forecast.level === "storm"}
-            className="min-h-0"
+            className="min-h-0 bg-secondary/50"
           />
           <StatCell
             value={ready ? `$${spend.toFixed(2)}` : "$0.00"}
             label="total spend"
             icon="/brand/color/coins-color.svg"
-            className="min-h-0"
+            className="min-h-0 bg-primary/15"
           />
         </div>
       </div>
@@ -143,7 +143,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl px-6 py-5 md:col-span-5">
+        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl bg-secondary/30 px-6 py-5 md:col-span-5">
           <h2 className="mb-4 font-body text-sm font-semibold text-foreground">
             top models in play
           </h2>
@@ -155,9 +155,9 @@ export default function DashboardPage() {
           <img
             src="/brand/color/balloon-umbrellas.svg"
             alt=""
-            className="pointer-events-none absolute -bottom-3 -right-3 size-14 opacity-80"
-            width={56}
-            height={56}
+            className="pointer-events-none absolute -bottom-2 -right-2 size-20"
+            width={80}
+            height={80}
           />
         </div>
         <div className="grid grid-cols-2 gap-4 md:col-span-5">
@@ -165,9 +165,9 @@ export default function DashboardPage() {
             value={tokens.toLocaleString()}
             label="tokens processed"
             icon="/brand/color/chart-color.svg"
-            className="min-h-0"
+            className="min-h-0 bg-accent/30"
           />
-          <StatCell value={requests.toLocaleString()} label="requests routed" className="min-h-0" />
+          <StatCell value={requests.toLocaleString()} label="requests routed" className="min-h-0 bg-primary/15" />
         </div>
       </div>
 
