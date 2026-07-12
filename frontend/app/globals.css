@@ -166,6 +166,19 @@
     border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
     box-shadow: 3px 4px 0 -1px var(--foreground);
   }
+  .cell-mint {
+    background: var(--secondary);
+  }
+  .cell-butter {
+    background: var(--accent);
+  }
+  .cell-coral {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  .cell-paper {
+    background: var(--card);
+  }
   .doodle-rough {
     position: relative;
     background: var(--card);

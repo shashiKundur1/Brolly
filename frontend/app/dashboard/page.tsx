@@ -72,9 +72,9 @@ export default function DashboardPage() {
   }
 
   return (
-    <section className="doodle-border relative grid gap-4 overflow-hidden rounded-3xl !bg-secondary p-4 md:gap-6 md:p-6">
+    <section className="doodle-border relative grid gap-4 overflow-hidden rounded-3xl cell-mint p-4 md:gap-6 md:p-6">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl !bg-accent px-6 py-6 md:col-span-7 md:px-8">
+        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl cell-butter px-6 py-6 md:col-span-7 md:px-8">
           <img
             src="/brand/color/sticker-stars.svg"
             alt=""
@@ -107,23 +107,23 @@ export default function DashboardPage() {
                 : `of budget, ${forecast.trail}`
             }
             accent={forecast.level === "storm"}
-            className="min-h-0 !bg-secondary"
+            className="min-h-0 cell-mint"
           />
           <StatCell
             value={ready ? `$${spend.toFixed(2)}` : "$0.00"}
             label="total spend"
             icon="/brand/color/coins-color.svg"
-            className="min-h-0 !bg-accent"
+            className="min-h-0 cell-butter"
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card h-[22rem] overflow-hidden rounded-2xl !bg-card p-4 md:col-span-7">
+        <div className="doodle-card h-[22rem] overflow-hidden rounded-2xl cell-paper p-4 md:col-span-7">
           <SkyCanvas totals={totals} forecastLevel={forecast.level} />
         </div>
         <div className="grid h-[22rem] grid-rows-2 gap-4 md:col-span-3 md:gap-6">
-          <div className="doodle-card flex min-h-0 flex-col rounded-2xl !bg-secondary px-5 py-4">
+          <div className="doodle-card flex min-h-0 flex-col rounded-2xl cell-mint px-5 py-4">
             <h2 className="mb-3 shrink-0 font-body text-sm font-semibold text-foreground">
               the ledger
             </h2>
@@ -133,7 +133,7 @@ export default function DashboardPage() {
               onSelectModel={setSelectedModel}
             />
           </div>
-          <div className="doodle-card flex min-h-0 flex-col rounded-2xl !bg-accent px-5 py-4">
+          <div className="doodle-card flex min-h-0 flex-col rounded-2xl cell-butter px-5 py-4">
             <h2 className="mb-3 shrink-0 font-body text-sm font-semibold text-foreground">
               just happened
             </h2>
@@ -143,7 +143,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl !bg-secondary px-6 py-5 md:col-span-5">
+        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl cell-mint px-6 py-5 md:col-span-5">
           <h2 className="mb-4 font-body text-sm font-semibold text-foreground">
             top models in play
           </h2>
@@ -165,13 +165,13 @@ export default function DashboardPage() {
             value={tokens.toLocaleString()}
             label="tokens processed"
             icon="/brand/color/chart-color.svg"
-            className="min-h-0 !bg-accent"
+            className="min-h-0 cell-butter"
           />
-          <StatCell value={requests.toLocaleString()} label="requests routed" className="min-h-0 !bg-secondary" />
+          <StatCell value={requests.toLocaleString()} label="requests routed" className="min-h-0 cell-mint" />
         </div>
       </div>
 
-      <div className="doodle-card grid grid-cols-1 gap-8 rounded-2xl !bg-card px-6 py-6 md:grid-cols-2 md:gap-16 md:px-8">
+      <div className="doodle-card grid grid-cols-1 gap-8 rounded-2xl cell-paper px-6 py-6 md:grid-cols-2 md:gap-16 md:px-8">
         <div className="flex flex-col gap-2">
           <h3 className="font-body text-sm font-semibold text-foreground">
             Where your spend goes

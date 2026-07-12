@@ -26,6 +26,9 @@ bg/card `#ffffff` · ink `--foreground #2f3e36` · coral `--primary #e8756a` · 
 - Keep every existing export name, prop, variant key, size key. Redesign = classNames + small structure, NOT API changes (pages depend on them).
 
 ## Hard rules
+
+**NO `!important` (no `!bg-*`, no `!text-*`).** To color a cell/card, use the clean utilities `cell-mint` / `cell-butter` / `cell-coral` / `cell-paper` (defined in globals.css, they win the cascade over `.doodle-card` by source order). Never force styles with Tailwind's `!` important modifier.
+
 ZERO code comments. NO arbitrary Tailwind values (put custom geometry/shadows in globals.css `@layer utilities`; inline `style` only for true data like SVG path geometry). Minimal divs — semantic elements + shadcn subcomponents. `"use client"` only where needed.
 
 **NO DOTTED OR DASHED BORDERS. ANYWHERE.** Never `border-dashed`, never `border-dotted`, never `.doodle-border`. Every container/cell/card/divider uses a SOLID border (the `.doodle-card`/`.doodle-rough` family — solid ink 2px + offset shadow + wobble radius) or no border at all. Dividers use a solid thin line or whitespace, not a dashed rule. This is non-negotiable and applies to outer containers too.
