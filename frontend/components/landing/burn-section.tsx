@@ -8,10 +8,10 @@ export function BurnSection() {
       band="bg-secondary/30"
       panelTone="cell-mint"
       art={{
-        src: "/brand/color/hero-spend-chart.svg",
-        alt: "A doodle spend chart with an umbrella watching over rising coin bars",
-        box: "104 238 816 544",
+        src: "/brand/color/burn-scene.svg",
+        alt: "A doodle kid pointing at a wall dashboard where coins trend up a rising bar chart",
       }}
+      artCover
       cta={{ href: "/dashboard", label: "Watch it live" }}
     >
       <p className="max-w-prose text-lg text-muted-foreground text-balance md:text-xl">

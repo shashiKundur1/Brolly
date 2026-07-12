@@ -8,10 +8,10 @@ export function CascadeExplainer() {
       band="bg-accent/30"
       panelTone="cell-butter"
       art={{
-        src: "/brand/color/coins-color.svg",
-        alt: "A fat stack of doodle dollar coins saved by the cascade",
-        box: "246 88 532 866",
+        src: "/brand/color/cascade-scene.svg",
+        alt: "A doodle kid celebrating on the smallest of three coin stacks, umbrella in hand",
       }}
+      artCover
       cta={{ href: "/cascade", label: "See the cascade in action" }}
       flip
     >
