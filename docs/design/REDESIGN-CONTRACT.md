@@ -32,6 +32,9 @@ ZERO code comments. NO arbitrary Tailwind values (put custom geometry/shadows in
 
 **NO MEANINGLESS DECORATION.** Every illustration must MEAN something relevant to what its cell shows (a spend chart for spend, a cascade/ladder for routing). Do not fill a data cell with a generic decorative character. **NO EMPTY SPACE / NO WHITE SPACE** — a cell/section must never be mostly blank around a small illustration or chart. Fill every gap: size real content to fill, bound cell heights so charts don't stretch into voids, and where a genuine gap remains, fill it with a cheerful balloony/floating doodle illustration or scattered sticker decorations (stars, coins, clouds, squiggles) in-palette. Blank white areas are a bug.
 
+
+**MAXIMIZE ILLUSTRATIONS.** When an illustration is used in a cell/card/hero, make it BIG and prominent — it should fill a meaningful share of its container, not sit tiny in a corner. Illustrations are the product's appeal; a shrunk illustration wastes it. Size them large (fill the cell's free area, be a co-star with the text, or dominate a hero). Small corner stickers are only for sparse GAP-filling accents, never the main illustration.
+
 **NO HORIZONTAL SCROLL, EVER.** The page must never scroll horizontally at any width (`document.documentElement.scrollWidth <= innerWidth` always). Vertical scroll is fine on the landing; product surfaces (dashboard/cascade/failover) stay viewport-fit with internal scroll. Assert no horizontal overflow before committing.
 
 ## Verify (every agent)
