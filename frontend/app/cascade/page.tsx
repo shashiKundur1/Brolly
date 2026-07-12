@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CascadeHeader } from "@/components/cascade/cascade-header";
 import { Ladder } from "@/components/cascade/ladder";
 import { BenchmarkPanel } from "@/components/cascade/benchmark-panel";
 import { BenchmarkDetailDialog } from "@/components/cascade/benchmark-detail-dialog";
 import { TryItBox } from "@/components/cascade/try-it-box";
+import { CascadeErrorState } from "@/components/cascade/cascade-error-state";
 import {
   fetchCascadeConfig,
   updateCascadeConfig,
@@ -28,28 +29,34 @@ export default function CascadePage() {
   const [selectedResult, setSelectedResult] =
     useState<BenchmarkModelResult | null>(null);
 
-  useEffect(() => {
-    const controller = new AbortController();
+  const loadInitialData = useCallback((signal?: AbortSignal) => {
+    setConfigLoading(true);
+    setConfigError(false);
 
-    fetchCascadeConfig(controller.signal)
+    fetchCascadeConfig(signal)
       .then((data) => {
         setConfig(data);
         setConfigLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
         setConfigError(true);
         setConfigLoading(false);
       });
 
-    fetchBenchmark(controller.signal)
+    fetchBenchmark(signal)
       .then((data) => {
         setCases(data.cases);
         setResults(data.results);
       })
       .catch(() => {});
-
-    return () => controller.abort();
   }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadInitialData(controller.signal);
+    return () => controller.abort();
+  }, [loadInitialData]);
 
   async function handleEnabledChange(enabled: boolean) {
     if (!config) return;
@@ -93,6 +100,14 @@ export default function CascadePage() {
 
   const ladder = config?.ladder ?? [];
 
+  if (configError) {
+    return (
+      <section className="flex w-full flex-col py-6 lg:h-[calc(100vh-4rem)] lg:min-h-0">
+        <CascadeErrorState onRetry={() => loadInitialData()} />
+      </section>
+    );
+  }
+
   return (
     <section className="flex w-full flex-col gap-4 py-6 lg:h-[calc(100vh-4rem)] lg:min-h-0">
       <CascadeHeader
@@ -102,13 +117,11 @@ export default function CascadePage() {
         onMaxStepsChange={handleMaxStepsChange}
         disabled={configLoading || configError}
       />
-      {configError && (
-        <p className="text-sm text-primary">can&apos;t reach the cascade api</p>
-      )}
       <div className="grid flex-1 grid-cols-1 gap-4 lg:min-h-0 lg:grid-cols-2">
         <Ladder
           ladder={ladder}
           maxSteps={config?.maxSteps ?? 3}
+          enabled={config?.enabled ?? false}
           loading={configLoading}
           onSelectRung={handleSelectRung}
         />

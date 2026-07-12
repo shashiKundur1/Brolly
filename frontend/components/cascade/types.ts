@@ -76,14 +76,62 @@ export type ChatCompletionResponse = {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
+const RETRY_BACKOFF_MS = [300, 800];
+
+function isAbortError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === "AbortError";
+}
+
+function wait(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException("Aborted", "AbortError"));
+      return;
+    }
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, ms);
+    function onAbort() {
+      clearTimeout(timer);
+      reject(new DOMException("Aborted", "AbortError"));
+    }
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
+}
+
+async function fetchJsonWithRetry<T>(
+  url: string,
+  label: string,
+  signal?: AbortSignal
+): Promise<T> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt <= RETRY_BACKOFF_MS.length; attempt += 1) {
+    try {
+      const res = await fetch(url, { signal });
+      if (!res.ok) {
+        throw new Error(`${label} failed: ${res.status}`);
+      }
+      return res.json();
+    } catch (error) {
+      if (isAbortError(error)) throw error;
+      lastError = error;
+      if (attempt < RETRY_BACKOFF_MS.length) {
+        await wait(RETRY_BACKOFF_MS[attempt], signal);
+      }
+    }
+  }
+  throw lastError;
+}
+
 export async function fetchCascadeConfig(
   signal?: AbortSignal
 ): Promise<CascadeConfig> {
-  const res = await fetch(`${API_BASE}/api/cascade/config`, { signal });
-  if (!res.ok) {
-    throw new Error(`config request failed: ${res.status}`);
-  }
-  return res.json();
+  return fetchJsonWithRetry<CascadeConfig>(
+    `${API_BASE}/api/cascade/config`,
+    "config request",
+    signal
+  );
 }
 
 export async function updateCascadeConfig(
@@ -103,11 +151,11 @@ export async function updateCascadeConfig(
 export async function fetchBenchmark(
   signal?: AbortSignal
 ): Promise<BenchmarkGetResponse> {
-  const res = await fetch(`${API_BASE}/api/cascade/benchmark`, { signal });
-  if (!res.ok) {
-    throw new Error(`benchmark request failed: ${res.status}`);
-  }
-  return res.json();
+  return fetchJsonWithRetry<BenchmarkGetResponse>(
+    `${API_BASE}/api/cascade/benchmark`,
+    "benchmark request",
+    signal
+  );
 }
 
 export async function runBenchmark(): Promise<BenchmarkRunResponse> {
