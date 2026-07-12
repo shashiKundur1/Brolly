@@ -101,8 +101,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card min-h-72 overflow-hidden rounded-2xl bg-muted p-3 md:col-span-7 md:min-h-0">
-          <SkyCanvas events={eventList} forecastLevel={forecast.level} />
+        <div className="doodle-card min-h-72 overflow-hidden rounded-2xl bg-card p-4 md:col-span-7 md:min-h-0">
+          <SkyCanvas totals={totals} forecastLevel={forecast.level} />
         </div>
         <div className="grid grid-rows-[7fr_3fr] gap-4 md:col-span-3 md:gap-6">
           <div className="doodle-card flex min-h-0 flex-col rounded-2xl px-5 py-4">
