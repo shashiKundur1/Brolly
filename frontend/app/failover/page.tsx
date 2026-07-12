@@ -143,8 +143,8 @@ export default function FailoverPage() {
 
   if (loading) {
     return (
-      <section className="flex w-full flex-col lg:h-[calc(100vh-4rem)]">
-        <div className="doodle-card m-4 flex flex-1 flex-col !bg-secondary/25 p-6 lg:m-6">
+      <section className="flex w-full flex-col lg:h-[calc(100vh-90px)]">
+        <div className="doodle-card cell-mint m-4 flex flex-1 flex-col p-6 lg:m-6">
           <EmptyState icon={SkullDoodle} line="Checking in with the policy desk…" />
         </div>
       </section>
@@ -153,8 +153,8 @@ export default function FailoverPage() {
 
   if (loadError) {
     return (
-      <section className="flex w-full flex-col lg:h-[calc(100vh-4rem)]">
-        <div className="doodle-card m-4 flex flex-1 flex-col !bg-primary/15 p-6 lg:m-6">
+      <section className="flex w-full flex-col lg:h-[calc(100vh-90px)]">
+        <div className="doodle-card cell-coral m-4 flex flex-1 flex-col p-6 lg:m-6">
           <EmptyState
             icon={SkullDoodle}
             line="Brolly can't reach the backend right now"
@@ -166,8 +166,8 @@ export default function FailoverPage() {
   }
 
   return (
-    <section className="flex w-full flex-col gap-3 py-4 lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
-      <div className="doodle-card flex shrink-0 flex-col gap-3 !bg-primary px-5 py-4">
+    <section className="flex w-full flex-col gap-3 py-4 lg:h-[calc(100vh-90px)] lg:overflow-hidden">
+      <div className="doodle-card cell-coral flex shrink-0 flex-col gap-3 px-5 py-4">
         <div className="flex flex-wrap items-baseline gap-3 rounded-2xl border-2 border-foreground bg-card px-4 py-2.5">
           <h1 className="font-display text-4xl leading-none text-foreground">
             Failover

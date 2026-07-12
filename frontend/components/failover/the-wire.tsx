@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { LightningDoodle, CrossDoodle, CheckDoodle } from "@/components/brand/icons"
 import type { Attempt } from "@/components/failover/types"
@@ -85,16 +84,14 @@ export function TheWire({ attempts, runId }: TheWireProps) {
   const survivor = attempts.find((attempt) => attempt.ok)
 
   return (
-    <Card className={`flex min-h-0 flex-col !bg-accent/50 ${attempts.length === 0 ? "flex-1" : "shrink-0"}`}>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-xl">
-          <span className="grid size-8 shrink-0 place-items-center rounded-full border-2 border-foreground bg-card">
-            <LightningDoodle className="size-4 text-primary" />
-          </span>
-          the wire
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex min-h-0 flex-1 flex-col">
+    <div className={`doodle-card cell-butter flex min-h-0 flex-col p-4 ${attempts.length === 0 ? "flex-1" : "shrink-0"}`}>
+      <h2 className="mb-3 flex shrink-0 items-center gap-2 font-heading text-xl font-semibold text-foreground">
+        <span className="grid size-8 shrink-0 place-items-center rounded-full border-2 border-foreground bg-card">
+          <LightningDoodle className="size-4 text-primary" />
+        </span>
+        the wire
+      </h2>
+      <div className="flex min-h-0 flex-1 flex-col">
         {attempts.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-5 rounded-2xl border-2 border-foreground bg-card p-6 text-center">
             <div className="relative grid size-24 place-items-center">
@@ -127,14 +124,14 @@ export function TheWire({ attempts, runId }: TheWireProps) {
               <div
                 key={`${attempt.model}-${index}`}
                 data-wire-card="failed"
-                className="doodle-card-soft relative flex w-fit max-w-full origin-left items-center gap-2 border-primary! bg-primary/15 py-2 pr-3 pl-2.5"
+                className="doodle-card-soft relative flex w-fit max-w-full origin-left items-center gap-2 border-primary bg-primary/15 py-2 pr-3 pl-2.5"
               >
                 <CrossDoodle className="size-4 shrink-0 text-primary" />
                 <span className="truncate font-mono text-sm tabular-nums line-through decoration-primary decoration-2">
                   {attempt.model}
                 </span>
                 <Badge variant="destructive" className="shrink-0">
-                  {attempt.reason || attempt.status}
+                  {attempt.status} down
                 </Badge>
               </div>
             ))}
@@ -154,7 +151,7 @@ export function TheWire({ attempts, runId }: TheWireProps) {
             )}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

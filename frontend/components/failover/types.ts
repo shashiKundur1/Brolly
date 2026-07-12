@@ -11,7 +11,7 @@ export type ChatMessage = {
   model?: string
 }
 
-export type AttemptStatus = "ok" | "failed" | "skipped"
+export type AttemptStatus = number | "ok" | "failed" | "skipped"
 
 export type Attempt = {
   model: string
@@ -36,7 +36,7 @@ export type SessionTurn = {
   model: string
 }
 
-export type SessionProfile = Record<string, unknown> | null
+export type SessionProfile = string | null
 
 export type SessionDetail = {
   id: string

@@ -38,7 +38,7 @@ export function KillSwitch({
         </p>
       )}
       {currentModel && (
-        <span className="rounded-full border-2 border-foreground bg-secondary/60 px-2.5 py-1 font-mono text-sm tabular-nums">
+        <span className="rounded-full border-2 border-foreground bg-secondary px-2.5 py-1 font-mono text-sm tabular-nums text-foreground">
           {currentModel}
         </span>
       )}
@@ -62,7 +62,7 @@ export function KillSwitch({
         onClick={onKill}
         disabled={killing || !currentModel || currentIsKilled}
         variant="destructive"
-        className="ml-auto gap-2 border-2! border-foreground bg-foreground text-card hover:bg-foreground"
+        className="ml-auto gap-2 border-2 border-foreground bg-foreground text-card hover:bg-foreground"
       >
         {killing ? (
           <CircleNotchIcon size={18} className="animate-spin" />

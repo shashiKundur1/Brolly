@@ -36,6 +36,7 @@ export function sendChatCompletion(
       model,
       messages: messages.map(({ role, content }) => ({ role, content })),
       session_id: sessionId,
+      prefer_requested: true,
     }),
   })
 }

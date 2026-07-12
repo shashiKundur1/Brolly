@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -51,43 +50,41 @@ export function ChatPanel({
   }
 
   return (
-    <Card className="flex h-full min-h-0 flex-col !bg-secondary/45">
-      <CardHeader>
-        <div className="flex min-w-0 items-center justify-between gap-3">
-          <CardTitle className="flex shrink-0 items-center gap-2 text-xl">
-            <span className="grid size-8 shrink-0 place-items-center rounded-full border-2 border-foreground bg-card">
-              <SparkDoodle className="size-4 text-primary" />
-            </span>
-            chat
-          </CardTitle>
-          <Field orientation="horizontal" className="min-w-0 flex-1 items-center justify-end gap-2">
-            <FieldLabel htmlFor="starting-model" className="shrink-0 text-sm">
-              model
-            </FieldLabel>
-            <Select
-              value={currentModel}
-              onValueChange={(value) => {
-                if (typeof value === "string") onModelChange(value)
-              }}
+    <div className="doodle-card cell-mint flex h-full min-h-0 flex-col p-4">
+      <div className="flex min-w-0 shrink-0 flex-col gap-3 pb-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="flex shrink-0 items-center gap-2 font-heading text-xl font-semibold text-foreground">
+          <span className="grid size-8 shrink-0 place-items-center rounded-full border-2 border-foreground bg-card">
+            <SparkDoodle className="size-4 text-primary" />
+          </span>
+          chat
+        </h2>
+        <Field orientation="horizontal" className="min-w-0 items-center gap-2 sm:flex-1 sm:justify-end">
+          <FieldLabel htmlFor="starting-model" className="shrink-0 text-sm">
+            model
+          </FieldLabel>
+          <Select
+            value={currentModel}
+            onValueChange={(value) => {
+              if (typeof value === "string") onModelChange(value)
+            }}
+          >
+            <SelectTrigger
+              id="starting-model"
+              className="w-full min-w-0 font-mono text-sm sm:w-auto sm:min-w-56"
             >
-              <SelectTrigger
-                id="starting-model"
-                className="min-w-0 max-w-full font-mono text-sm"
-              >
-                <SelectValue placeholder="Choose a model" className="truncate" />
-              </SelectTrigger>
-              <SelectContent>
-                {models.map((model) => (
-                  <SelectItem key={model.id} value={model.id} className="font-mono">
-                    {model.id}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </Field>
-        </div>
-      </CardHeader>
-      <CardContent className="flex min-h-0 flex-1 flex-col gap-3">
+              <SelectValue placeholder="Choose a model" className="truncate" />
+            </SelectTrigger>
+            <SelectContent>
+              {models.map((model) => (
+                <SelectItem key={model.id} value={model.id} className="font-mono">
+                  {model.id}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col gap-3">
         <div
           ref={listRef}
           className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto rounded-2xl border-2 border-foreground bg-card p-3"
@@ -124,7 +121,7 @@ export function ChatPanel({
                 }`}
               >
                 {message.role === "user" ? (
-                  <div className="doodle-card max-w-4/5 border-primary! bg-primary/25 px-3.5 py-2.5 text-sm text-foreground">
+                  <div className="doodle-card max-w-4/5 border-primary bg-primary/25 px-3.5 py-2.5 text-sm text-foreground">
                     <p className="whitespace-pre-wrap">{message.content}</p>
                   </div>
                 ) : (
@@ -161,7 +158,7 @@ export function ChatPanel({
             send
           </Button>
         </form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

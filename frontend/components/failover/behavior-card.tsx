@@ -9,7 +9,7 @@ type BehaviorCardProps = {
 
 export function BehaviorCard({ profile, modelsUsed }: BehaviorCardProps) {
   return (
-    <div className="doodle-card relative flex min-h-0 flex-1 flex-col -rotate-1 bg-accent p-4">
+    <div className="doodle-card cell-butter relative flex min-h-0 flex-1 flex-col -rotate-1 p-4">
       <span
         aria-hidden="true"
         className="absolute -top-3 left-8 h-6 w-14 -rotate-3 border-2 border-foreground bg-secondary/70"
@@ -33,12 +33,12 @@ export function BehaviorCard({ profile, modelsUsed }: BehaviorCardProps) {
             ))}
           </div>
         )}
-        <pre
-          className="min-h-24 flex-1 overflow-y-auto rounded-lg border-2 border-foreground bg-card p-3 font-mono text-xs whitespace-pre-wrap"
+        <p
+          className="min-h-24 flex-1 overflow-y-auto rounded-lg border-2 border-foreground bg-card p-3 font-body text-sm leading-relaxed whitespace-pre-wrap"
           style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}
         >
-          {JSON.stringify(profile, null, 2)}
-        </pre>
+          {profile || "No behavior profile carried over yet."}
+        </p>
       </div>
     </div>
   )
