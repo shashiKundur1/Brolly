@@ -72,9 +72,16 @@ export default function DashboardPage() {
   }
 
   return (
-    <section className="doodle-border grid gap-4 rounded-3xl bg-card p-4 md:gap-6 md:p-6">
+    <section className="doodle-border relative grid gap-4 overflow-hidden rounded-3xl bg-card p-4 md:gap-6 md:p-6">
+      <img
+        src="/brand/color/sticker-stars.svg"
+        alt=""
+        className="pointer-events-none absolute -right-4 top-24 hidden size-16 opacity-80 md:block"
+        width={64}
+        height={64}
+      />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card rounded-2xl px-6 py-6 md:col-span-7 md:px-8">
+        <div className="doodle-card flex flex-col justify-center rounded-2xl px-6 py-5 md:col-span-7 md:px-8">
           <ForecastStrip
             forecast={forecast}
             budget={budget}
@@ -91,20 +98,22 @@ export default function DashboardPage() {
                 : `of budget, ${forecast.trail}`
             }
             accent={forecast.level === "storm"}
+            className="min-h-0"
           />
           <StatCell
             value={ready ? `$${spend.toFixed(2)}` : "$0.00"}
             label="total spend"
             icon="/brand/color/coins-color.svg"
+            className="min-h-0"
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card min-h-72 overflow-hidden rounded-2xl bg-card p-4 md:col-span-7 md:min-h-0">
+        <div className="doodle-card h-[22rem] overflow-hidden rounded-2xl bg-card p-4 md:col-span-7">
           <SkyCanvas totals={totals} forecastLevel={forecast.level} />
         </div>
-        <div className="grid grid-rows-[7fr_3fr] gap-4 md:col-span-3 md:gap-6">
+        <div className="grid h-[22rem] grid-rows-2 gap-4 md:col-span-3 md:gap-6">
           <div className="doodle-card flex min-h-0 flex-col rounded-2xl px-5 py-4">
             <h2 className="mb-3 shrink-0 font-body text-sm font-semibold text-foreground">
               the ledger
@@ -125,7 +134,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card rounded-2xl px-6 py-6 md:col-span-5">
+        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl px-6 py-5 md:col-span-5">
           <h2 className="mb-4 font-body text-sm font-semibold text-foreground">
             top models in play
           </h2>
@@ -134,18 +143,26 @@ export default function DashboardPage() {
             selectedModel={selectedModel}
             onSelectModel={setSelectedModel}
           />
+          <img
+            src="/brand/color/balloon-umbrellas.svg"
+            alt=""
+            className="pointer-events-none absolute -bottom-3 -right-3 size-14 opacity-80"
+            width={56}
+            height={56}
+          />
         </div>
         <div className="grid grid-cols-2 gap-4 md:col-span-5">
           <StatCell
             value={tokens.toLocaleString()}
             label="tokens processed"
             icon="/brand/color/chart-color.svg"
+            className="min-h-0"
           />
-          <StatCell value={requests.toLocaleString()} label="requests routed" />
+          <StatCell value={requests.toLocaleString()} label="requests routed" className="min-h-0" />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 border-t-2 border-border pt-8 md:grid-cols-2 md:gap-16">
+      <div className="grid grid-cols-1 gap-8 border-t-2 border-border pt-6 md:grid-cols-2 md:gap-16">
         <div className="flex flex-col gap-2">
           <h3 className="font-body text-sm font-semibold text-foreground">
             Where your spend goes
