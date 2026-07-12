@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Gochi_Hand, JetBrains_Mono, Nunito } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteNav } from "@/app/components/site-nav";
+import { DoodleFilter } from "@/components/brand/doodle-filter";
 import "./globals.css";
 
 const gochiHand = Gochi_Hand({
@@ -36,6 +37,7 @@ export default function RootLayout({
       className={`${gochiHand.variable} ${nunito.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body">
+        <DoodleFilter />
         <TooltipProvider>
           <SiteNav />
           <main className="w-full flex-1 px-6 md:px-10">{children}</main>

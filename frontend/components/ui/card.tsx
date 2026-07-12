@@ -15,7 +15,7 @@ function Card({
       data-plain={plain}
       className={cn(
         "group/card relative flex flex-col gap-(--card-spacing) py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(6)] has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(5)]",
-        plain ? "doodle-card-soft" : "doodle-card",
+        plain ? "doodle-rough-soft" : "doodle-rough",
         className
       )}
       {...props}
