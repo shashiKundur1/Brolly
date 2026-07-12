@@ -53,7 +53,7 @@ export function CascadeHeader({
             <SelectTrigger id="max-steps" className="w-16">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent side="bottom" align="end" alignItemWithTrigger={false}>
               {MAX_STEPS_OPTIONS.map((step) => (
                 <SelectItem key={step} value={String(step)}>
                   {step}
