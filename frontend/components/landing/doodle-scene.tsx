@@ -1,13 +1,14 @@
-import { InlineDoodleSvg } from "@/components/landing/inline-doodle-svg";
-
 export function DoodleScene() {
   return (
     <section className="-mx-6 bg-accent/40 px-6 py-14 md:-mx-10 md:px-10 md:py-20">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-14">
         <div className="mx-auto w-full max-w-md md:mx-0">
-          <InlineDoodleSvg
-            src="/brand/bento/hero-umbrella-hills.svg"
-            className="block h-auto w-full text-foreground [&_svg]:h-auto [&_svg]:w-full"
+          <img
+            src="/brand/color/hero-scene-color.svg"
+            alt=""
+            width={1024}
+            height={1024}
+            className="block h-auto w-full"
           />
         </div>
         <div className="flex flex-col items-start gap-4 text-left">

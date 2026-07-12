@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { InlineDoodleSvg } from "@/components/landing/inline-doodle-svg";
 
 const steps = [
   {
-    icon: "/brand/bento/how-subscribe.svg",
+    icon: "/brand/color/how-plug-color.svg",
     panelTone: "bg-primary/20",
     title: "Point your tools here",
     description:
@@ -12,7 +11,7 @@ const steps = [
     href: null as string | null,
   },
   {
-    icon: "/brand/bento/how-cascade.svg",
+    icon: "/brand/color/how-ladder-color.svg",
     panelTone: "bg-secondary/50",
     title: "Pay less by default",
     description:
@@ -20,7 +19,7 @@ const steps = [
     href: "/cascade",
   },
   {
-    icon: "/brand/bento/how-failover.svg",
+    icon: "/brand/color/how-shield-color.svg",
     panelTone: "bg-accent/50",
     title: "Survive the outage",
     description:
@@ -40,9 +39,12 @@ export function HowItWorks() {
           const content = (
             <>
               <div className={`overflow-hidden rounded-t-2xl ${step.panelTone} px-6 pt-6`}>
-                <InlineDoodleSvg
+                <img
                   src={step.icon}
-                  className="mx-auto block h-28 w-28 text-foreground [&_svg]:h-auto [&_svg]:w-full"
+                  alt=""
+                  width={1024}
+                  height={1024}
+                  className="mx-auto block h-28 w-28"
                 />
               </div>
               <CardHeader className="pt-4">

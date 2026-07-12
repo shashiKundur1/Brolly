@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { Button } from "@/components/ui/button";
-import { InlineDoodleSvg } from "@/components/landing/inline-doodle-svg";
 import { WavyDivider } from "@/components/landing/wavy-divider";
 
 export function LandingHero() {
@@ -99,10 +98,13 @@ export function LandingHero() {
               />
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none md:scale-125 md:justify-self-end">
-            <InlineDoodleSvg
-              src="/brand/bento/hero-character-umbrella.svg"
-              className="block h-auto w-full text-primary-foreground [&_svg]:h-auto [&_svg]:w-full"
+          <div className="relative mx-auto w-full max-w-xs rounded-3xl bg-card p-4 sm:max-w-sm md:max-w-none md:scale-125 md:justify-self-end">
+            <img
+              src="/brand/color/hero-scene-color.svg"
+              alt=""
+              width={1024}
+              height={1024}
+              className="block h-auto w-full"
             />
           </div>
         </div>
