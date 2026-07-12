@@ -125,7 +125,10 @@ export function HowItWorks() {
               className="doodle-rough overflow-hidden bg-card backface-hidden"
             >
               {step.href ? (
-                <Link href={step.href} className="flex h-full flex-col">
+                <Link
+                  href={step.href}
+                  className="flex h-full flex-col outline-none focus-visible:ring-3 focus-visible:ring-ring/50 motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-linear motion-safe:hover:-translate-y-1"
+                >
                   {content}
                 </Link>
               ) : (
