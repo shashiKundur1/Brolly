@@ -14,11 +14,12 @@ export function SkyCanvas({ events, forecastLevel }: SkyCanvasProps) {
   const isRaining = totalRecentBurn(burnByModel) > 0;
 
   return (
-    <div className="relative flex size-full items-center justify-center">
+    <div className="relative size-full overflow-hidden">
       <img
-        src="/brand/color/hero-scene-color.svg"
-        alt=""
-        className="h-full max-h-full w-auto max-w-full object-contain"
+        src="/brand/color/hero-spend-chart.svg"
+        alt="Spend chart with a coin and an umbrella shielding falling coins, representing cost protection"
+        className="absolute size-full object-contain"
+        style={{ transform: "scale(1.6)" }}
         width={1024}
         height={1024}
         loading="eager"

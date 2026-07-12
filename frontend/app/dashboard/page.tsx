@@ -101,10 +101,10 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card min-h-96 overflow-hidden rounded-2xl bg-muted p-6 md:col-span-7">
+        <div className="doodle-card min-h-72 overflow-hidden rounded-2xl bg-muted p-3 md:col-span-7 md:min-h-0">
           <SkyCanvas events={eventList} forecastLevel={forecast.level} />
         </div>
-        <div className="grid grid-rows-2 gap-4 md:col-span-3 md:gap-6">
+        <div className="grid grid-rows-[7fr_3fr] gap-4 md:col-span-3 md:gap-6">
           <div className="doodle-card flex min-h-0 flex-col rounded-2xl px-5 py-4">
             <h2 className="mb-3 shrink-0 font-body text-sm font-semibold text-foreground">
               the ledger
@@ -145,7 +145,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 border-t-2 border-dashed border-border pt-8 md:grid-cols-2 md:gap-16">
+      <div className="grid grid-cols-1 gap-8 border-t-2 border-border pt-8 md:grid-cols-2 md:gap-16">
         <div className="flex flex-col gap-2">
           <h3 className="font-body text-sm font-semibold text-foreground">
             Where your spend goes

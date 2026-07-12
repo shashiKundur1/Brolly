@@ -103,13 +103,13 @@ export function JustHappenedList({ events }: JustHappenedListProps) {
 
   return (
     <ul
-      className="flex min-h-0 flex-1 flex-col justify-center gap-1.5 overflow-y-auto"
+      className="flex min-h-0 flex-1 flex-col justify-start gap-1.5 overflow-y-auto"
       style={scrollAreaStyle}
     >
       {collapsedEvents.map((event, index) => (
         <li
           key={`${event.ts}-${index}`}
-          className="flex items-center gap-2 border-b border-dashed border-border/60 px-2 py-2 last:border-0"
+          className="flex items-center gap-2 border-b border-border/60 px-2 py-2 last:border-0"
         >
           {!event.ok && (
             <CloudLightningIcon
