@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { WarningIcon, ArrowClockwiseIcon } from "@phosphor-icons/react/dist/ssr"
+import { ArrowClockwiseIcon } from "@phosphor-icons/react/dist/ssr"
+import { SkullDoodle } from "@/components/brand/icons"
 import { ChatPanel } from "@/components/failover/chat-panel"
 import { KillSwitch } from "@/components/failover/kill-switch"
 import { TheWire } from "@/components/failover/the-wire"
@@ -72,6 +73,7 @@ export default function FailoverPage() {
 
   async function handleSend(text: string) {
     if (!currentModel) return
+    const requestedModel = currentModel
     const nextMessages: ChatMessage[] = [...messages, { role: "user", content: text }]
     setMessages(nextMessages)
     setSending(true)
@@ -88,7 +90,8 @@ export default function FailoverPage() {
       if (modelUsed !== currentModel) {
         setCurrentModel(modelUsed)
       }
-      const hadFailover = response.brolly.attempts.some((attempt) => !attempt.ok)
+      const hadFailover =
+        modelUsed !== requestedModel || response.brolly.attempts.length > 1
       if (hadFailover) {
         try {
           const detail = await fetchSession(sessionId)
@@ -139,7 +142,8 @@ export default function FailoverPage() {
 
   if (loading) {
     return (
-      <section className="w-full py-16">
+      <section className="flex w-full flex-col items-center justify-center gap-4 py-24 text-center lg:h-[calc(100vh-4rem)] lg:py-0">
+        <SkullDoodle className="size-10 animate-pulse text-primary motion-reduce:animate-none" />
         <p className="font-display text-2xl">Checking in with the policy desk…</p>
       </section>
     )
@@ -147,8 +151,8 @@ export default function FailoverPage() {
 
   if (loadError) {
     return (
-      <section className="flex w-full flex-col items-center gap-4 py-24 text-center">
-        <WarningIcon size={40} weight="duotone" className="text-primary" />
+      <section className="flex w-full flex-col items-center justify-center gap-4 py-24 text-center lg:h-[calc(100vh-4rem)] lg:py-0">
+        <SkullDoodle className="size-10 text-primary" />
         <p className="font-display text-2xl">
           Brolly can&apos;t reach the backend right now
         </p>
@@ -164,17 +168,27 @@ export default function FailoverPage() {
   }
 
   return (
-    <section className="flex min-h-0 w-full flex-1 flex-col gap-4 py-6 lg:h-full">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-4xl">Failover</h1>
-        <p className="text-sm text-muted-foreground">
-          Kill the model mid-chat. Watch Brolly hot-swap.
-        </p>
+    <section className="flex w-full flex-col gap-3 py-4 lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-3">
+        <div className="flex items-baseline gap-3">
+          <h1 className="font-display text-4xl">Failover</h1>
+          <p className="text-sm text-muted-foreground">
+            Kill the model mid-chat. Watch Brolly hot-swap.
+          </p>
+        </div>
+        <KillSwitch
+          currentModel={currentModel}
+          killedModels={killedModels}
+          onKill={handleKill}
+          onRevive={handleRevive}
+          killing={killing}
+          reviving={reviving}
+        />
       </div>
       {actionError && (
-        <div className="doodle-border flex items-center gap-3 rounded-xl border-dashed bg-card px-4 py-3">
-          <WarningIcon size={20} weight="duotone" className="shrink-0 text-primary" />
-          <p className="flex-1 text-sm">
+        <div className="doodle-rough-soft flex shrink-0 items-center gap-3 bg-accent px-4 py-2.5">
+          <SkullDoodle className="size-5 shrink-0 text-primary" />
+          <p className="flex-1 text-sm font-semibold">
             Brolly couldn&apos;t reach the backend for that action.
           </p>
           <Button
@@ -187,15 +201,7 @@ export default function FailoverPage() {
           </Button>
         </div>
       )}
-      <KillSwitch
-        currentModel={currentModel}
-        killedModels={killedModels}
-        onKill={handleKill}
-        onRevive={handleRevive}
-        killing={killing}
-        reviving={reviving}
-      />
-      <div className="grid w-full min-h-0 flex-1 grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
+      <div className="grid w-full min-h-0 flex-1 grid-cols-1 items-stretch gap-4 lg:grid-cols-2 lg:gap-6">
         <ChatPanel
           models={models}
           currentModel={currentModel}
@@ -204,7 +210,10 @@ export default function FailoverPage() {
           onSend={handleSend}
           sending={sending}
         />
-        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto pr-1">
+        <div
+          className="flex min-h-0 flex-col gap-4 lg:overflow-y-auto lg:pr-1"
+          style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}
+        >
           <TheWire attempts={attempts} runId={runId} />
           {session && (
             <BehaviorCard profile={session.profile} modelsUsed={session.models_used} />

@@ -4,11 +4,7 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import {
-  LightningIcon,
-  XIcon,
-  CheckIcon,
-} from "@phosphor-icons/react/dist/ssr"
+import { LightningDoodle, CrossDoodle, CheckDoodle } from "@/components/brand/icons"
 import { EmptyState } from "@/components/failover/empty-state"
 import type { Attempt } from "@/components/failover/types"
 
@@ -91,16 +87,16 @@ export function TheWire({ attempts, runId }: TheWireProps) {
   const survivor = attempts.find((attempt) => attempt.ok)
 
   return (
-    <Card className="doodle-border doodle-shadow">
+    <Card className={`flex min-h-0 flex-col ${attempts.length === 0 ? "flex-1" : "shrink-0"}`}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl">
-          <LightningIcon size={20} weight="duotone" />
+          <LightningDoodle className="size-5 text-primary" />
           the wire
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex min-h-0 flex-1 flex-col">
         {attempts.length === 0 ? (
-          <EmptyState icon={LightningIcon} line="Kill a model to see the swap" />
+          <EmptyState icon={LightningDoodle} line="Kill a model to see the swap" />
         ) : (
           <div ref={containerRef} className="relative flex flex-col gap-3">
             <WireStrand />
@@ -108,9 +104,9 @@ export function TheWire({ attempts, runId }: TheWireProps) {
               <div
                 key={`${attempt.model}-${index}`}
                 data-wire-card="failed"
-                className="doodle-border relative flex w-fit max-w-full origin-left items-center gap-2 rounded-xl border-dashed bg-accent py-2 pr-3 pl-2.5"
+                className="doodle-card-soft relative flex w-fit max-w-full origin-left items-center gap-2 bg-accent py-2 pr-3 pl-2.5"
               >
-                <XIcon size={16} weight="bold" className="shrink-0 text-primary" />
+                <CrossDoodle className="size-4 shrink-0 text-primary" />
                 <span className="truncate font-mono text-sm tabular-nums">
                   {attempt.model}
                 </span>
@@ -122,9 +118,9 @@ export function TheWire({ attempts, runId }: TheWireProps) {
             {survivor && (
               <div
                 data-wire-card="survivor"
-                className="flex w-fit max-w-full items-center gap-2 rounded-xl border-2 border-foreground bg-secondary py-2 pr-3 pl-2.5 doodle-card-shadow"
+                className="doodle-card flex w-fit max-w-full items-center gap-2 bg-secondary py-2 pr-3 pl-2.5"
               >
-                <CheckIcon size={16} weight="bold" className="shrink-0 text-foreground" />
+                <CheckDoodle className="size-4 shrink-0 text-foreground" />
                 <span className="truncate font-mono text-sm tabular-nums">
                   {survivor.model}
                 </span>

@@ -92,7 +92,7 @@ export function ChatPanel({
           style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}
         >
           {messages.length === 0 ? (
-            <div className="flex flex-1 flex-col items-center justify-center gap-4 py-12 text-center">
+            <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
               <SparkDoodle className="size-10 text-muted-foreground" />
               <p className="font-display text-2xl">Say hello to start</p>
             </div>
