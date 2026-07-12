@@ -6,7 +6,7 @@ Distilled from docs/design/doodle-references.md + component-audit.md. Consistenc
 bg/card `#ffffff` · ink `--foreground #2f3e36` · coral `--primary #e8756a` · mint `--secondary #bcd9cf` · butter `--accent #f2d98c` · fern border `#9db5a6` · muted `#eef2ee`.
 
 ## Fonts
-- Gochi Hand (`font-display`) — DISPLAY ONLY: h1/h2, dialog titles, empty-state lines, big numbers. Never on control labels or body. Never below 20px.
+- Shantell Sans (`font-display`) — DISPLAY ONLY: h1/h2, dialog titles, empty-state lines, big numbers. Never on control labels or body. Never below 20px.
 - Nunito (`font-body`) — all UI labels, body, buttons.
 - JetBrains Mono (`font-mono`) — every number, cost, model id, with `tabular-nums`.
 

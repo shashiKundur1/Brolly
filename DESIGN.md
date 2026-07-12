@@ -8,7 +8,7 @@ Soft-pastel doodle. Sage-mist page (#e8efe6), paper surfaces (#f7f9f4), deep-pin
 
 ## Typography
 
-Gochi Hand (display: h1/h2, dialog titles, empty states, ≥20px only). Nunito (body, controls, labels). Mono for numbers, costs, and model ids.
+Shantell Sans (display: h1/h2, dialog titles, empty states, ≥20px only). Nunito (body, controls, labels). Mono for numbers, costs, and model ids.
 
 ## Component vocabulary — "sticker press"
 
@@ -21,7 +21,7 @@ The border style is the affordance: **dashed = passive container, solid ink = pr
 - **Badges**: sticker chips — border-2 ink, rounded-full, coral/mint/butter fills.
 - **Tabs**: bordered paper pill rail; active tab coral with mini press shadow.
 - **Switch**: h-7 w-12, border-2 ink, coral when on, bordered paper thumb.
-- **Dialog**: paper, border-2 ink, 6px offset shadow, ink/40 overlay, Gochi Hand title.
+- **Dialog**: paper, border-2 ink, 6px offset shadow, ink/40 overlay, Shantell Sans title.
 - **Tooltip**: inverse — ink bg, paper text.
 - **Table**: dashed border-2 header rule, mint/30 row hover, mono numerics right-aligned.
 - **Skeleton**: mist fill, dashed fern border, pulse.

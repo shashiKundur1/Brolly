@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Gochi_Hand, JetBrains_Mono, Nunito } from "next/font/google";
+import { Shantell_Sans, JetBrains_Mono, Nunito } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteNav } from "@/app/components/site-nav";
 import { DoodleFilter } from "@/components/brand/doodle-filter";
 import "./globals.css";
 
-const gochiHand = Gochi_Hand({
+const shantellSans = Shantell_Sans({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["500", "600", "700"],
 });
 
 const nunito = Nunito({
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${gochiHand.variable} ${nunito.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${shantellSans.variable} ${nunito.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body">
         <DoodleFilter />
