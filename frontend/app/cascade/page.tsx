@@ -102,14 +102,14 @@ export default function CascadePage() {
 
   if (configError) {
     return (
-      <section className="doodle-border rounded-3xl bg-card p-8">
+      <section className="doodle-card rounded-3xl bg-card p-8">
         <CascadeErrorState onRetry={() => loadInitialData()} />
       </section>
     );
   }
 
   return (
-    <section className="doodle-border grid gap-4 rounded-3xl bg-secondary/15 p-4 md:gap-6 md:p-6">
+    <section className="grid gap-4 rounded-3xl bg-secondary/15 p-4 md:gap-6 md:p-6">
       <CascadeHeader
         enabled={config?.enabled ?? false}
         maxSteps={config?.maxSteps ?? 3}

@@ -25,12 +25,19 @@ export function BenchmarkPanel({
 }: BenchmarkPanelProps) {
   return (
     <div className="doodle-card flex flex-col gap-4 rounded-2xl cell-mint px-6 py-6">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 font-display text-2xl leading-none">
-          <FlaskIcon size={20} weight="duotone" className="text-primary" />
-          your benchmark
-        </h2>
-        <Button size="sm" onClick={onRun} disabled={running}>
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-col gap-1">
+          <h2 className="flex items-center gap-2 font-display text-2xl leading-none">
+            <FlaskIcon size={20} weight="duotone" className="text-primary" />
+            your benchmark
+          </h2>
+          <p className="font-body text-xs leading-snug text-muted-foreground">
+            The 5 checks every model must pass to earn a spot on the ladder.
+            Hit <span className="font-semibold text-foreground">run</span> to
+            re-grade them.
+          </p>
+        </div>
+        <Button size="sm" onClick={onRun} disabled={running} className="shrink-0">
           {running && (
             <CircleNotchIcon data-icon="inline-start" className="animate-spin" />
           )}
@@ -51,7 +58,13 @@ export function BenchmarkPanel({
         ))}
       </ul>
       {results && results.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-col gap-2">
+          <p className="font-body text-xs leading-snug text-muted-foreground">
+            <span className="font-semibold text-foreground">Green</span> passed
+            and joins the ladder. <span className="font-semibold text-foreground">Coral</span>{" "}
+            failed and sits out. Tap any chip to see its answers.
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
           {results.map((result, index) => (
             <button
               type="button"
@@ -73,6 +86,7 @@ export function BenchmarkPanel({
               {result.model.split("/")[1] ?? result.model} {result.score}/{result.total}
             </button>
           ))}
+          </div>
         </div>
       )}
     </div>

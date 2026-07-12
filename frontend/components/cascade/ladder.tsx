@@ -2,7 +2,6 @@
 
 import { RungCard } from "@/components/cascade/rung-card";
 import { useStaggerReveal } from "@/components/cascade/use-stagger-reveal";
-import { ArrowRightDoodle } from "@/components/brand/icons";
 import type { LadderModel } from "@/components/cascade/types";
 
 type LadderProps = {
@@ -49,12 +48,22 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
 
   return (
     <div className="doodle-card relative flex flex-col overflow-hidden rounded-2xl px-6 py-6">
-      <div className="flex items-baseline justify-between gap-2">
+      <div className="flex flex-col gap-1">
         <h2 className="font-display text-2xl leading-none">the ladder</h2>
-        <p className="flex items-center gap-1 text-xs font-semibold text-muted-foreground">
-          cheapest wins
-          <ArrowRightDoodle className="size-3 -rotate-90 text-primary" />
-          coral climbed
+        <p className="font-body text-sm leading-snug text-muted-foreground">
+          {enabled ? (
+            <>
+              Requests start at the bottom (cheapest) and climb only on failure.
+              The <span className="font-semibold text-foreground">coral-numbered</span>{" "}
+              rungs are the ones in rotation right now.
+            </>
+          ) : (
+            <>
+              Routing is off, so every rung is just a model on the shelf. Flip{" "}
+              <span className="font-semibold text-foreground">routing on</span> to
+              put the cheapest passing models into rotation.
+            </>
+          )}
         </p>
       </div>
       {loading ? (
