@@ -22,7 +22,7 @@ export async function completeChat(body) {
   const sessionId = body.session_id || null
   const attempts = []
   const candidates =
-    body.prefer_requested && body.model
+    (body.prefer_requested || sessionId) && body.model
       ? [{ model: body.model, reason: 'requested' }]
       : pickCandidates(body)
   for (let i = 0; i < candidates.length; i++) {
