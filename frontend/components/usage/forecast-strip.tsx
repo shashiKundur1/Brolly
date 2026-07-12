@@ -1,19 +1,14 @@
 "use client";
 
 import { useId, useState } from "react";
-import {
-  CloudLightningIcon,
-  CloudRainIcon,
-  SunIcon,
-} from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import type { Forecast, ForecastLevel } from "@/components/usage/weather";
 
-const LEVEL_ICON: Record<ForecastLevel, typeof SunIcon> = {
-  calm: SunIcon,
-  drizzle: CloudRainIcon,
-  storm: CloudLightningIcon,
+const LEVEL_COPY: Record<ForecastLevel, string> = {
+  calm: "spend is calm this week",
+  drizzle: "spend is picking up",
+  storm: "spend is running hot",
 };
 
 type ForecastStripProps = {
@@ -32,7 +27,6 @@ export function ForecastStrip({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
   const inputId = useId();
-  const LevelIcon = LEVEL_ICON[forecast.level];
   const accent = forecast.level === "storm" ? "text-primary" : "text-foreground";
 
   const commitDraft = () => {
@@ -45,27 +39,16 @@ export function ForecastStrip({
   };
 
   return (
-    <div className="flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-2 rounded-xl border-2 border-border bg-card px-5 py-3">
-      <div className="flex items-center gap-2">
-        <LevelIcon size={22} weight="duotone" className={cn("shrink-0", accent)} />
-        <p className={cn("font-display text-xl leading-none", accent)}>
-          {ready ? forecast.label : "reading the sky…"}
-        </p>
-      </div>
-
-      <div className="flex items-center gap-2 font-mono text-sm tabular-nums text-muted-foreground">
-        <span>${ready ? forecast.dailySpend.toFixed(2) : "0.00"}/day</span>
-        <span aria-hidden="true">·</span>
-        <span
-          className={cn("font-semibold", forecast.level === "storm" && "text-primary")}
-        >
-          {ready ? Math.round(forecast.percent) : 0}%
-        </span>
-        <span>{forecast.trail}</span>
-      </div>
-
+    <div className="flex h-full flex-col justify-center gap-3">
+      <p className={cn("font-display text-4xl leading-none md:text-5xl", accent)}>
+        {ready ? forecast.label : "reading the sky…"}
+      </p>
+      <p className="max-w-sm text-sm text-muted-foreground">
+        {ready ? LEVEL_COPY[forecast.level] : "waiting for live traffic"} · $
+        {ready ? forecast.dailySpend.toFixed(2) : "0.00"}/day
+      </p>
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <span>budget</span>
+        <span>weekly budget</span>
         {editing ? (
           <Input
             id={inputId}

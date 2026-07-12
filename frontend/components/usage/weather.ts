@@ -163,6 +163,49 @@ export function layoutClouds(
   return layouts;
 }
 
+const HERO_CLOUD_COUNT = 5;
+const HERO_MIN_SCALE = 0.5;
+const HERO_MAX_SCALE = 1.15;
+
+export function layoutHeroClouds(
+  rows: ModelRollup[],
+  fieldWidth: number,
+  floorY: number
+): CloudLayout[] {
+  const spending = [...rows]
+    .filter((r) => r.cost > 0)
+    .sort((a, b) => b.cost - a.cost)
+    .slice(0, HERO_CLOUD_COUNT);
+  if (spending.length === 0) return [];
+
+  const maxCost = spending[0].cost;
+  const minCost = spending[spending.length - 1].cost;
+  const totalCost = spending.reduce((sum, r) => sum + r.cost, 0);
+  const costSpread = maxCost - minCost;
+  const count = spending.length;
+  const laneW = fieldWidth / count;
+  const topY = floorY * 0.22;
+  const bottomY = floorY * 0.5;
+
+  return spending.map((r, i) => {
+    const ratio = costSpread > 0 ? (r.cost - minCost) / costSpread : 1;
+    const scale = HERO_MIN_SCALE + (HERO_MAX_SCALE - HERO_MIN_SCALE) * ratio;
+    const jitterSeed = hashModel(r.model);
+    const jitterX = ((jitterSeed % 11) - 5) * 0.6;
+    const jitterY = ((jitterSeed >> 3) % 7) * 3;
+
+    return {
+      model: r.model,
+      x: laneW * i + laneW / 2 + jitterX,
+      y: topY + (bottomY - topY) * (1 - ratio) + jitterY,
+      scale,
+      variant: jitterSeed % CLOUD_VARIANTS,
+      cost: r.cost,
+      share: totalCost > 0 ? r.cost / totalCost : 0,
+    };
+  });
+}
+
 export type RainIntensity = {
   model: string;
   streaks: number;
