@@ -138,7 +138,8 @@
 
 @layer utilities {
   .doodle-border {
-    @apply border-2 border-dashed border-border;
+    border: 2px solid var(--foreground);
+    border-radius: 18px 14px 20px 12px / 12px 20px 14px 18px;
   }
   .doodle-shadow {
     box-shadow: 4px 4px 0 0 var(--border);

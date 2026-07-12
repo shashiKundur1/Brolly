@@ -28,5 +28,9 @@ bg/card `#ffffff` · ink `--foreground #2f3e36` · coral `--primary #e8756a` · 
 ## Hard rules
 ZERO code comments. NO arbitrary Tailwind values (put custom geometry/shadows in globals.css `@layer utilities`; inline `style` only for true data like SVG path geometry). Minimal divs — semantic elements + shadcn subcomponents. `"use client"` only where needed.
 
+**NO DOTTED OR DASHED BORDERS. ANYWHERE.** Never `border-dashed`, never `border-dotted`, never `.doodle-border`. Every container/cell/card/divider uses a SOLID border (the `.doodle-card`/`.doodle-rough` family — solid ink 2px + offset shadow + wobble radius) or no border at all. Dividers use a solid thin line or whitespace, not a dashed rule. This is non-negotiable and applies to outer containers too.
+
+**NO MEANINGLESS DECORATION.** Every illustration must MEAN something relevant to what its cell shows (a spend chart for spend, a cascade/ladder for routing). Do not fill a data cell with a generic decorative character. **NO EMPTY SPACE** — a cell must not be mostly blank around a small illustration; size content to fill its cell, or make the cell smaller. If a cell has nothing meaningful to show, remove it and let the grid reflow tighter.
+
 ## Verify (every agent)
 `cd frontend && npx tsc --noEmit` clean for your files. Screenshot your component live via Playwright in an ISOLATED context (`browser_run_code_unsafe` → `page`) at 1440 AND 375, read the image back, iterate until it visibly reads hand-drawn AND stays legible. Commit as **shashiKundur1 only — never a Co-Authored-By trailer**.
