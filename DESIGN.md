@@ -12,19 +12,19 @@ Shantell Sans (display: h1/h2, dialog titles, empty states, ≥20px only). Nunit
 
 ## Component vocabulary — "sticker press"
 
-The border style is the affordance: **dashed = passive container, solid ink = pressable**.
+The border style is the affordance: **solid rough border = container, solid ink + press-shadow = pressable**.
 
 - **Press mechanic** (`.doodle-press`): interactive controls sit on a solid ink offset shadow (3px 3px 0). Hover lifts (-1px translate, 4px shadow). Active presses flat (2px translate, no shadow). 150ms, none under reduced motion.
 - **Buttons**: big (h-11 default, h-12 lg), border-2 ink, rounded-xl, font-semibold. Coral default, mint secondary, paper outline. Links underline `decoration-wavy`.
 - **Inputs/Selects**: h-11, border-2 solid ink on paper, coral focus ring. Select dropdown: paper popover, border-2 ink, offset shadow, mint item hover, coral check.
-- **Cards**: paper, border-2 fern, rounded-2xl, 2px fern offset shadow. Important cards add `.doodle-border` (dashed) + `.doodle-shadow`.
+- **Cards**: paper, border-2 fern, rounded-2xl, 2px fern offset shadow. Important cards add `.doodle-card` (solid rough) + offset shadow.
 - **Badges**: sticker chips — border-2 ink, rounded-full, coral/mint/butter fills.
 - **Tabs**: bordered paper pill rail; active tab coral with mini press shadow.
 - **Switch**: h-7 w-12, border-2 ink, coral when on, bordered paper thumb.
 - **Dialog**: paper, border-2 ink, 6px offset shadow, ink/40 overlay, Shantell Sans title.
 - **Tooltip**: inverse — ink bg, paper text.
-- **Table**: dashed border-2 header rule, mint/30 row hover, mono numerics right-aligned.
-- **Skeleton**: mist fill, dashed fern border, pulse.
+- **Table**: solid border-2 header rule, mint/30 row hover, mono numerics right-aligned.
+- **Skeleton**: mist fill, solid fern border, pulse.
 
 ## Motion
 

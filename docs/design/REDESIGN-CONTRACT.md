@@ -12,7 +12,7 @@ bg/card `#ffffff` · ink `--foreground #2f3e36` · coral `--primary #e8756a` · 
 
 ## The doodle language (apply consistently)
 1. **Wobble = asymmetric border-radius**, not random. Use the established `.doodle-card` trick family (255px 15px 225px 15px / 15px 225px 15px 255px). Vary the corner values per component so no two shapes are identical, but keep the SAME technique.
-2. **Ink border 2px** on pressable/interactive things (solid `--foreground`). **Dashed fern border** on passive containers/dividers.
+2. **Ink border 2px** on pressable/interactive things (solid `--foreground`). **Solid fern border** on passive containers; dividers use a thin solid line or whitespace. NO dashed/dotted, ever.
 3. **Offset shadow** `Npx Npx 0 0 var(--foreground|--border)` — chunky, hard, no blur. Hover lifts (-1px, bigger shadow), active presses flat. Gate motion behind `prefers-reduced-motion`.
 4. **One loud coral thing per view.** Everything else sage/mint/paper. Coral = the single primary action or the alert state, never decoration.
 5. **Icons: prefer the in-house doodle set** `@/components/brand/icons` (GaugeDoodle, CoinsDoodle, UmbrellaDoodle, CheckDoodle, ArrowRightDoodle, SparkDoodle, etc. + DoodleCircle). Replace Phosphor for UI chrome where a doodle icon fits.
