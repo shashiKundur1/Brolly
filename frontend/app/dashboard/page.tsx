@@ -73,21 +73,30 @@ export default function DashboardPage() {
 
   return (
     <section className="doodle-border relative grid gap-4 overflow-hidden rounded-3xl bg-card p-4 md:gap-6 md:p-6">
-      <img
-        src="/brand/color/sticker-stars.svg"
-        alt=""
-        className="pointer-events-none absolute -right-4 top-24 hidden size-16 opacity-80 md:block"
-        width={64}
-        height={64}
-      />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card flex flex-col justify-center rounded-2xl px-6 py-5 md:col-span-7 md:px-8">
-          <ForecastStrip
-            forecast={forecast}
-            budget={budget}
-            onBudgetChange={setBudget}
-            ready={ready}
+        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl px-6 py-5 md:col-span-7 md:px-8">
+          <img
+            src="/brand/color/balloon-umbrellas.svg"
+            alt=""
+            className="pointer-events-none absolute right-4 top-1/2 hidden size-24 -translate-y-1/2 opacity-80 md:block lg:size-32"
+            width={128}
+            height={128}
           />
+          <img
+            src="/brand/color/sticker-stars.svg"
+            alt=""
+            className="pointer-events-none absolute -right-3 -top-3 size-12 opacity-70 md:size-14"
+            width={56}
+            height={56}
+          />
+          <div className="md:max-w-[70%]">
+            <ForecastStrip
+              forecast={forecast}
+              budget={budget}
+              onBudgetChange={setBudget}
+              ready={ready}
+            />
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4 md:col-span-3 md:grid-cols-1 md:gap-6">
           <StatCell
