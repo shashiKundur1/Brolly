@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "group/badge inline-flex h-6 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border-2 border-foreground px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/badge doodle-badge inline-flex h-6 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden px-2.5 py-0.5 font-body text-xs font-semibold whitespace-nowrap tabular-nums transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       variant: {
@@ -17,8 +17,8 @@ const badgeVariants = cva(
         outline:
           "bg-card text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
         ghost:
-          "border-transparent hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
-        link: "border-transparent text-primary underline-offset-4 hover:underline",
+          "border-transparent! hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
+        link: "border-transparent! text-primary underline-offset-4 hover:underline",
       },
     },
     defaultVariants: {

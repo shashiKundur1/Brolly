@@ -209,4 +209,27 @@
   .doodle-press-sm[data-disabled] {
     box-shadow: 2px 2px 0 0 var(--border);
   }
+  .doodle-badge {
+    border: 2px solid var(--foreground);
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  }
+  .doodle-badge[data-variant="secondary"] {
+    border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%;
+  }
+  .doodle-badge[data-variant="destructive"] {
+    border-radius: 55% 45% 60% 40% / 40% 60% 45% 55%;
+  }
+  .doodle-switch {
+    border: 2px solid var(--foreground);
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  }
+  .doodle-switch-thumb {
+    border: 2px solid var(--foreground);
+    border-radius: 65% 35% 60% 40% / 40% 60% 35% 65%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .doodle-switch-thumb {
+      transition: transform 200ms linear;
+    }
+  }
 }
