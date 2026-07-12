@@ -2,8 +2,12 @@
 
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
-import { Badge } from "@/components/ui/badge"
-import { LightningDoodle, CrossDoodle, CheckDoodle } from "@/components/brand/icons"
+import {
+  LightningDoodle,
+  CrossDoodle,
+  CheckDoodle,
+  UmbrellaDoodle,
+} from "@/components/brand/icons"
 import type { Attempt } from "@/components/failover/types"
 
 type TheWireProps = {
@@ -11,32 +15,28 @@ type TheWireProps = {
   runId: number
 }
 
-const wirePath = "M6 0C4 12 9 20 5 32C1 44 8 54 4 66C0 78 7 88 6 100"
+function shortName(model: string) {
+  const parts = model.split("/")
+  return parts[parts.length - 1]
+}
 
-function WireStrand() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 12 100"
-      preserveAspectRatio="none"
-      className="pointer-events-none absolute inset-y-0 -z-10 w-3 text-foreground/40"
-      style={{ left: "1.2rem" }}
-    >
-      <path
-        d={wirePath}
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        fill="none"
-        vectorEffect="non-scaling-stroke"
-        style={{ filter: "url(#doodle-rough-filter)" }}
-      />
-    </svg>
-  )
+function stepCaption(attempt: Attempt, isFirst: boolean) {
+  if (attempt.ok) {
+    if (attempt.reason === "failover") {
+      return "Brolly rerouted here. Reply delivered, thread intact."
+    }
+    return "Answered on the first try. No failover needed."
+  }
+  if (attempt.status === 503 || attempt.reason === "requested") {
+    return isFirst
+      ? "Your message hit this model. It was down."
+      : "Tried next. Still down."
+  }
+  return "Rejected the request."
 }
 
 export function TheWire({ attempts, runId }: TheWireProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLOListElement>(null)
 
   useEffect(() => {
     if (!containerRef.current || attempts.length === 0) return
@@ -44,52 +44,40 @@ export function TheWire({ attempts, runId }: TheWireProps) {
       "(prefers-reduced-motion: reduce)"
     ).matches
 
-    const failedCards = containerRef.current.querySelectorAll<HTMLElement>(
-      "[data-wire-card='failed']"
+    const steps = containerRef.current.querySelectorAll<HTMLElement>(
+      "[data-wire-step]"
     )
-    const survivorCard = containerRef.current.querySelector<HTMLElement>(
-      "[data-wire-card='survivor']"
-    )
-
     if (prefersReducedMotion) {
-      gsap.set(failedCards, { rotate: 6 })
-      gsap.set(survivorCard, { x: 0, opacity: 1 })
+      gsap.set(steps, { x: 0, opacity: 1 })
       return
     }
 
     const timeline = gsap.timeline()
-    if (failedCards.length > 0) {
-      timeline.to(failedCards, {
-        rotate: 6,
-        duration: 0.5,
-        ease: "none",
-        stagger: 0.1,
-      })
-    }
-    if (survivorCard) {
-      timeline.fromTo(
-        survivorCard,
-        { x: 32, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.5, ease: "none" },
-        failedCards.length > 0 ? "-=0.1" : 0
-      )
-    }
-
+    timeline.fromTo(
+      steps,
+      { x: 20, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.4, ease: "none", stagger: 0.18 }
+    )
     return () => {
       timeline.kill()
     }
   }, [runId, attempts])
 
-  const failed = attempts.filter((attempt) => !attempt.ok)
   const survivor = attempts.find((attempt) => attempt.ok)
+  const downed = attempts.filter((attempt) => !attempt.ok)
+  const swapped = Boolean(survivor) && downed.length > 0
 
   return (
-    <div className={`doodle-card cell-butter flex min-h-0 flex-col p-4 ${attempts.length === 0 ? "flex-1" : "shrink-0"}`}>
+    <div
+      className={`doodle-card cell-butter flex min-h-0 flex-col p-4 ${
+        attempts.length === 0 ? "flex-1" : "shrink-0"
+      }`}
+    >
       <h2 className="mb-3 flex shrink-0 items-center gap-2 font-heading text-xl font-semibold text-foreground">
         <span className="grid size-8 shrink-0 place-items-center rounded-full border-2 border-foreground bg-card">
           <LightningDoodle className="size-4 text-primary" />
         </span>
-        the wire
+        what just happened
       </h2>
       <div className="flex min-h-0 flex-1 flex-col">
         {attempts.length === 0 ? (
@@ -108,47 +96,108 @@ export function TheWire({ attempts, runId }: TheWireProps) {
               <LightningDoodle className="relative size-10 text-primary" />
             </div>
             <div className="flex flex-col gap-1.5">
-              <p className="font-display text-3xl leading-none">Kill a model to see the swap</p>
+              <p className="font-display text-3xl leading-none">
+                Kill a model, then send
+              </p>
               <p className="font-body text-sm text-muted-foreground">
-                Brolly hot-swaps to a survivor without dropping the thread
+                Brolly will trace every step of the swap right here
               </p>
             </div>
           </div>
         ) : (
-          <div
-            ref={containerRef}
-            className="relative flex flex-col gap-3 rounded-2xl border-2 border-foreground bg-card p-4"
-          >
-            <WireStrand />
-            {failed.map((attempt, index) => (
-              <div
-                key={`${attempt.model}-${index}`}
-                data-wire-card="failed"
-                className="doodle-card-soft relative flex w-fit max-w-full origin-left items-center gap-2 border-primary bg-primary/15 py-2 pr-3 pl-2.5"
-              >
-                <CrossDoodle className="size-4 shrink-0 text-primary" />
-                <span className="truncate font-mono text-sm tabular-nums line-through decoration-primary decoration-2">
-                  {attempt.model}
-                </span>
-                <Badge variant="destructive" className="shrink-0">
-                  {attempt.status} down
-                </Badge>
-              </div>
-            ))}
-            {survivor && (
-              <div
-                data-wire-card="survivor"
-                className="doodle-card flex w-fit max-w-full items-center gap-2 bg-secondary py-2 pr-3 pl-2.5"
-              >
-                <CheckDoodle className="size-4 shrink-0 text-foreground" />
-                <span className="truncate font-mono text-sm font-semibold tabular-nums">
-                  {survivor.model}
-                </span>
-                <Badge variant="secondary" className="shrink-0 border-foreground">
-                  covered
-                </Badge>
-              </div>
-            )}
+          <div className="flex min-h-0 flex-col gap-3">
+            <div
+              className={`flex shrink-0 items-start gap-2.5 rounded-2xl border-2 border-foreground p-3 ${
+                swapped ? "bg-secondary" : "bg-card"
+              }`}
+            >
+              <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full border-2 border-foreground bg-card">
+                {swapped ? (
+                  <UmbrellaDoodle className="size-4 text-primary" />
+                ) : (
+                  <CheckDoodle className="size-4 text-foreground" />
+                )}
+              </span>
+              <p className="font-body text-sm leading-snug">
+                {swapped ? (
+                  <>
+                    <span className="font-semibold">Covered.</span> Brolly caught
+                    the outage and swapped{" "}
+                    <span className="font-mono text-xs tabular-nums">
+                      {shortName(downed[0].model)}
+                    </span>{" "}
+                    →{" "}
+                    <span className="font-mono text-xs font-semibold tabular-nums">
+                      {shortName(survivor!.model)}
+                    </span>
+                    . You never lost the thread.
+                  </>
+                ) : (
+                  <>
+                    <span className="font-semibold">Delivered.</span>{" "}
+                    <span className="font-mono text-xs tabular-nums">
+                      {survivor ? shortName(survivor.model) : "the model"}
+                    </span>{" "}
+                    answered on the first try, no failover needed.
+                  </>
+                )}
+              </p>
+            </div>
+            <ol
+              ref={containerRef}
+              className="relative flex min-h-0 flex-col gap-2 overflow-y-auto rounded-2xl border-2 border-foreground bg-card p-3"
+              style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: "var(--border) transparent",
+              }}
+            >
+              {attempts.map((attempt, index) => {
+                const isFirst = index === 0
+                return (
+                  <li
+                    key={`${attempt.model}-${index}`}
+                    data-wire-step
+                    className={`flex origin-left items-start gap-2.5 rounded-xl border-2 px-2.5 py-2 ${
+                      attempt.ok
+                        ? "border-foreground bg-secondary"
+                        : "border-primary bg-primary/12"
+                    }`}
+                  >
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full border-2 border-foreground bg-card font-mono text-xs font-semibold tabular-nums">
+                      {index + 1}
+                    </span>
+                    <div className="flex min-w-0 flex-1 flex-col gap-1">
+                      <span className="flex items-center gap-1.5">
+                        {attempt.ok ? (
+                          <CheckDoodle className="size-3.5 shrink-0 text-foreground" />
+                        ) : (
+                          <CrossDoodle className="size-3.5 shrink-0 text-primary" />
+                        )}
+                        <span
+                          className={`truncate font-mono text-sm tabular-nums ${
+                            attempt.ok
+                              ? "font-semibold"
+                              : "line-through decoration-primary decoration-2"
+                          }`}
+                        >
+                          {attempt.model}
+                        </span>
+                        <span
+                          className={`ml-auto shrink-0 rounded-full border-2 border-foreground px-2 py-0.5 font-mono text-[0.65rem] font-semibold tabular-nums ${
+                            attempt.ok ? "bg-card" : "bg-primary text-primary-foreground"
+                          }`}
+                        >
+                          {attempt.ok ? "200 ok" : `${attempt.status} down`}
+                        </span>
+                      </span>
+                      <span className="font-body text-xs leading-snug text-muted-foreground">
+                        {stepCaption(attempt, isFirst)}
+                      </span>
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
           </div>
         )}
       </div>

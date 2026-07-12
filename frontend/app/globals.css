@@ -271,6 +271,32 @@
   .doodle-badge[data-variant="destructive"] {
     border-radius: 55% 45% 60% 40% / 40% 60% 45% 55%;
   }
+  .doodle-dot {
+    opacity: 0.4;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .doodle-dot {
+      animation: doodle-dot-pulse 900ms steps(1, end) infinite;
+    }
+    .doodle-dot-2 {
+      animation-delay: 150ms;
+    }
+    .doodle-dot-3 {
+      animation-delay: 300ms;
+    }
+  }
+  @keyframes doodle-dot-pulse {
+    0%,
+    60%,
+    100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+    30% {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+  }
   .doodle-switch {
     border: 2px solid var(--foreground);
     border-radius: 999px;

@@ -152,10 +152,16 @@ export function ChatPanel({
             size="lg"
             className="gap-2 bg-primary text-primary-foreground"
           >
-            <ArrowRightDoodle
-              className={`size-4 ${sending ? "animate-spin motion-reduce:animate-none" : ""}`}
-            />
-            send
+            {sending ? (
+              <span aria-hidden="true" className="flex items-center gap-1">
+                <span className="doodle-dot size-1.5 rounded-full bg-current" />
+                <span className="doodle-dot doodle-dot-2 size-1.5 rounded-full bg-current" />
+                <span className="doodle-dot doodle-dot-3 size-1.5 rounded-full bg-current" />
+              </span>
+            ) : (
+              <ArrowRightDoodle className="size-4" />
+            )}
+            {sending ? "on the wire" : "send"}
           </Button>
         </form>
       </div>
