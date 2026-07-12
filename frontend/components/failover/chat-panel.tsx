@@ -13,12 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Field, FieldLabel } from "@/components/ui/field"
-import {
-  ChatCircleIcon,
-  PaperPlaneTiltIcon,
-  CircleNotchIcon,
-} from "@phosphor-icons/react/dist/ssr"
-import { EmptyState } from "@/components/failover/empty-state"
+import { ArrowRightDoodle, SparkDoodle } from "@/components/brand/icons"
 import type { ChatMessage, ModelInfo } from "@/components/failover/types"
 
 type ChatPanelProps = {
@@ -60,7 +55,7 @@ export function ChatPanel({
       <CardHeader>
         <div className="flex min-w-0 items-center justify-between gap-3">
           <CardTitle className="flex shrink-0 items-center gap-2 text-xl">
-            <ChatCircleIcon size={20} weight="duotone" />
+            <SparkDoodle className="size-5 text-primary" />
             chat
           </CardTitle>
           <Field orientation="horizontal" className="min-w-0 flex-1 items-center justify-end gap-2">
@@ -97,7 +92,10 @@ export function ChatPanel({
           style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}
         >
           {messages.length === 0 ? (
-            <EmptyState icon={ChatCircleIcon} line="Say hello to start" />
+            <div className="flex flex-1 flex-col items-center justify-center gap-4 py-12 text-center">
+              <SparkDoodle className="size-10 text-muted-foreground" />
+              <p className="font-display text-2xl">Say hello to start</p>
+            </div>
           ) : (
             messages.map((message, index) => (
               <div
@@ -106,17 +104,17 @@ export function ChatPanel({
                   message.role === "user" ? "items-end" : "items-start"
                 }`}
               >
-                <div
-                  className={`max-w-4/5 rounded-xl px-3 py-2 text-sm ${
-                    message.role === "user"
-                      ? "border-2 border-foreground bg-secondary text-foreground"
-                      : "border-2 border-border bg-card text-foreground"
-                  }`}
-                >
-                  <p className="whitespace-pre-wrap">{message.content}</p>
-                </div>
+                {message.role === "user" ? (
+                  <div className="max-w-4/5 rounded-xl border-2 border-foreground bg-primary/15 px-3 py-2 text-sm text-foreground doodle-card-shadow">
+                    <p className="whitespace-pre-wrap">{message.content}</p>
+                  </div>
+                ) : (
+                  <div className="doodle-card-soft max-w-4/5 px-3 py-2 text-sm text-foreground">
+                    <p className="whitespace-pre-wrap">{message.content}</p>
+                  </div>
+                )}
                 {message.role === "assistant" && message.model && (
-                  <Badge variant="secondary" className="font-mono text-xs">
+                  <Badge variant="secondary" className="font-mono text-xs tabular-nums">
                     {message.model}
                   </Badge>
                 )}
@@ -137,11 +135,9 @@ export function ChatPanel({
             disabled={sending || !draft.trim()}
             className="h-10 bg-primary text-primary-foreground"
           >
-            {sending ? (
-              <CircleNotchIcon size={16} className="animate-spin" />
-            ) : (
-              <PaperPlaneTiltIcon size={16} />
-            )}
+            <ArrowRightDoodle
+              className={`size-4 ${sending ? "animate-spin motion-reduce:animate-none" : ""}`}
+            />
             send
           </Button>
         </form>
