@@ -10,6 +10,8 @@ import type { ModelRollup, UsageEvent } from "@/components/usage/types";
 const scrollAreaStyle: React.CSSProperties = {
   scrollbarWidth: "thin",
   scrollbarColor: "var(--border) transparent",
+  maskImage: "linear-gradient(to bottom, black calc(100% - 20px), transparent 100%)",
+  WebkitMaskImage: "linear-gradient(to bottom, black calc(100% - 20px), transparent 100%)",
 };
 
 function formatRelativeTime(ts: string): string {
@@ -67,8 +69,10 @@ export function LedgerList({ modelRows, selectedModel, onSelectModel }: LedgerLi
             type="button"
             onClick={() => onSelectModel(selectedModel === row.model ? null : row.model)}
             className={cn(
-              "flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left transition-colors",
-              selectedModel === row.model ? "bg-primary/10" : "hover:bg-muted/60"
+              "flex w-full items-center gap-2 rounded-lg border-2 px-2 py-2 text-left transition-colors",
+              selectedModel === row.model
+                ? "border-foreground bg-card"
+                : "border-transparent hover:bg-card/60"
             )}
           >
             <span className="min-w-0 flex-1 truncate font-mono text-xs">
@@ -109,7 +113,7 @@ export function JustHappenedList({ events }: JustHappenedListProps) {
       {collapsedEvents.map((event, index) => (
         <li
           key={`${event.ts}-${index}`}
-          className="flex items-center gap-2 border-b border-border/60 px-2 py-2 last:border-0"
+          className="flex items-center gap-1.5 border-b border-border/60 px-2 py-2 last:border-0"
         >
           {!event.ok && (
             <CloudLightningIcon
@@ -118,7 +122,7 @@ export function JustHappenedList({ events }: JustHappenedListProps) {
               className="shrink-0 text-primary"
             />
           )}
-          <span className="min-w-0 flex-1 truncate font-mono text-xs">
+          <span className="min-w-0 flex-1 truncate pr-1 font-mono text-xs">
             {truncateModel(event.model)}
           </span>
           {event.count > 1 && (

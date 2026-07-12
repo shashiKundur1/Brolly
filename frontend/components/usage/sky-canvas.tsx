@@ -28,8 +28,8 @@ function dayLabel(day: string): string {
 
 function formatCost(value: number): string {
   if (value === 0) return "$0";
-  if (value < 0.01) return `$${value.toFixed(4)}`;
-  if (value < 1) return `$${value.toFixed(3)}`;
+  if (value < 0.01) return `$${value.toFixed(3)}`;
+  if (value < 1) return `$${value.toFixed(2)}`;
   return `$${value.toFixed(2)}`;
 }
 
@@ -129,9 +129,7 @@ export function SkyCanvas({ totals, forecastLevel }: SkyCanvasProps) {
                     x={x + barWidth / 2}
                     y={y - 8}
                     textAnchor="middle"
-                    fontFamily="var(--font-mono, monospace)"
-                    fontSize={12}
-                    fontWeight={700}
+                    className="font-mono text-[11px] font-bold md:text-xs"
                     fill="var(--foreground)"
                     style={{ fontVariantNumeric: "tabular-nums" }}
                   >
@@ -142,8 +140,7 @@ export function SkyCanvas({ totals, forecastLevel }: SkyCanvasProps) {
                   x={x + barWidth / 2}
                   y={CHART_HEIGHT - PADDING_BOTTOM + 22}
                   textAnchor="middle"
-                  fontFamily="var(--font-body, sans-serif)"
-                  fontSize={13}
+                  className="font-body text-[11px] md:text-sm"
                   fill="var(--muted-foreground)"
                 >
                   {dayLabel(d.day)}

@@ -74,15 +74,15 @@ export default function DashboardPage() {
   return (
     <section className="doodle-border relative grid gap-4 overflow-hidden rounded-3xl cell-mint p-4 md:gap-6 md:p-6">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl cell-butter px-6 py-6 md:col-span-7 md:px-8">
+        <div className="doodle-card relative flex flex-col justify-center overflow-hidden rounded-2xl cell-butter px-6 py-6 pb-40 md:col-span-7 md:px-8 md:pb-6">
           <img
             src="/brand/color/sticker-stars.svg"
             alt=""
-            className="pointer-events-none absolute -right-2 -top-2 size-16 md:size-20"
+            className="pointer-events-none absolute -right-2 -top-2 size-12 md:size-20"
             width={80}
             height={80}
           />
-          <div className="md:max-w-[58%]">
+          <div className="max-w-[70%] sm:max-w-[60%] md:max-w-[58%]">
             <ForecastStrip
               forecast={forecast}
               budget={budget}
@@ -93,7 +93,7 @@ export default function DashboardPage() {
           <img
             src="/brand/color/person-relaxing.svg"
             alt="A content bear relaxing under an umbrella with a drink"
-            className="pointer-events-none absolute -right-4 bottom-0 hidden h-full max-h-72 w-auto object-contain md:block lg:-right-6"
+            className="pointer-events-none absolute -right-2 bottom-0 h-40 w-auto object-contain sm:h-48 md:h-full md:max-h-72 lg:-right-6"
             width={320}
             height={320}
           />
@@ -119,11 +119,11 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
-        <div className="doodle-card h-[22rem] overflow-hidden rounded-2xl cell-paper p-4 md:col-span-7">
+        <div className="doodle-card h-72 overflow-hidden rounded-2xl cell-paper p-4 md:col-span-7 md:h-[22rem]">
           <SkyCanvas totals={totals} forecastLevel={forecast.level} />
         </div>
-        <div className="grid h-[22rem] grid-rows-2 gap-4 md:col-span-3 md:gap-6">
-          <div className="doodle-card flex min-h-0 flex-col rounded-2xl cell-mint px-5 py-4">
+        <div className="grid grid-rows-2 gap-4 md:col-span-3 md:h-[22rem] md:gap-6">
+          <div className="doodle-card flex h-56 flex-col rounded-2xl cell-mint px-5 py-4 md:h-auto md:min-h-0">
             <h2 className="mb-3 shrink-0 font-body text-sm font-semibold text-foreground">
               the ledger
             </h2>
@@ -133,7 +133,7 @@ export default function DashboardPage() {
               onSelectModel={setSelectedModel}
             />
           </div>
-          <div className="doodle-card flex min-h-0 flex-col rounded-2xl cell-butter px-5 py-4">
+          <div className="doodle-card flex h-56 flex-col rounded-2xl cell-butter px-5 py-4 md:h-auto md:min-h-0">
             <h2 className="mb-3 shrink-0 font-body text-sm font-semibold text-foreground">
               just happened
             </h2>
