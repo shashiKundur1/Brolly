@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export function CtaBand() {
   return (
-    <section className="-mx-6 cell-coral overflow-hidden px-6 pt-16 md:-mx-10 md:px-10 md:pt-24">
+    <section className="-mx-6 cell-coral overflow-hidden px-6 py-16 md:-mx-10 md:px-10 md:py-20">
       <ScrollReveal className="mx-auto flex w-full max-w-5xl flex-col items-center gap-5 text-center">
         <h2 className="text-4xl leading-tight font-semibold text-balance text-primary-foreground sm:text-5xl md:text-6xl">
           get covered before the next outage
@@ -29,13 +29,15 @@ export function CtaBand() {
           />
         </div>
       </ScrollReveal>
-      <ScrollReveal className="mx-auto mt-6 w-full max-w-5xl md:mt-8">
-        <ArtCrop
-          src="/brand/color/hero-big-scene.svg"
-          box="52 216 928 586"
-          alt="A cheerful crowd of doodle characters celebrating under umbrellas while coins rain"
-          className="mx-auto block w-full"
-        />
+      <ScrollReveal className="mx-auto mt-8 w-full max-w-4xl md:mt-10">
+        <figure className="doodle-rough relative overflow-hidden bg-card px-4 pt-6 pb-2 md:px-8 md:pt-8">
+          <ArtCrop
+            src="/brand/color/hero-big-scene.svg"
+            box="52 216 928 586"
+            alt="A cheerful crowd of doodle characters celebrating under umbrellas while coins rain"
+            className="mx-auto block w-full"
+          />
+        </figure>
       </ScrollReveal>
     </section>
   );

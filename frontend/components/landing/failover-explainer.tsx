@@ -12,7 +12,7 @@ export function FailoverExplainer() {
         alt: "A grumpy storm cloud rains on a big coral umbrella while three happy robots stay dry underneath",
       }}
       artCover
-      coverBox="100 40 1004 784"
+      coverBox="110 70 980 730"
       cta={{ href: "/failover", label: "See failover in action" }}
     >
       <p className="max-w-prose text-lg text-muted-foreground text-balance md:text-xl">

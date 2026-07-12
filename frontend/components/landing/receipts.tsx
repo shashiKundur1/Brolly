@@ -18,13 +18,13 @@ const notes = [
     quote: "the fallback model is never the same model",
     source: "overheard on r/ClaudeAI",
     tone: "cell-paper",
-    tilt: "rotate-2",
+    tilt: "rotate-1",
   },
   {
     quote: "a centralized API can be nuked globally by a single decree",
     source: "overheard on HN",
     tone: "cell-coral",
-    tilt: "-rotate-2",
+    tilt: "-rotate-1",
   },
 ];
 
