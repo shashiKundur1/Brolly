@@ -23,7 +23,7 @@ export function PointYourTools() {
             through Brolly to 1000+ Mesh models — usage tracked, cascade on,
             failover armed.
           </p>
-          <div className="doodle-rough w-full max-w-md bg-card px-5 py-4">
+          <div className="doodle-card w-full max-w-md px-5 py-4">
             <p className="font-mono text-xs leading-relaxed break-all sm:text-sm">
               <span className="text-muted-foreground line-through">
                 https://api.openai.com/v1
