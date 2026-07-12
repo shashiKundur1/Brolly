@@ -9,22 +9,22 @@ const notes = [
     tilt: "-rotate-1",
   },
   {
+    quote: "a centralized API can be nuked globally by a single decree",
+    source: "overheard on HN",
+    tone: "cell-coral",
+    tilt: "rotate-1",
+  },
+  {
     quote: "one run burned 30% of my weekly limit",
     source: "overheard on HN",
     tone: "cell-butter",
-    tilt: "rotate-1",
+    tilt: "-rotate-1",
   },
   {
     quote: "the fallback model is never the same model",
     source: "overheard on r/ClaudeAI",
     tone: "cell-paper",
     tilt: "rotate-1",
-  },
-  {
-    quote: "a centralized API can be nuked globally by a single decree",
-    source: "overheard on HN",
-    tone: "cell-coral",
-    tilt: "-rotate-1",
   },
 ];
 

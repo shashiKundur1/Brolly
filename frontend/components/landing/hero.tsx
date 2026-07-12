@@ -6,11 +6,11 @@ export function LandingHero() {
     <section className="relative -mx-6 flex h-svh min-h-160 flex-col overflow-hidden bg-card px-6 pb-6 md:-mx-10 md:px-10 md:pb-36">
       <svg
         aria-hidden="true"
-        viewBox="0 0 864 1184"
+        viewBox="0 0 864 1344"
         preserveAspectRatio="xMidYMax slice"
-        className="absolute inset-x-0 top-0 bottom-24 w-full md:hidden"
+        className="absolute inset-0 h-full w-full md:hidden"
       >
-        <image href="/brand/color/hero-tall.svg" width="864" height="1184" />
+        <image href="/brand/color/hero-tall.svg" width="864" height="1344" />
       </svg>
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-5 pt-8 text-center md:flex-row md:items-end md:justify-between md:gap-10 md:pt-8">
         <h1
