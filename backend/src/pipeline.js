@@ -21,7 +21,10 @@ async function callModel(body, model) {
 export async function completeChat(body) {
   const sessionId = body.session_id || null
   const attempts = []
-  const candidates = pickCandidates(body)
+  const candidates =
+    body.prefer_requested && body.model
+      ? [{ model: body.model, reason: 'requested' }]
+      : pickCandidates(body)
   for (let i = 0; i < candidates.length; i++) {
     const cand = candidates[i]
     const messages = cand.profile ? [{ role: 'system', content: cand.profile }, ...body.messages] : body.messages
