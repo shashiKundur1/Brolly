@@ -8,7 +8,6 @@ type RungCardProps = {
   rung: LadderModel;
   active: boolean;
   order: number | null;
-  tilt: number;
   onClick: () => void;
 };
 
@@ -30,7 +29,7 @@ const TIER_CIRCLE: Record<number, string> = {
   3: "bg-primary/30 text-foreground",
 };
 
-export function RungCard({ rung, active, order, tilt, onClick }: RungCardProps) {
+export function RungCard({ rung, active, order, onClick }: RungCardProps) {
   const benchmark = rung.benchmark;
   const fillClass = active
     ? (TIER_ACTIVE[rung.tier] ?? TIER_ACTIVE[1])
@@ -42,13 +41,10 @@ export function RungCard({ rung, active, order, tilt, onClick }: RungCardProps) 
       type="button"
       data-reveal
       onClick={onClick}
-      style={{ transform: `rotate(${tilt}deg)` }}
       className={cn(
-        "doodle-press-sm relative flex w-full shrink-0 origin-center items-center justify-between gap-3 rounded-xl border-foreground px-3.5 py-2.5 text-left motion-safe:transition-transform motion-safe:duration-150",
+        "doodle-press-sm relative flex w-full shrink-0 items-center justify-between gap-2 rounded-xl border-foreground px-2.5 py-2.5 text-left motion-safe:transition-transform motion-safe:duration-150 lg:gap-3 lg:px-3.5",
         fillClass,
-        active
-          ? "scale-100 ring-2 ring-primary ring-offset-2 ring-offset-card"
-          : "scale-[0.92] hover:scale-[0.97] hover:opacity-90"
+        active ? "ring-2 ring-primary ring-offset-2 ring-offset-card" : "hover:-translate-y-0.5"
       )}
     >
       <span
@@ -68,43 +64,45 @@ export function RungCard({ rung, active, order, tilt, onClick }: RungCardProps) 
       {active && order !== null && (
         <span
           aria-hidden="true"
-          style={{ transform: "rotate(-10deg)" }}
-          className="doodle-press-sm absolute -top-3 left-5 z-10 flex size-6 items-center justify-center rounded-full bg-primary font-mono text-xs font-bold tabular-nums text-primary-foreground"
+          className="doodle-press-sm absolute -top-3 -left-3 z-10 flex size-6 items-center justify-center rounded-full bg-primary font-mono text-xs font-bold tabular-nums text-primary-foreground"
         >
           {order}
         </span>
       )}
-      <span className="flex min-w-0 flex-1 items-center justify-between gap-3">
-        <span className="flex min-w-0 items-center gap-2">
+      <span className="flex min-w-0 flex-1 items-center justify-between gap-2 lg:gap-3">
+        <span className="flex min-w-0 items-center gap-1.5 lg:gap-2">
           <span
             className={cn(
-              "flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-foreground text-xs font-bold tabular-nums",
+              "flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-foreground text-xs font-bold tabular-nums lg:size-6",
               circleClass
             )}
           >
             {rung.tier}
           </span>
-          <span className="truncate font-mono text-xs font-semibold tabular-nums">{rung.model}</span>
+          <span
+            title={rung.model}
+            className="truncate font-mono text-xs font-semibold tabular-nums"
+          >
+            <span className="lg:hidden">{rung.model.split("/")[1] ?? rung.model}</span>
+            <span className="hidden lg:inline">{rung.model}</span>
+          </span>
           {active && (
-            <span
-              style={{ transform: "rotate(-2deg)" }}
-              className="hidden shrink-0 rounded-full border-2 border-foreground bg-primary px-1.5 py-0.5 font-mono text-[10px] font-bold tracking-wide text-primary-foreground uppercase sm:inline"
-            >
+            <span className="hidden shrink-0 rounded-full border-2 border-foreground bg-primary px-1.5 py-0.5 font-mono text-xs font-bold tracking-wide text-primary-foreground uppercase lg:inline">
               in rotation
             </span>
           )}
         </span>
-        <span className="flex shrink-0 items-center gap-2">
-          <span className="hidden font-mono text-xs font-semibold tabular-nums sm:inline">
+        <span className="flex shrink-0 items-center gap-1.5 lg:gap-2">
+          <span className="hidden font-mono text-xs font-semibold tabular-nums lg:inline">
             {formatUsd(rung.prompt_usd_per_1m)}/{formatUsd(rung.completion_usd_per_1m)}
           </span>
           {benchmark === null ? (
             <span className="rounded-full border-2 border-foreground bg-card px-2 py-0.5 text-xs text-muted-foreground">
-              untested
+              <span className="hidden sm:inline">untested</span>
+              <span className="sm:hidden">?</span>
             </span>
           ) : (
             <span
-              style={{ transform: "rotate(-2deg)" }}
               className={cn(
                 "flex items-center gap-1 rounded-full border-2 border-foreground px-2 py-0.5 font-mono text-xs font-bold tabular-nums",
                 benchmark.passed
@@ -117,7 +115,9 @@ export function RungCard({ rung, active, order, tilt, onClick }: RungCardProps) 
               ) : (
                 <CrossDoodle className="size-3" />
               )}
-              {benchmark.score}/{benchmark.total}
+              <span className="hidden sm:inline">
+                {benchmark.score}/{benchmark.total}
+              </span>
             </span>
           )}
         </span>

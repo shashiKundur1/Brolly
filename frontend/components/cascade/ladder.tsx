@@ -23,8 +23,6 @@ function chevronOffsets(count: number, height: number): number[] {
   return Array.from({ length: count }, (_, i) => step * (i + 1));
 }
 
-const TILTS = [-2.2, 1.8, -1.4, 2.4, -1.8, 1.5, -2.4, 2, -1.5];
-
 export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: LadderProps) {
   const containerRef = useStaggerReveal<HTMLDivElement>(!loading, [ladder]);
 
@@ -34,19 +32,16 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
 
   const activeOrder = new Map<string, number>();
   if (enabled) {
-    let stepsUsed = 0;
-    for (const rung of sorted) {
-      if (stepsUsed >= maxSteps) break;
-      stepsUsed += 1;
-      if (rung.benchmark === null || rung.benchmark.passed) {
-        activeOrder.set(rung.model, stepsUsed);
-        if (rung.benchmark?.passed) break;
-      }
-    }
+    const qualifying = sorted.filter(
+      (rung) => rung.benchmark === null || rung.benchmark.passed
+    );
+    qualifying.slice(0, maxSteps).forEach((rung, i) => {
+      activeOrder.set(rung.model, i + 1);
+    });
   }
 
   const rungHeight = 44;
-  const rungGap = 14;
+  const rungGap = 20;
   const railHeight =
     sorted.length > 0
       ? sorted.length * rungHeight + (sorted.length - 1) * rungGap + 24
@@ -113,21 +108,20 @@ export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: Lad
               </svg>
             ))}
             <div
-              className="relative flex flex-col-reverse gap-3.5"
+              className="relative flex flex-col-reverse gap-5"
               style={{ minHeight: railHeight - 24 }}
             >
-              {sorted.map((rung, index) => (
+              {sorted.map((rung) => (
                 <RungCard
                   key={rung.model}
                   rung={rung}
                   active={activeOrder.has(rung.model)}
                   order={activeOrder.get(rung.model) ?? null}
-                  tilt={TILTS[index % TILTS.length]}
                   onClick={() => onSelectRung(rung)}
                 />
               ))}
             </div>
-            <div className="relative flex items-center justify-center gap-1.5 pt-2 text-[10px] font-bold tracking-wide text-muted-foreground uppercase">
+            <div className="relative flex items-center justify-center gap-1.5 pt-2 text-xs font-bold tracking-wide text-muted-foreground uppercase">
               <svg aria-hidden="true" viewBox="0 0 24 24" className="size-3.5 -rotate-90">
                 <polyline
                   points="1.1 8.01 17.11 7.96 11.01 1.1 18.04 7.97 10.91 15.05"
