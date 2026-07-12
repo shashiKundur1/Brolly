@@ -95,7 +95,7 @@ export default function DashboardPage() {
           <StatCell
             value={ready ? `$${spend.toFixed(2)}` : "$0.00"}
             label="total spend"
-            icon="/brand/bento/stat-coins.svg"
+            icon="/brand/color/coins-color.svg"
           />
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function DashboardPage() {
           <StatCell
             value={tokens.toLocaleString()}
             label="tokens processed"
-            icon="/brand/bento/stat-chart.svg"
+            icon="/brand/color/chart-color.svg"
           />
           <StatCell value={requests.toLocaleString()} label="requests routed" />
         </div>

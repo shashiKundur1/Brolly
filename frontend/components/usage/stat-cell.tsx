@@ -1,4 +1,3 @@
-import { InlineBrandSvg } from "@/components/usage/inline-brand-svg";
 import { cn } from "@/lib/utils";
 
 type StatCellProps = {
@@ -18,13 +17,7 @@ export function StatCell({ value, label, icon, accent, className }: StatCellProp
       )}
     >
       {icon && (
-        <InlineBrandSvg
-          src={icon}
-          className={cn(
-            "mb-1 size-12 [&_svg]:size-full",
-            accent ? "text-primary" : "text-foreground"
-          )}
-        />
+        <img src={icon} alt="" className="mb-1 size-12" width={48} height={48} />
       )}
       <p
         className={cn(
