@@ -23,7 +23,7 @@ export function LandingHero() {
           <span className="block -rotate-2">model</span>
           <span className="block rotate-1 md:mt-1">insurance</span>
         </h1>
-        <div className="flex flex-col items-center gap-4 md:items-end md:pb-3">
+        <div className="flex flex-col items-center gap-4 md:items-end md:gap-5 md:pb-3">
           <p className="doodle-card cell-butter rotate-1 px-4 py-2 font-body text-sm font-bold text-balance text-foreground sm:text-base md:-rotate-1 md:px-5 md:py-2.5 md:text-lg">
             an umbrella for your LLM apps — usage, cost, outages: covered.
           </p>

@@ -34,15 +34,15 @@ export function PointYourTools() {
               </span>
             </p>
           </div>
-          <div className="flex w-full max-w-md items-center gap-3">
-            <p className="text-lg font-bold text-foreground">
+          <div className="flex w-full max-w-md items-end justify-between gap-3">
+            <p className="pb-4 text-lg font-bold text-foreground">
               …and that&apos;s the whole integration.
             </p>
             <ArtCrop
               src="/brand/color/person-relaxing.svg"
               box="116 104 820 842"
               alt="A relaxed doodle bear sipping a drink under an umbrella, work done"
-              className="h-36 shrink-0 md:h-44"
+              className="h-40 shrink-0 md:h-52"
             />
           </div>
         </div>

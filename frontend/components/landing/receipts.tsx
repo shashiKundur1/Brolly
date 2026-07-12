@@ -57,7 +57,7 @@ export function Receipts() {
           <ArtCrop
             src="/brand/color/balloon-umbrellas.svg"
             box="226 80 568 862"
-            className="h-40 self-end md:h-52"
+            className="-mb-16 h-48 self-end md:-mb-24 md:h-64"
           />
         </div>
       </ScrollReveal>

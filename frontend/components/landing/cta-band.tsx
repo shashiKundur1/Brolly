@@ -29,7 +29,7 @@ export function CtaBand() {
           />
         </div>
       </ScrollReveal>
-      <ScrollReveal className="mx-auto mt-10 w-full max-w-4xl md:mt-12">
+      <ScrollReveal className="mx-auto mt-6 w-full max-w-5xl md:mt-8">
         <ArtCrop
           src="/brand/color/hero-big-scene.svg"
           box="52 216 928 586"

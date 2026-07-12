@@ -11,6 +11,7 @@ type StorySplitProps = {
   panelTone: string;
   art: { src: string; alt: string; box?: string };
   artCover?: boolean;
+  coverBox?: string;
   cta?: { href: string; label: string };
   flip?: boolean;
   children: ReactNode;
@@ -23,6 +24,7 @@ export function StorySplit({
   panelTone,
   art,
   artCover = false,
+  coverBox = "0 0 1184 864",
   cta,
   flip = false,
   children,
@@ -35,13 +37,15 @@ export function StorySplit({
         >
           <span aria-hidden="true" className={`absolute inset-0 ${panelTone}`} />
           {artCover ? (
-            <img
-              src={art.src}
-              alt={art.alt}
-              width={1024}
-              height={1024}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            <svg
+              role="img"
+              aria-label={art.alt}
+              viewBox={coverBox}
+              preserveAspectRatio="xMidYMid slice"
+              className="absolute inset-0 h-full w-full"
+            >
+              <image href={art.src} width="1184" height="864" />
+            </svg>
           ) : (
             <ArtCrop
               src={art.src}

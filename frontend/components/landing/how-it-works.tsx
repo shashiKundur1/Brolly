@@ -31,7 +31,7 @@ const steps = [
   },
   {
     icon: "/brand/color/how-shield-color.svg",
-    box: "108 146 780 724",
+    box: "120 172 764 616",
     panelTone: "cell-paper",
     title: "survive the outage",
     description:

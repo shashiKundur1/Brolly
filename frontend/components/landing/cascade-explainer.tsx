@@ -12,6 +12,7 @@ export function CascadeExplainer() {
         alt: "A doodle kid celebrating on the smallest of three coin stacks, umbrella in hand",
       }}
       artCover
+      coverBox="80 90 1024 694"
       cta={{ href: "/cascade", label: "See the cascade in action" }}
       flip
     >

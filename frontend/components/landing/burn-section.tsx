@@ -12,6 +12,7 @@ export function BurnSection() {
         alt: "A doodle kid pointing at a wall dashboard where coins trend up a rising bar chart",
       }}
       artCover
+      coverBox="90 110 1004 664"
       cta={{ href: "/dashboard", label: "Watch it live" }}
     >
       <p className="max-w-prose text-lg text-muted-foreground text-balance md:text-xl">

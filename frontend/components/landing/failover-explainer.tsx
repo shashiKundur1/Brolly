@@ -5,13 +5,14 @@ export function FailoverExplainer() {
     <StorySplit
       kicker="survive the outage"
       title="mid-session failover"
-      band="bg-card"
+      band="bg-primary/10"
       panelTone="cell-paper"
       art={{
         src: "/brand/color/failover-storm.svg",
         alt: "A grumpy storm cloud rains on a big coral umbrella while three happy robots stay dry underneath",
       }}
       artCover
+      coverBox="100 40 1004 784"
       cta={{ href: "/failover", label: "See failover in action" }}
     >
       <p className="max-w-prose text-lg text-muted-foreground text-balance md:text-xl">
