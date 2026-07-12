@@ -4,15 +4,21 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+const tableScrollStyle: React.CSSProperties = {
+  scrollbarWidth: "thin",
+  scrollbarColor: "var(--border) transparent",
+}
+
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
       data-slot="table-container"
       className="relative w-full overflow-x-auto"
+      style={tableScrollStyle}
     >
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
+        className={cn("w-max min-w-full caption-bottom text-sm", className)}
         {...props}
       />
     </div>
