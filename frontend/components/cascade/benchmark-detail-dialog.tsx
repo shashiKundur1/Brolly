@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 import { CheckIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
 import type { BenchmarkModelResult } from "@/components/cascade/types";
 
@@ -32,7 +31,7 @@ export function BenchmarkDetailDialog({
         <div className="flex flex-col gap-3">
           {result?.cases.map((testCase, index) => (
             <div key={index} className="flex flex-col gap-1.5">
-              {index > 0 && <Separator />}
+              {index > 0 && <div className="h-0.5 w-full bg-border" />}
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm">{testCase.prompt}</p>
                 {testCase.pass ? (

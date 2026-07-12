@@ -32,7 +32,7 @@ export function AttemptStep({ attempt, reveal }: AttemptStepProps) {
           picked
         </span>
       ) : (
-        <span className="rounded-full border-2 border-dashed border-border px-2 py-0.5 text-xs text-muted-foreground">
+        <span className="rounded-full border-2 border-border px-2 py-0.5 text-xs text-muted-foreground">
           {attempt.reason || "failed"}
         </span>
       )}

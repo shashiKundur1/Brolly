@@ -102,14 +102,14 @@ export default function CascadePage() {
 
   if (configError) {
     return (
-      <section className="flex w-full flex-col py-6 lg:h-[calc(100vh-4rem)] lg:min-h-0">
+      <section className="doodle-border rounded-3xl bg-card p-8">
         <CascadeErrorState onRetry={() => loadInitialData()} />
       </section>
     );
   }
 
   return (
-    <section className="flex w-full flex-col gap-4 py-6 lg:h-[calc(100vh-4rem)] lg:min-h-0">
+    <section className="doodle-border grid gap-4 rounded-3xl bg-card p-4 md:gap-6 md:p-6">
       <CascadeHeader
         enabled={config?.enabled ?? false}
         maxSteps={config?.maxSteps ?? 3}
@@ -117,27 +117,25 @@ export default function CascadePage() {
         onMaxStepsChange={handleMaxStepsChange}
         disabled={configLoading || configError}
       />
-      <div className="grid flex-1 grid-cols-1 gap-4 lg:min-h-0 lg:grid-cols-2">
-        <Ladder
-          ladder={ladder}
-          maxSteps={config?.maxSteps ?? 3}
-          enabled={config?.enabled ?? false}
-          loading={configLoading}
-          onSelectRung={handleSelectRung}
-        />
-        <div className="flex flex-col gap-4 lg:h-full lg:min-h-0">
-          <div className="lg:min-h-0 lg:flex-1">
-            <BenchmarkPanel
-              cases={cases}
-              results={results}
-              running={running}
-              onRun={handleRunBenchmark}
-              onSelectResult={setSelectedResult}
-            />
-          </div>
-          <div className="lg:min-h-0 lg:flex-1">
-            <TryItBox ladder={ladder} />
-          </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-10 md:gap-6">
+        <div className="md:col-span-6">
+          <Ladder
+            ladder={ladder}
+            maxSteps={config?.maxSteps ?? 3}
+            enabled={config?.enabled ?? false}
+            loading={configLoading}
+            onSelectRung={handleSelectRung}
+          />
+        </div>
+        <div className="flex flex-col gap-4 md:col-span-4">
+          <BenchmarkPanel
+            cases={cases}
+            results={results}
+            running={running}
+            onRun={handleRunBenchmark}
+            onSelectResult={setSelectedResult}
+          />
+          <TryItBox ladder={ladder} />
         </div>
       </div>
       <BenchmarkDetailDialog

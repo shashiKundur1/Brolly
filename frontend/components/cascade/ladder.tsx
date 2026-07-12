@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { RungCard } from "@/components/cascade/rung-card";
 import { useStaggerReveal } from "@/components/cascade/use-stagger-reveal";
 import type { LadderModel } from "@/components/cascade/types";
@@ -8,11 +7,12 @@ import type { LadderModel } from "@/components/cascade/types";
 type LadderProps = {
   ladder: LadderModel[];
   maxSteps: number;
+  enabled: boolean;
   loading: boolean;
   onSelectRung: (rung: LadderModel) => void;
 };
 
-export function Ladder({ ladder, maxSteps, loading, onSelectRung }: LadderProps) {
+export function Ladder({ ladder, maxSteps, enabled, loading, onSelectRung }: LadderProps) {
   const containerRef = useStaggerReveal<HTMLDivElement>(!loading, [ladder]);
 
   const sorted = [...ladder].sort(
@@ -21,12 +21,14 @@ export function Ladder({ ladder, maxSteps, loading, onSelectRung }: LadderProps)
 
   let stepsUsed = 0;
   const activeModels = new Set<string>();
-  for (const rung of sorted) {
-    if (stepsUsed >= maxSteps) break;
-    stepsUsed += 1;
-    if (rung.benchmark === null || rung.benchmark.passed) {
-      activeModels.add(rung.model);
-      if (rung.benchmark?.passed) break;
+  if (enabled) {
+    for (const rung of sorted) {
+      if (stepsUsed >= maxSteps) break;
+      stepsUsed += 1;
+      if (rung.benchmark === null || rung.benchmark.passed) {
+        activeModels.add(rung.model);
+        if (rung.benchmark?.passed) break;
+      }
     }
   }
 
@@ -39,21 +41,24 @@ export function Ladder({ ladder, maxSteps, loading, onSelectRung }: LadderProps)
       : rungHeight;
 
   return (
-    <div className="doodle-border flex flex-col rounded-2xl bg-card p-4 lg:h-full lg:min-h-0">
+    <div className="doodle-card flex h-full flex-col rounded-2xl px-6 py-6">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="font-display text-2xl leading-none">the ladder</h2>
         <p className="text-xs text-muted-foreground">cheapest wins, coral climbed</p>
       </div>
       {loading ? (
-        <div className="mt-3 flex flex-col gap-2">
+        <div className="mt-4 flex flex-col gap-2.5">
           {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-12 w-full" />
+            <div
+              key={i}
+              className="h-12 w-full animate-pulse rounded-xl border-2 border-border bg-muted"
+            />
           ))}
         </div>
       ) : rungsTopFirst.length === 0 ? (
         <p className="mt-3 text-sm text-muted-foreground">No models configured.</p>
       ) : (
-        <div className="relative mt-2 pr-1 lg:min-h-0 lg:flex-1 lg:overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}>
+        <div className="relative mt-4 pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}>
           <div
             ref={containerRef}
             className="relative flex flex-col"
@@ -80,7 +85,7 @@ export function Ladder({ ladder, maxSteps, loading, onSelectRung }: LadderProps)
                 strokeLinecap="round"
               />
             </svg>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
               {rungsTopFirst.map((rung) => (
                 <RungCard
                   key={rung.model}

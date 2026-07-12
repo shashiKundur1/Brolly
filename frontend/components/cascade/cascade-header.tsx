@@ -28,10 +28,19 @@ export function CascadeHeader({
   disabled,
 }: CascadeHeaderProps) {
   return (
-    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-      <div className="flex flex-col gap-0.5">
-        <h1 className="font-display text-2xl leading-none">the cascade</h1>
-        <p className="text-sm text-muted-foreground">your benchmark, not their leaderboard</p>
+    <div className="doodle-card flex flex-col gap-4 rounded-2xl px-6 py-6 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center gap-4">
+        <img
+          src="/brand/color/how-ladder-color.svg"
+          alt=""
+          className="size-14 shrink-0"
+          width={56}
+          height={56}
+        />
+        <div className="flex flex-col gap-0.5">
+          <h1 className="font-display text-3xl leading-none">the cascade</h1>
+          <p className="text-sm text-muted-foreground">your benchmark, not their leaderboard</p>
+        </div>
       </div>
       <div className="flex items-center gap-5">
         <div className="flex items-center gap-2">

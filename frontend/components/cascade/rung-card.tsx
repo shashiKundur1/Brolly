@@ -25,7 +25,7 @@ export function RungCard({ rung, active, onClick }: RungCardProps) {
       data-reveal
       onClick={onClick}
       className={cn(
-        "doodle-press-sm relative ml-9 flex shrink-0 items-center justify-between gap-3 rounded-xl bg-card px-3 py-2 text-left motion-safe:transition-opacity",
+        "doodle-press-sm relative ml-9 flex shrink-0 items-center justify-between gap-3 rounded-xl bg-card px-3.5 py-2.5 text-left motion-safe:transition-opacity",
         active ? "opacity-100" : "opacity-45 hover:opacity-70"
       )}
     >
@@ -49,7 +49,7 @@ export function RungCard({ rung, active, onClick }: RungCardProps) {
           {formatUsd(rung.prompt_usd_per_1m)}/{formatUsd(rung.completion_usd_per_1m)}
         </span>
         {benchmark === null ? (
-          <span className="rounded-full border-2 border-dashed border-border px-2 py-0.5 text-xs text-muted-foreground">
+          <span className="rounded-full border-2 border-border px-2 py-0.5 text-xs text-muted-foreground">
             untested
           </span>
         ) : (

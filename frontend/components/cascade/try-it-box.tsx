@@ -71,9 +71,9 @@ export function TryItBox({ ladder }: TryItBoxProps) {
   const savings = response ? computeSavings(response, ladder) : null;
 
   return (
-    <div className="doodle-border flex flex-col rounded-2xl bg-card p-4 lg:h-full lg:min-h-0">
-      <h2 className="font-display text-xl leading-none">try it</h2>
-      <div className="mt-2 flex items-center gap-2">
+    <div className="doodle-card flex flex-col gap-4 rounded-2xl px-6 py-6">
+      <h2 className="font-display text-2xl leading-none">try it</h2>
+      <div className="flex items-center gap-2">
         <Input
           value={prompt}
           onChange={(event) => setPrompt(event.target.value)}
@@ -82,7 +82,7 @@ export function TryItBox({ ladder }: TryItBoxProps) {
           }}
           placeholder="ask the cascade"
           disabled={sending}
-          className="h-9 text-sm"
+          className="h-10 text-sm"
         />
         <Button size="sm" onClick={handleSend} disabled={sending || !prompt.trim()}>
           {sending ? (
@@ -93,24 +93,20 @@ export function TryItBox({ ladder }: TryItBoxProps) {
           send
         </Button>
       </div>
-      {error && <p className="mt-2 text-xs text-primary">{error}</p>}
-      <div className="mt-2 lg:min-h-0 lg:flex-1 lg:overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--border) transparent" }}>
-        {attempts.length > 0 && (
-          <div ref={containerRef} className="flex flex-col gap-1.5">
-            {attempts.map((attempt, index) => (
-              <AttemptStep key={index} attempt={attempt} reveal />
-            ))}
-          </div>
-        )}
-        {answer && (
-          <p className="mt-2 rounded-lg bg-muted p-2.5 text-xs">{answer}</p>
-        )}
-        {savings !== null && (
-          <p className="mt-2 font-mono text-xs tabular-nums text-muted-foreground">
-            saved {formatUsd(savings)} vs priciest
-          </p>
-        )}
-      </div>
+      {error && <p className="text-xs text-primary">{error}</p>}
+      {attempts.length > 0 && (
+        <div ref={containerRef} className="flex flex-col gap-2">
+          {attempts.map((attempt, index) => (
+            <AttemptStep key={index} attempt={attempt} reveal />
+          ))}
+        </div>
+      )}
+      {answer && <p className="rounded-lg bg-muted p-3 text-xs">{answer}</p>}
+      {savings !== null && (
+        <p className="font-mono text-xs tabular-nums text-muted-foreground">
+          saved {formatUsd(savings)} vs priciest
+        </p>
+      )}
     </div>
   );
 }
