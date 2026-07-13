@@ -96,10 +96,13 @@ app.post('/v1/chat/completions', async (req, res) => {
           const text = decoder.decode(value, { stream: true })
           buffer += text
           res.write(text)
-          const usageMatch = buffer.match(/"usage":\s*{[^}]*"prompt_tokens":\s*(\d+)[^}]*"completion_tokens":\s*(\d+)/)
-          if (usageMatch) {
-            prompt_tokens = Number(usageMatch[1])
-            completion_tokens = Number(usageMatch[2])
+          const usageBlock = buffer.match(/"usage":\s*{([^}]*)}/)
+          if (usageBlock) {
+            const inner = usageBlock[1]
+            const pt = inner.match(/"prompt_tokens":\s*(\d+)/)
+            const ct = inner.match(/"completion_tokens":\s*(\d+)/)
+            if (pt) prompt_tokens = Number(pt[1])
+            if (ct) completion_tokens = Number(ct[1])
           }
         }
       }
