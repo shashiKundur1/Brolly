@@ -80,7 +80,7 @@ export function summarize(events) {
       ((e.completion_tokens || 0) / 1e6) * price.completion
   }
 
-  const totals = Object.values(byModelDay).sort((a, b) => (a.day < b.day ? 1 : -1))
+  const totals = Object.values(byModelDay).sort((a, b) => (a.day < b.day ? 1 : a.day > b.day ? -1 : 0))
   for (const t of totals) t.est_cost_usd = Number(t.est_cost_usd.toFixed(6))
 
   const now = Date.now()
