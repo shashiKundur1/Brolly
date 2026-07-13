@@ -25,7 +25,10 @@ async function getMongoCollection() {
       await collection.createIndex({ ts: -1 })
       await collection.createIndex({ model: 1 })
       return collection
-    })()
+    })().catch((err) => {
+      mongoCollectionPromise = null
+      throw err
+    })
   }
   return mongoCollectionPromise
 }
