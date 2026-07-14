@@ -61,7 +61,9 @@ export function readEvents() {
 export function summarize(events) {
   const byModelDay = {}
   for (const e of events) {
-    const day = new Date(e.ts).toISOString().slice(0, 10)
+    const parsed = new Date(e.ts)
+    if (Number.isNaN(parsed.getTime())) continue
+    const day = parsed.toISOString().slice(0, 10)
     const key = `${e.model}|${day}`
     if (!byModelDay[key]) {
       byModelDay[key] = {
@@ -89,7 +91,10 @@ export function summarize(events) {
   const now = Date.now()
   const tenMinAgo = now - 10 * 60 * 1000
   const recentTokens = events
-    .filter((e) => new Date(e.ts).getTime() >= tenMinAgo)
+    .filter((e) => {
+      const t = new Date(e.ts).getTime()
+      return !Number.isNaN(t) && t >= tenMinAgo
+    })
     .reduce((sum, e) => sum + (e.prompt_tokens || 0) + (e.completion_tokens || 0), 0)
   const burnRate = recentTokens / 10
 
