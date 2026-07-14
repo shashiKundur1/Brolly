@@ -12,11 +12,14 @@ export const CATALOG = [
   { id: 'deepseek/deepseek-chat', family: 'deepseek', tier: 1, prompt: 0.14, completion: 0.28 }
 ]
 
-const DEFAULT_PRICE = { prompt: 1, completion: 3 }
+const DEFAULT_PROMPT = 1
+const DEFAULT_COMPLETION = 3
 
 export function priceFor(id) {
   const entry = CATALOG.find((m) => m.id === id)
-  return entry ? { prompt: entry.prompt, completion: entry.completion } : DEFAULT_PRICE
+  return entry
+    ? { prompt: entry.prompt, completion: entry.completion }
+    : { prompt: DEFAULT_PROMPT, completion: DEFAULT_COMPLETION }
 }
 
 export function modelInfo(id) {
